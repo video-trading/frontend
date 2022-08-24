@@ -166,7 +166,7 @@ export default function Index() {
           {Array(100)
             .fill(1)
             .map((_, i) => (
-              <VideoCardSmall video={video} />
+              <VideoCardSmall video={video} key={`video-${i}`} />
             ))}
         </Stack>
       </Grid>

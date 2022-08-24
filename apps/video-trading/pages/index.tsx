@@ -39,8 +39,8 @@ const Home: NextPage = () => {
     <div>
       <CategoryCard useCard={true} />
       <Grid container spacing={5} p={3}>
-        {videos.map((video) => (
-          <Grid item xs={3}>
+        {videos.map((video, index) => (
+          <Grid item xs={3} key={`video-${index}`}>
             <Stack>
               <CardActionArea
                 onClick={() => router.push(`/watch?v=${video.id}`)}
