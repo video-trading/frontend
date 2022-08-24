@@ -1,3 +1,6 @@
 export { AuthenticationClient } from "./clients/auth";
-export { VideoClient, Video } from "./clients/video";
-export { Contract, ContractClient } from "./clients/contract";
+export { VideoClient } from "./clients/video";
+export { ContractClient } from "./clients/contract";
+
+export type { Video } from "./clients/video";
+export type { Contract } from "./clients/contract";

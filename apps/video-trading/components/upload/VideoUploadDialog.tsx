@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Autocomplete,
   Box,
@@ -12,17 +11,12 @@ import {
   DialogContent,
   DialogProps,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   Grid,
   IconButton,
   List,
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-  Radio,
-  RadioGroup,
   Stack,
   Step,
   StepLabel,
@@ -31,14 +25,13 @@ import {
   Typography,
 } from "@mui/material";
 import { Video } from "client";
+import Image from "next/image";
+import React from "react";
 import { abbreviateNumber } from "utils";
 import LinearProgressWithLabel from "../LinearProgressWithLabel";
-import Image from "next/image";
 
 import CloseIcon from "@mui/icons-material/Close";
 
-import Editor from "@monaco-editor/react";
-import { useContract } from "../../hooks/useContract";
 import VideoUploadContractPanel from "./VideoUploadContractPanel";
 
 interface Props extends DialogProps {
@@ -117,6 +110,7 @@ export default function VideoUploadDialog(props: Props) {
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
+                    key={option}
                   />
                 ))
               }
