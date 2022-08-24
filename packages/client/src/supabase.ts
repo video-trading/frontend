@@ -1,22 +1,18 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-export class Supabase {
-  static supabase = createClient(
-    "https://ekdqxxobhdjawfazmjvk.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVrZHF4eG9iaGRqYXdmYXptanZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjExNTAyOTAsImV4cCI6MTk3NjcyNjI5MH0.1mds_FLw1Fco5DJbBm9Dr5VwvO4M2twgAIOcufsOxKQ",
-    {
-      persistSession: true,
-      autoRefreshToken: true,
-    }
-  );
-}
-
 export class Client {
   client: SupabaseClient;
   pageSize = 20;
 
   constructor() {
-    this.client = Supabase.supabase;
+    this.client = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_KEY!,
+      {
+        persistSession: true,
+        autoRefreshToken: true,
+      }
+    );
   }
 
   /**

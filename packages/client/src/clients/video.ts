@@ -7,10 +7,16 @@ export interface Video {
   description: string;
   cover: string;
   source: string;
+  /**
+   * Video Size in bytes
+   */
+  size: number;
   created_at: Date;
   updated_at: Date;
   uid: string;
   cid: string;
+  views: number;
+  likes: number;
 }
 
 type VideoResponse = {
@@ -54,7 +60,7 @@ export class VideoClient extends Client {
   async listVideos(page: number) {
     const { from, to } = this.pagination(page);
     const { data, error, count } = await this.client
-      .from("video")
+      .from<Video>("video")
       .select("*", { count: "exact" })
       .range(from, to);
 
