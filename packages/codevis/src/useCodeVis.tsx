@@ -3,7 +3,8 @@ import { useContext } from "react";
 import CodeVisulizationContext from "./context";
 
 export function useCodeVisulization() {
-  const { code, setCode } = useContext(CodeVisulizationContext);
+  const { code, setCode, isLoading, setIsLoading, language, setLanguage } =
+    useContext(CodeVisulizationContext);
 
-  return { code, setCode };
+  return { code, setCode, isLoading, setIsLoading, language, setLanguage };
 }

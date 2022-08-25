@@ -3,21 +3,15 @@ import MonacoEditor, { EditorProps } from "@monaco-editor/react";
 import { useCodeVisulization } from "../useCodeVis";
 
 export function Editor(props: EditorProps) {
-  const { code, setCode } = useCodeVisulization();
+  const { code, setCode, language } = useCodeVisulization();
 
   return (
     <MonacoEditor
-      height="90vh"
-      defaultLanguage="sol"
+      {...props}
+      defaultLanguage={language}
       value={code}
       onChange={(newCode) => {
         setCode(newCode as string);
-      }}
-      theme="vs-dark"
-      options={{
-        minimap: {
-          enabled: false,
-        },
       }}
     />
   );
