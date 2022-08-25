@@ -3,8 +3,19 @@ import {
   getParserByLanguage,
   SolidityType,
 } from "@etherdata-blockchain/codeblock";
-import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Collapse,
+  LinearProgress,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { NetworkParser } from "../networkParser";
 import { useCodeVisulization } from "../useCodeVis";
 import BooleanField from "./fields/BooleanField";
 import NumberField from "./fields/NumberField";
@@ -13,38 +24,79 @@ import { FieldProps } from "./types";
 
 interface ConfigPanelProps {
   code: string;
+  language: string;
 }
 
-export function ConfigPanel({ code }: ConfigPanelProps) {
-  const { setCode, code: editorCode } = useCodeVisulization();
+interface NetworkProps extends ConfigPanelProps {
+  url: string;
+}
+
+type Props = NetworkProps | ConfigPanelProps;
+
+export function ConfigPanel(props: Props) {
+  const {
+    setCode,
+    code: editorCode,
+    isLoading,
+    setIsLoading,
+  } = useCodeVisulization();
+  const { code, language } = props;
+  const parser = useMemo(() => {
+    const { url } = props as NetworkProps;
+    if (url) {
+      return new NetworkParser(url, language);
+    }
+    return getParserByLanguage(language);
+  }, [props]);
 
   const [blocks, setBlocks] = useState<CodeBlock<SolidityType>[]>([]);
 
   useEffect(() => {
-    const parser = getParserByLanguage("sol");
-    const blocks = parser.parse(code);
-    setBlocks(blocks);
-    setCode(code);
-  }, [code]);
+    (async () => {
+      try {
+        setIsLoading(true);
+        const blocks = await parser.parse(code);
+        setBlocks(blocks);
+        setCode(code);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [code, parser]);
 
   useEffect(() => {
-    const parser = getParserByLanguage("sol");
-    const blocks = parser.parse(editorCode);
-    setBlocks(blocks);
-    console.log("Updating editor code");
-  }, [editorCode]);
+    (async () => {
+      try {
+        setIsLoading(true);
+        const blocks = await parser.parse(editorCode);
+        setBlocks(blocks);
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, [editorCode, parser]);
 
   const onChange = useCallback(
-    (value: string, index: number) => {
-      const parser = getParserByLanguage("sol");
-      const newBlocks = [...blocks];
-      newBlocks[index].value = value;
-      const newCode = parser.generate(newBlocks);
+    async (value: string, index: number) => {
+      try {
+        setIsLoading(true);
+        const newBlocks = [...blocks];
+        newBlocks[index].value = value;
+        const newCode = await parser.generate(newBlocks);
 
-      setBlocks(newBlocks);
-      setCode(newCode);
+        setBlocks(newBlocks);
+        setCode(newCode);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setIsLoading(false);
+      }
     },
-    [blocks]
+    [blocks, parser]
   );
 
   const renderer = useCallback(
@@ -67,7 +119,7 @@ export function ConfigPanel({ code }: ConfigPanelProps) {
 
       return <></>;
     },
-    [blocks]
+    [blocks, parser]
   );
 
   return (
@@ -89,6 +141,11 @@ export function ConfigPanel({ code }: ConfigPanelProps) {
             </CardContent>
           </Card>
         ))}
+      <Collapse mountOnEnter unmountOnExit in={isLoading} timeout={500}>
+        <Box>
+          <LinearProgress />
+        </Box>
+      </Collapse>
     </Stack>
   );
 }

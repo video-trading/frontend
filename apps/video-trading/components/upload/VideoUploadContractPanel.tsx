@@ -98,7 +98,10 @@ export default function VideoUploadContractPanel() {
               >
                 <>
                   <Divider>Contract config</Divider>
-                  <ConfigPanel code={selectedContract?.code ?? ""} />
+                  <ConfigPanel
+                    code={selectedContract?.code ?? ""}
+                    language="sol"
+                  />
                 </>
               </Collapse>
             </Stack>
@@ -107,8 +110,6 @@ export default function VideoUploadContractPanel() {
             {selectedContract && (
               <Editor
                 height="90vh"
-                defaultLanguage="sol"
-                value={selectedContract.code}
                 theme="vs-dark"
                 options={{
                   minimap: {
