@@ -1,4 +1,3 @@
-import Editor from "@monaco-editor/react";
 import {
   Alert,
   Box,
@@ -18,6 +17,7 @@ import {
 import { Contract } from "client";
 import React, { useState } from "react";
 import { useContract } from "../../hooks/useContract";
+import { Editor, ConfigPanel } from "codevis";
 
 export default function VideoUploadContractPanel() {
   const { data, error, isLoading } = useContract();

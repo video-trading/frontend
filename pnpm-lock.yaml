@@ -24,12 +24,14 @@ importers:
       '@types/react': 18.0.17
       '@types/react-dom': 18.0.6
       client: workspace:client
+      codevis: workspace:codevis
       dayjs: ^1.11.5
       eslint: 8.22.0
       eslint-config-next: 12.2.5
       monaco-editor: ^0.34.0
       next: 12.2.5
       next-transpile-modules: ^9.0.0
+      parser: workspace:parser
       react: 18.2.0
       react-dom: 18.2.0
       typescript: 4.7.4
@@ -46,9 +48,11 @@ importers:
       '@tanstack/react-query-devtools': 4.2.1_32b63s5o6uo6n4n6pi5xgs6jfq
       '@tanstack/react-virtual': 3.0.0-beta.18_react@18.2.0
       client: link:../../packages/client
+      codevis: link:../../packages/codevis
       dayjs: 1.11.5
       monaco-editor: 0.34.0
       next: 12.2.5_twoewwu6sg7cdf3ao6njtbftne
+      parser: link:../../packages/parser
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       utils: link:../../packages/utils
@@ -71,6 +75,33 @@ importers:
     devDependencies:
       openapi-typescript: 5.4.1
       typescript: 4.7.4
+
+  packages/codevis:
+    specifiers:
+      '@babel/core': ^7.18.10
+      '@emotion/react': ^11.10.0
+      '@emotion/styled': ^11.10.0
+      '@monaco-editor/react': ^4.4.5
+      '@mui/material': ^5.10.1
+      '@types/react': 18.0.17
+      monaco-editor: ^0.34.0
+      parser: workspace:parser
+      react: 18.2.0
+      react-dom: 18.2.0
+      typescript: 4.7.4
+    dependencies:
+      '@babel/core': 7.18.10
+      '@emotion/react': 11.10.0_msmmgljd7hl2w2irtggflhmema
+      '@emotion/styled': 11.10.0_5sec57kzpgkzooe4crua5kfcly
+      '@monaco-editor/react': 4.4.5_7payg3yaajmz2lehtpasnhysrm
+      '@mui/material': 5.10.1_sqzxty2p7kxc2tmue4tecplwku
+      monaco-editor: 0.34.0
+      parser: link:../parser
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      typescript: 4.7.4
+    devDependencies:
+      '@types/react': 18.0.17
 
   packages/parser:
     specifiers:
@@ -4541,7 +4572,6 @@ packages:
     resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /unbox-primitive/1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
