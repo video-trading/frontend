@@ -3,8 +3,12 @@ import { CodeBlock, Parser } from "./parser";
 type TestBlockType = "string";
 
 class TestParser extends Parser<TestBlockType> {
-  protected defaultCodeBlock(input: string): CodeBlock<"string"> {
+  protected defaultCodeBlock(
+    input: string,
+    index: number
+  ): CodeBlock<"string"> {
     return {
+      id: index,
       type: "string",
       code: input,
       error: false,
@@ -17,10 +21,11 @@ class TestParser extends Parser<TestBlockType> {
     return input.code;
   }
 
-  protected parseLine(line: string): CodeBlock<TestBlockType> {
+  protected parseLine(line: string, index: number): CodeBlock<TestBlockType> {
     // if line is empty, return
     if (line.trim() === "") {
       return {
+        id: index,
         type: "string",
         value: "",
         name: "",
@@ -30,6 +35,7 @@ class TestParser extends Parser<TestBlockType> {
     }
 
     return {
+      id: index,
       type: "string",
       value: "hello world",
       name: "hello",

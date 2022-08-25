@@ -1,4 +1,5 @@
 export interface CodeBlock<T> {
+  id: number;
   /**
    * Code block type.
    */
@@ -42,16 +43,16 @@ export abstract class Parser<T> {
         if (i + 1 < lines.length) {
           const code = line + "\n" + lines[i + 1];
           // add the code block to the code blocks array
-          codeBlocks.push(this.cleanCodeBlock(this.parseLine(code)));
+          codeBlocks.push(this.cleanCodeBlock(this.parseLine(code, codeBlocks.length)));
           i += 2;
         } else {
           // if current line is the last line, add the default code block
-          codeBlocks.push(this.defaultCodeBlock(line));
+          codeBlocks.push(this.defaultCodeBlock(line, codeBlocks.length));
           i += 1;
         }
       } else {
         // if line is not a code block, add the default code block
-        codeBlocks.push(this.defaultCodeBlock(line));
+        codeBlocks.push(this.defaultCodeBlock(line, codeBlocks.length));
         i++;
       }
     }
@@ -74,12 +75,12 @@ export abstract class Parser<T> {
     return output;
   }
 
-  protected abstract defaultCodeBlock(input: string): CodeBlock<T>;
+  protected abstract defaultCodeBlock(input: string, index: number): CodeBlock<T>;
 
   /**
    * Parse a line of code to a code block.
    */
-  protected abstract parseLine(line: string): CodeBlock<T>;
+  protected abstract parseLine(line: string, index: number): CodeBlock<T>;
 
   protected abstract generateLine(input: CodeBlock<T>): string;
 

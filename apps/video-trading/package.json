@@ -25,7 +25,9 @@
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "utils": "workspace:utils"
+    "utils": "workspace:utils",
+    "codevis": "workspace:codevis",
+    "parser": "workspace:parser"
   },
   "devDependencies": {
     "@types/node": "18.7.9",
