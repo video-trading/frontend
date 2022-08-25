@@ -1,20 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useMemo } from "react";
-import { useCodeVisulization } from "../useCodeVis";
-import { SolidityParser, CodeBlock, SolidityType } from "parser";
 import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Divider,
-  Stack,
-  Typography,
-} from "@mui/material";
-import StringField from "./fields/StringField";
-import NumberField from "./fields/NumberField";
-import { FieldProps } from "./types";
+  CodeBlock,
+  getParserByLanguage,
+  SolidityType,
+} from "@etherdata-blockchain/codeblock";
+import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import { useCallback, useEffect, useState } from "react";
+import { useCodeVisulization } from "../useCodeVis";
 import BooleanField from "./fields/BooleanField";
+import NumberField from "./fields/NumberField";
+import StringField from "./fields/StringField";
+import { FieldProps } from "./types";
 
 interface ConfigPanelProps {
   code: string;
@@ -26,14 +21,14 @@ export function ConfigPanel({ code }: ConfigPanelProps) {
   const [blocks, setBlocks] = useState<CodeBlock<SolidityType>[]>([]);
 
   useEffect(() => {
-    const parser = new SolidityParser();
+    const parser = getParserByLanguage("sol");
     const blocks = parser.parse(code);
     setBlocks(blocks);
     setCode(code);
   }, [code]);
 
   useEffect(() => {
-    const parser = new SolidityParser();
+    const parser = getParserByLanguage("sol");
     const blocks = parser.parse(editorCode);
     setBlocks(blocks);
     console.log("Updating editor code");
@@ -41,7 +36,7 @@ export function ConfigPanel({ code }: ConfigPanelProps) {
 
   const onChange = useCallback(
     (value: string, index: number) => {
-      const parser = new SolidityParser();
+      const parser = getParserByLanguage("sol");
       const newBlocks = [...blocks];
       newBlocks[index].value = value;
       const newCode = parser.generate(newBlocks);

@@ -26,8 +26,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "utils": "workspace:utils",
-    "codevis": "workspace:codevis",
-    "parser": "workspace:parser"
+    "codevis": "workspace:codevis"
   },
   "devDependencies": {
     "@types/node": "18.7.9",
