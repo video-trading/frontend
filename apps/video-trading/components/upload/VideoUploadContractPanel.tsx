@@ -5,6 +5,7 @@ import {
   CardContent,
   CircularProgress,
   Collapse,
+  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -88,6 +89,17 @@ export default function VideoUploadContractPanel() {
                     <Typography>{selectedContract?.description}</Typography>
                   </CardContent>
                 </Card>
+              </Collapse>
+
+              <Collapse
+                in={selectedContract !== undefined}
+                mountOnEnter
+                unmountOnExit
+              >
+                <>
+                  <Divider>Contract config</Divider>
+                  <ConfigPanel code={selectedContract?.code ?? ""} />
+                </>
               </Collapse>
             </Stack>
           </Grid>

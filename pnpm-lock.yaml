@@ -31,7 +31,6 @@ importers:
       monaco-editor: ^0.34.0
       next: 12.2.5
       next-transpile-modules: ^9.0.0
-      parser: workspace:parser
       react: 18.2.0
       react-dom: 18.2.0
       typescript: 4.7.4
@@ -52,7 +51,6 @@ importers:
       dayjs: 1.11.5
       monaco-editor: 0.34.0
       next: 12.2.5_twoewwu6sg7cdf3ao6njtbftne
-      parser: link:../../packages/parser
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       utils: link:../../packages/utils
@@ -81,11 +79,11 @@ importers:
       '@babel/core': ^7.18.10
       '@emotion/react': ^11.10.0
       '@emotion/styled': ^11.10.0
+      '@etherdata-blockchain/codeblock': 5.0.2
       '@monaco-editor/react': ^4.4.5
       '@mui/material': ^5.10.1
       '@types/react': 18.0.17
       monaco-editor: ^0.34.0
-      parser: workspace:parser
       react: 18.2.0
       react-dom: 18.2.0
       typescript: 4.7.4
@@ -93,10 +91,10 @@ importers:
       '@babel/core': 7.18.10
       '@emotion/react': 11.10.0_msmmgljd7hl2w2irtggflhmema
       '@emotion/styled': 11.10.0_5sec57kzpgkzooe4crua5kfcly
+      '@etherdata-blockchain/codeblock': 5.0.2
       '@monaco-editor/react': 4.4.5_7payg3yaajmz2lehtpasnhysrm
       '@mui/material': 5.10.1_sqzxty2p7kxc2tmue4tecplwku
       monaco-editor: 0.34.0
-      parser: link:../parser
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       typescript: 4.7.4
@@ -587,6 +585,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@etherdata-blockchain/codeblock/5.0.2:
+    resolution: {integrity: sha512-Q85mRTLJM6wSwHddwjkDMTBk4hmGSI3AndxX3eHsS4dQbuCF2H20zsBzLJgwACu7VfgQqqRxAJ0fxVReUMueiA==}
+    dev: false
 
   /@humanwhocodes/config-array/0.10.4:
     resolution: {integrity: sha512-mXAIHxZT3Vcpg83opl1wGlVZ9xydbfZO3r5YfRSH6Gpp2J/PfdBP0wbDa2sO6/qRbcalpoevVyW6A/fI6LfeMw==}
