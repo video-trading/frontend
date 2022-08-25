@@ -72,7 +72,7 @@ importers:
       openapi-typescript: 5.4.1
       typescript: 4.7.4
 
-  packages/code_gui:
+  packages/parser:
     specifiers:
       '@types/jest': ^28.1.8
       jest: ^28.1.3
