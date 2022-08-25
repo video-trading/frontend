@@ -6,6 +6,7 @@ export default function StringNumberField({
   value,
   onChange,
   index,
+  description,
 }: FieldProps) {
   return (
     <TextField
@@ -13,7 +14,7 @@ export default function StringNumberField({
       label="Value"
       value={value}
       onChange={(e) => onChange(e.target.value, index)}
-      helperText="Some important text"
+      helperText={description}
     />
   );
 }

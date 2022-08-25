@@ -17,9 +17,24 @@ export interface CodeBlock<T> {
    */
   code: string;
   /**
+   * Comments
+   */
+  description?: string;
+  /**
    *
    */
   error: boolean;
+  /**
+   * Code's comment.
+   */
+  codeComment?: string;
+}
+
+export interface CodeParsingRequest {
+  code: string;
+  codeComment: string;
+  numberOfLines: number;
+  comment?: string;
 }
 
 export abstract class Parser<T> {
@@ -41,10 +56,15 @@ export abstract class Parser<T> {
         // get the next line which is the code block
         // also check if current line is the last line
         if (i + 1 < lines.length) {
-          const code = line + "\n" + lines[i + 1];
+          const { code, numberOfLines, comment, codeComment } =
+            this.getTillCode(lines.slice(i).join("\n"));
           // add the code block to the code blocks array
-          codeBlocks.push(this.cleanCodeBlock(this.parseLine(code, codeBlocks.length)));
-          i += 2;
+          codeBlocks.push(
+            this.cleanCodeBlock(
+              this.parseLine(code, codeBlocks.length, comment, codeComment)
+            )
+          );
+          i += numberOfLines;
         } else {
           // if current line is the last line, add the default code block
           codeBlocks.push(this.defaultCodeBlock(line, codeBlocks.length));
@@ -75,12 +95,20 @@ export abstract class Parser<T> {
     return output;
   }
 
-  protected abstract defaultCodeBlock(input: string, index: number): CodeBlock<T>;
+  protected abstract defaultCodeBlock(
+    input: string,
+    index: number
+  ): CodeBlock<T>;
 
   /**
    * Parse a line of code to a code block.
    */
-  protected abstract parseLine(line: string, index: number): CodeBlock<T>;
+  protected abstract parseLine(
+    line: string,
+    index: number,
+    comment?: string,
+    codeComment?: string
+  ): CodeBlock<T>;
 
   protected abstract generateLine(input: CodeBlock<T>): string;
 
@@ -90,4 +118,18 @@ export abstract class Parser<T> {
    * @returns Cleaned Code Block
    */
   protected abstract cleanCodeBlock(input: CodeBlock<T>): CodeBlock<T>;
+
+  /**
+   * Get everything starts with //@codeblock till the actual code.
+   * For example, if the input is:
+   * //@codeblock
+   * // A comment
+   * string a = "a";
+   *
+   * The output is
+   * // A comment
+   * string a = "a";
+   *
+   */
+  protected abstract getTillCode(input: string): CodeParsingRequest;
 }

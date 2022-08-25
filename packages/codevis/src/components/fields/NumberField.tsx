@@ -2,7 +2,12 @@ import { TextField } from "@mui/material";
 import React from "react";
 import { FieldProps } from "../types";
 
-export default function NumberField({ value, onChange, index }: FieldProps) {
+export default function NumberField({
+  value,
+  onChange,
+  index,
+  description,
+}: FieldProps) {
   return (
     <TextField
       fullWidth
@@ -10,7 +15,7 @@ export default function NumberField({ value, onChange, index }: FieldProps) {
       value={value}
       type={"number"}
       onChange={(e) => onChange(e.target.value, index)}
-      helperText="Some important text"
+      helperText={description}
     />
   );
 }

@@ -57,6 +57,7 @@ export function ConfigPanel({ code }: ConfigPanelProps) {
       const props: FieldProps = {
         index: block.id,
         value: block.value,
+        description: block.description,
         onChange,
       };
 

@@ -6,6 +6,7 @@ export default function StringNumberField({
   value,
   onChange,
   index,
+  description,
 }: FieldProps) {
   const booleanValue: boolean = useMemo(() => {
     if (value === "true") {
@@ -18,7 +19,7 @@ export default function StringNumberField({
     <FormGroup>
       <FormControlLabel
         control={<Checkbox />}
-        label="Label"
+        label={description}
         checked={booleanValue}
         onChange={(e, checked) => {
           if (checked) {
