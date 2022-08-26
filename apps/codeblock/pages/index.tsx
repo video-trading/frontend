@@ -8,8 +8,14 @@ import {
   Grid,
   Stack,
   Switch,
+  Collapse,
+  CircularProgress,
+  AppBar,
+  Toolbar,
+  Box,
 } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useCodeVisulization } from "codevis/src/hooks/useCodeVis";
 
 const sampleCode = `// SPDX-License-Identifier: MIT
 // compiler version must be greater than or equal to 0.8.13 and less than 0.9.0
@@ -28,34 +34,61 @@ contract HelloWorld {
 const url = process.env.NEXT_PUBLIC_URL!;
 const Home: NextPage = () => {
   const [checked, setChecked] = useState(false);
+  const { isLoading } = useCodeVisulization();
 
   return (
-    <Grid container spacing={5}>
+    <div>
       <Head>
         <title>CodeBlock Demo</title>
       </Head>
+      <AppBar>
+        <Toolbar>
+          <Stack justifyContent={"space-between"} width="100%" direction="row">
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                label={checked ? "Use Network" : "Use Local"}
+                checked={checked}
+                onChange={(e, checked) => setChecked(checked)}
+              />
+            </FormGroup>
+            <Collapse in={isLoading} mountOnEnter unmountOnExit>
+              <CircularProgress size={30} />
+            </Collapse>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+      <Box pt={12} component="main">
+        <Body useNetwork={checked} />
+      </Box>
+    </div>
+  );
+};
 
+interface BodyProps {
+  useNetwork: boolean;
+}
+
+function Body({ useNetwork }: BodyProps) {
+  useEffect(() => {
+    console.log(useNetwork);
+  }, []);
+
+  return (
+    <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
         <Stack p={5}>
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch />}
-              label={checked ? "Use Network" : "Use Local"}
-              checked={checked}
-              onChange={(e, checked) => setChecked(checked)}
-            />
-          </FormGroup>
           <Divider>Code Blocks</Divider>
           <ConfigPanel
-            code={sampleCode}
             language="sol"
-            url={checked ? url : undefined}
+            code={sampleCode}
+            url={useNetwork ? url : undefined}
           />
         </Stack>
       </Grid>
       <Grid item xs={12} md={6}>
         <Editor
-          height={"100vh"}
+          height={"calc(100vh - 100px)"}
           theme="vs-dark"
           options={{
             minimap: {
@@ -66,6 +99,6 @@ const Home: NextPage = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default Home;
