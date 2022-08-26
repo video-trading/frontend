@@ -1,9 +1,10 @@
 import React from "react";
 import MonacoEditor, { EditorProps } from "@monaco-editor/react";
-import { useCodeVisulization } from "../useCodeVis";
+import { useCodeVisulization } from "../hooks/useCodeVis";
 
 export function Editor(props: EditorProps) {
-  const { code, setCode, language } = useCodeVisulization();
+  const { code, setCode, language, setShouldParseEditorCode } =
+    useCodeVisulization();
 
   return (
     <MonacoEditor
@@ -11,6 +12,7 @@ export function Editor(props: EditorProps) {
       defaultLanguage={language}
       value={code}
       onChange={(newCode) => {
+        setShouldParseEditorCode(true);
         setCode(newCode as string);
       }}
     />
