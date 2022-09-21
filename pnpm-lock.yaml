@@ -30,7 +30,7 @@ importers:
       '@emotion/react': 11.10.0_msmmgljd7hl2w2irtggflhmema
       '@emotion/styled': 11.10.0_5sec57kzpgkzooe4crua5kfcly
       '@mui/material': 5.10.1_sqzxty2p7kxc2tmue4tecplwku
-      codevis: link:../../packages/codevis
+      codevis: link:../../packages/codeblock
       next: 12.2.5_twoewwu6sg7cdf3ao6njtbftne
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -82,7 +82,7 @@ importers:
       '@tanstack/react-query-devtools': 4.2.1_32b63s5o6uo6n4n6pi5xgs6jfq
       '@tanstack/react-virtual': 3.0.0-beta.18_react@18.2.0
       client: link:../../packages/client
-      codevis: link:../../packages/codevis
+      codevis: link:../../packages/codeblock
       dayjs: 1.11.5
       monaco-editor: 0.34.0
       next: 12.2.5_twoewwu6sg7cdf3ao6njtbftne
@@ -109,7 +109,7 @@ importers:
       openapi-typescript: 5.4.1
       typescript: 4.7.4
 
-  packages/codevis:
+  packages/codeblock:
     specifiers:
       '@babel/core': ^7.18.10
       '@emotion/react': ^11.10.0
