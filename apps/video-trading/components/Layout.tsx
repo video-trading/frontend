@@ -23,6 +23,7 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 import {
   Avatar,
+  Button,
   createTheme,
   IconButton,
   ListSubheader,
@@ -32,6 +33,7 @@ import {
 import { appBarHeight, drawerWidth } from "../config";
 import SearchField from "./SearchField";
 import { useRouter } from "next/router";
+import { useUser } from "@supabase/auth-helpers-react";
 
 const darkTheme = createTheme({
   palette: {
@@ -107,6 +109,7 @@ const menuItems: Menu[] = [
 
 export default function Layout(props: any) {
   const router = useRouter();
+  const { user } = useUser();
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -140,7 +143,13 @@ export default function Layout(props: any) {
                 <IconButton onClick={() => router.push("/upload")}>
                   <FileUploadIcon />
                 </IconButton>
-                <Avatar>A</Avatar>
+                {user === null ? (
+                  <Button onClick={() => router.push("/auth/signIn")}>
+                    Sign In
+                  </Button>
+                ) : (
+                  <Avatar>A</Avatar>
+                )}
               </Stack>
             </Stack>
           </Toolbar>

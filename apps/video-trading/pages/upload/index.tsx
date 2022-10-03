@@ -25,7 +25,11 @@ export default function Index() {
           Your video will be private until you publish them
         </Typography>
         <Box justifyContent="center" display={"flex"} mt={5}>
-          <Button variant="contained" component="label">
+          <Button
+            variant="contained"
+            component="label"
+            onClick={() => console.log("Open")}
+          >
             Select file
             <input
               hidden
@@ -35,7 +39,6 @@ export default function Index() {
               onChange={(e) => {
                 setFile(e.target.files?.[0]);
                 setShowUploadDialog(true);
-
                 // reset file input field
                 //@ts-ignore
                 e.target.value = null;
