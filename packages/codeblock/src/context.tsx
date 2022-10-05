@@ -65,6 +65,10 @@ export function CodeVisulizationProvider(props: any) {
 
   const parse = useCallback(
     async (code: string) => {
+      if (parser.url === "") {
+        return;
+      }
+
       setError(undefined);
       setShouldParseEditorCode(false);
       try {
