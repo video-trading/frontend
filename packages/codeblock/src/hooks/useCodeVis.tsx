@@ -1,4 +1,3 @@
-import { getParserByLanguage } from "@etherdata-blockchain/codeblock";
 import React, { useMemo } from "react";
 import { useContext } from "react";
 import CodeVisulizationContext from "../context";
@@ -12,8 +11,12 @@ export function useCodeVisulization() {
     setIsLoading,
     language,
     setLanguage,
+    parse,
+    generate,
+    setUrl,
+    blocks,
+    setBlocks,
     shouldParseEditorCode,
-    setShouldParseEditorCode,
   } = useContext(CodeVisulizationContext);
 
   return {
@@ -23,7 +26,11 @@ export function useCodeVisulization() {
     setIsLoading,
     language,
     setLanguage,
+    parse,
+    generate,
+    setUrl,
+    blocks,
+    setBlocks,
     shouldParseEditorCode,
-    setShouldParseEditorCode,
   };
 }

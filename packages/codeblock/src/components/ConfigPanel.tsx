@@ -1,12 +1,7 @@
-import {
-  CodeBlock,
-  getParserByLanguage,
-  SolidityType,
-} from "@etherdata-blockchain/codeblock";
 import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCodeVisulization } from "../hooks/useCodeVis";
-import useDebounce from "../hooks/useDebounce";
 import { NetworkParser } from "../networkParser";
 import BooleanField from "./fields/BooleanField";
 import NumberField from "./fields/NumberField";
@@ -22,109 +17,48 @@ interface NetworkProps extends ConfigPanelProps {
   url: string;
 }
 
-type Props = NetworkProps | ConfigPanelProps;
+type Props = NetworkProps;
 
 export function ConfigPanel(props: Props) {
   const {
     setCode,
     code: editorCode,
     setIsLoading,
-    shouldParseEditorCode,
-    setShouldParseEditorCode,
+    parse,
+    generate,
+    setUrl,
+    setLanguage,
+    setBlocks,
+    blocks,
   } = useCodeVisulization();
   const { code, language } = props;
-  const [blocks, setBlocks] = useState<CodeBlock<SolidityType>[]>([]);
-  const [hasInitialized, setHasInitialized] = useState(false);
-  const [isConfigChanged, setIsConfigChanged] = useState(false);
-
-  const search = useDebounce(
-    (props as NetworkProps).url !== undefined ? 1000 : 0
-  );
-
-  const parser = useMemo(() => {
-    const { url } = props as NetworkProps;
-    if (url) {
-      return new NetworkParser(url, language);
-    }
-    return getParserByLanguage(language);
-  }, [(props as NetworkProps).url]);
 
   useEffect(() => {
-    (async () => {
-      // console.log("On code changing");
-      try {
-        setIsLoading(true);
-        const blocks = await parser.parse(code);
-        setBlocks(blocks);
-        setCode(code);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-        setHasInitialized(true);
-      }
-    })();
+    setCode(code);
+    setLanguage(language);
+    setUrl(props.url);
   }, []);
 
   useEffect(() => {
-    (async () => {
-      if (!shouldParseEditorCode || !hasInitialized || isConfigChanged) {
-        return;
-      }
-      // console.log("On Editor changing");
-      try {
-        setIsLoading(true);
-        await search(async () => {
-          console.log("searching editor code");
-          const blocks = await parser.parse(editorCode);
-          setBlocks(blocks);
-        });
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setIsLoading(false);
-        setShouldParseEditorCode(false);
-      }
-    })();
-  }, [
-    shouldParseEditorCode,
-    parser,
-    editorCode,
-    hasInitialized,
-    isConfigChanged,
-  ]);
+    setUrl(props.url);
+    setLanguage(props.language);
+  }, [props.url, props.language]);
 
   const onChange = useCallback(
     async (value: string, index: number) => {
-      // console.log("On Config Changing");
-      try {
-        setIsConfigChanged(true);
-        setIsLoading(true);
-        const newBlocks = [...blocks];
-        newBlocks[index].value = value;
-        setBlocks(newBlocks);
-        // use debounce if it is network parser
-        if ((props as NetworkProps).url) {
-          await search(async () => {
-            const newCode = await parser.generate(newBlocks);
-            setCode(newCode);
-          });
-        } else {
-          const newCode = await parser.generate(newBlocks);
-          setCode(newCode);
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setIsLoading(false);
-        setIsConfigChanged(false);
-      }
+      // on config panel changing
+      setIsLoading(true);
+      const newBlocks = [...blocks];
+      newBlocks[index].value = value;
+      // use debounce
+      setBlocks(newBlocks);
+      generate(blocks, code);
     },
-    [blocks, parser]
+    [blocks, editorCode]
   );
 
   const renderer = useCallback(
-    (block: CodeBlock<SolidityType>): JSX.Element => {
+    (block: any): JSX.Element => {
       const props: FieldProps = {
         index: block.id,
         value: block.value,
@@ -143,28 +77,26 @@ export function ConfigPanel(props: Props) {
 
       return <></>;
     },
-    [blocks, parser]
+    [blocks]
   );
 
   return (
     <Stack spacing={2}>
-      {blocks
-        .filter((b) => b.value !== undefined && b.name !== undefined)
-        .map((block, index) => (
-          <Card key={`config-card-${index}`}>
-            <CardContent>
-              <Stack>
-                <Stack direction={"row"} spacing={2}>
-                  <Typography variant="h6" fontWeight={600}>
-                    {block.name}
-                  </Typography>
-                  <Chip label={block.type} variant="outlined" />
-                </Stack>
-                <Box mt={2}>{renderer(block)}</Box>
+      {blocks.map((block, index) => (
+        <Card key={`config-card-${index}`}>
+          <CardContent>
+            <Stack>
+              <Stack direction={"row"} spacing={2}>
+                <Typography variant="h6" fontWeight={600}>
+                  {block.name}
+                </Typography>
+                <Chip label={block.type} variant="outlined" />
               </Stack>
-            </CardContent>
-          </Card>
-        ))}
+              <Box mt={2}>{renderer(block)}</Box>
+            </Stack>
+          </CardContent>
+        </Card>
+      ))}
     </Stack>
   );
 }

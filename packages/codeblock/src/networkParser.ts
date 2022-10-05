@@ -1,4 +1,3 @@
-import { CodeBlock } from "@etherdata-blockchain/codeblock";
 import axios from "axios";
 
 export class NetworkParser {
@@ -10,23 +9,25 @@ export class NetworkParser {
     this.language = language;
   }
 
-  async parse(input: string): Promise<CodeBlock<any>[]> {
+  async parse(input: string): Promise<any[]> {
     const result = await axios.post(this.url, {
       code: input,
       language: this.language,
-      mode: "parsing",
+      mode: "parse",
     });
 
     return result.data.blocks;
   }
 
-  async generate(blocks: CodeBlock<any>[]): Promise<string> {
+  async generate(blocks: any[], code: string): Promise<string> {
     const result = await axios.post(this.url, {
+      code: code,
       blocks: blocks,
       language: this.language,
-      mode: "generation",
+      mode: "generate",
     });
 
+    console.log("result", result.data);
     return result.data.code;
   }
 }

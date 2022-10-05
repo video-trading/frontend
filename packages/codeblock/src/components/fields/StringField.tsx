@@ -12,8 +12,8 @@ export default function StringNumberField({
     <TextField
       fullWidth
       label="Value"
-      value={value}
-      onChange={(e) => onChange(e.target.value, index)}
+      value={(value as string).substring(1, value.length - 1)}
+      onChange={(e) => onChange(`"${e.target.value}"`, index)}
       helperText={description}
     />
   );

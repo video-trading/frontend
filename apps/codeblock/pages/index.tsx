@@ -1,21 +1,18 @@
-import type { NextPage } from "next";
-import Head from "next/head";
-import { ConfigPanel, Editor } from "codevis";
 import {
+  AppBar,
+  Box,
+  CircularProgress,
+  Collapse,
   Divider,
-  FormControlLabel,
-  FormGroup,
   Grid,
   Stack,
-  Switch,
-  Collapse,
-  CircularProgress,
-  AppBar,
   Toolbar,
-  Box,
 } from "@mui/material";
-import { useState, useEffect } from "react";
+import { ConfigPanel, Editor } from "codevis";
 import { useCodeVisulization } from "codevis/src/hooks/useCodeVis";
+import type { NextPage } from "next";
+import Head from "next/head";
+import { useState } from "react";
 
 const sampleCode = `// SPDX-License-Identifier: MIT
 // compiler version must be greater than or equal to 0.8.13 and less than 0.9.0
@@ -44,14 +41,6 @@ const Home: NextPage = () => {
       <AppBar>
         <Toolbar>
           <Stack justifyContent={"space-between"} width="100%" direction="row">
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch />}
-                label={checked ? "Use Network" : "Use Local"}
-                checked={checked}
-                onChange={(e, checked) => setChecked(checked)}
-              />
-            </FormGroup>
             <Collapse in={isLoading} mountOnEnter unmountOnExit>
               <CircularProgress size={30} />
             </Collapse>
@@ -59,31 +48,19 @@ const Home: NextPage = () => {
         </Toolbar>
       </AppBar>
       <Box pt={12} component="main">
-        <Body useNetwork={checked} />
+        <Body />
       </Box>
     </div>
   );
 };
 
-interface BodyProps {
-  useNetwork: boolean;
-}
-
-function Body({ useNetwork }: BodyProps) {
-  useEffect(() => {
-    console.log(useNetwork);
-  }, []);
-
+function Body() {
   return (
     <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
         <Stack p={5}>
           <Divider>Code Blocks</Divider>
-          <ConfigPanel
-            language="sol"
-            code={sampleCode}
-            url={useNetwork ? url : undefined}
-          />
+          <ConfigPanel language="solidity" code={sampleCode} url={url} />
         </Stack>
       </Grid>
       <Grid item xs={12} md={6}>
