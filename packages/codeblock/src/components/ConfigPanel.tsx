@@ -96,6 +96,8 @@ export function ConfigPanel(props: Props) {
     [blocks]
   );
 
+  console.log(blocks);
+
   return (
     <Stack spacing={2}>
       {error && (
@@ -103,21 +105,26 @@ export function ConfigPanel(props: Props) {
           {JSON.stringify(error.response?.data?.message)}
         </Alert>
       )}
-      {blocks.map((block, index) => (
-        <Card key={`config-card-${index}`}>
-          <CardContent>
-            <Stack>
-              <Stack direction={"row"} spacing={2}>
-                <Typography variant="h6" fontWeight={600}>
-                  {block.name}
-                </Typography>
-                <Chip label={block.type} variant="outlined" />
+      {blocks
+        .filter(
+          (b) =>
+            b.value !== null && b.name !== undefined && b.value !== undefined
+        )
+        .map((block, index) => (
+          <Card key={`config-card-${index}`}>
+            <CardContent>
+              <Stack>
+                <Stack direction={"row"} spacing={2}>
+                  <Typography variant="h6" fontWeight={600}>
+                    {block.name}
+                  </Typography>
+                  <Chip label={block.type} variant="outlined" />
+                </Stack>
+                <Box mt={2}>{renderer(block)}</Box>
               </Stack>
-              <Box mt={2}>{renderer(block)}</Box>
-            </Stack>
-          </CardContent>
-        </Card>
-      ))}
+            </CardContent>
+          </Card>
+        ))}
     </Stack>
   );
 }
