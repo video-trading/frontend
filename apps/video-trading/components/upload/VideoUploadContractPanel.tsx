@@ -101,6 +101,7 @@ export default function VideoUploadContractPanel() {
                   <ConfigPanel
                     code={selectedContract?.code ?? ""}
                     language="sol"
+                    url=""
                   />
                 </>
               </Collapse>

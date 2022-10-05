@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useMemo } from "react";
 import MonacoEditor, { EditorProps } from "@monaco-editor/react";
 import { useCodeVisulization } from "../hooks/useCodeVis";
 
 export function Editor(props: EditorProps) {
-  const { code, setCode, language, setShouldParseEditorCode } =
-    useCodeVisulization();
+  const {
+    code,
+    language,
+    parse,
+    shouldParseEditorCode,
+    setCode,
+    setIsLoading,
+  } = useCodeVisulization();
+
+  const editorLanguage = useMemo(() => {
+    switch (language) {
+      case "solidity":
+        return "sol";
+    }
+    return language;
+  }, [language]);
 
   return (
     <MonacoEditor
       {...props}
-      defaultLanguage={language}
+      language={editorLanguage}
       value={code}
       onChange={(newCode) => {
-        setShouldParseEditorCode(true);
-        setCode(newCode as string);
+        if (!shouldParseEditorCode) return;
+        setIsLoading(true);
+        setCode(newCode ?? "");
+        parse(newCode ?? "");
       }}
     />
   );
