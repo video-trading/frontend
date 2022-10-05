@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import { CodeVisulizationProvider } from "codevis";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme, CssBaseline } from "@mui/material";
+import Head from "next/head";
 
 const darkTheme = createTheme({
   palette: {
@@ -23,12 +24,14 @@ const darkTheme = createTheme({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <div>
+      <Head>
+        <title>CodeBlock Demo</title>
+      </Head>
       <CodeVisulizationProvider>
         <Component {...pageProps} />
       </CodeVisulizationProvider>
-    </ThemeProvider>
+    </div>
   );
 }
 

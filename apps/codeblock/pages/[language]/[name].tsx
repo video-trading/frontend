@@ -3,13 +3,17 @@ import {
   Box,
   CircularProgress,
   Collapse,
+  createTheme,
+  CssBaseline,
   Divider,
   FormControl,
   Grid,
   InputLabel,
   Select,
   Stack,
+  ThemeProvider,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import { ConfigPanel, Editor } from "codevis";
 import { useCodeVisulization } from "codevis/src/hooks/useCodeVis";
@@ -26,6 +30,7 @@ import { CodePickerInterface } from "../../lib/types/CodePicker";
 import { getMenus } from "../../lib/utils/getMenus";
 import fs from "fs";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const url = process.env.NEXT_PUBLIC_URL!;
 
@@ -35,6 +40,23 @@ interface Props {
   selectedLanguage: string;
   selectedName: string;
 }
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+  // override app bar theme
+  components: {
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          borderLeft: 0,
+          borderRight: 0,
+        },
+      },
+    },
+  },
+});
 
 const Home: NextPage<Props> = (props: Props) => {
   const { isLoading } = useCodeVisulization();
@@ -47,60 +69,69 @@ const Home: NextPage<Props> = (props: Props) => {
   }, [props.selectedLanguage]);
 
   return (
-    <div>
-      <Head>
-        <title>CodeBlock Demo</title>
-      </Head>
-      <AppBar>
-        <Toolbar>
-          <Stack justifyContent={"space-between"} width="100vw" direction="row">
-            <Box flex={1}>
-              <Collapse in={isLoading} mountOnEnter unmountOnExit>
-                <CircularProgress size={30} />
-              </Collapse>
-            </Box>
-            <Box flex={10} />
-            <Stack flex={3} direction="row" spacing={2}>
-              <FormControl fullWidth variant="standard">
-                <InputLabel>Language</InputLabel>
-                <Select
-                  native
-                  value={props.selectedLanguage}
-                  onChange={(e) => {
-                    router.push(`/${e.target.value}/${props.selectedName}`);
-                  }}
-                >
-                  {props.menus.map((menu) => (
-                    <option key={menu.language} value={menu.language}>
-                      {menu.language}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl variant="standard" fullWidth>
-                <InputLabel>File Name</InputLabel>
-                <Select
-                  native
-                  value={props.selectedName}
-                  onChange={(e) => {
-                    router.push(`/${props.selectedLanguage}/${e.target.value}`);
-                  }}
-                >
-                  {selectedMenu.files.map((file) => (
-                    <option key={file} value={file}>
-                      {file}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <div>
+        <AppBar>
+          <Toolbar>
+            <Stack
+              justifyContent={"space-between"}
+              width="100vw"
+              direction="row"
+            >
+              <Stack flex={1} spacing={2} alignItems={"center"} direction="row">
+                <Typography variant="h6">
+                  <Link href={"/"}>CodeBlock</Link>
+                </Typography>
+                <Collapse in={isLoading} mountOnEnter unmountOnExit>
+                  <CircularProgress size={30} />
+                </Collapse>
+              </Stack>
+              <Box flex={10} />
+              <Stack flex={3} direction="row" spacing={2}>
+                <FormControl fullWidth variant="standard">
+                  <InputLabel>Language</InputLabel>
+                  <Select
+                    native
+                    value={props.selectedLanguage}
+                    onChange={(e) => {
+                      router.push(`/${e.target.value}/${props.selectedName}`);
+                    }}
+                  >
+                    {props.menus.map((menu) => (
+                      <option key={menu.language} value={menu.language}>
+                        {menu.language}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl variant="standard" fullWidth>
+                  <InputLabel>File Name</InputLabel>
+                  <Select
+                    native
+                    value={props.selectedName}
+                    onChange={(e) => {
+                      router.push(
+                        `/${props.selectedLanguage}/${e.target.value}`
+                      );
+                    }}
+                  >
+                    {selectedMenu.files.map((file) => (
+                      <option key={file} value={file}>
+                        {file}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Stack>
             </Stack>
-          </Stack>
-        </Toolbar>
-      </AppBar>
-      <Box pt={12} component="main">
-        <Body language={props.selectedLanguage} code={props.code} />
-      </Box>
-    </div>
+          </Toolbar>
+        </AppBar>
+        <Box pt={12} component="main">
+          <Body language={props.selectedLanguage} code={props.code} />
+        </Box>
+      </div>
+    </ThemeProvider>
   );
 };
 
@@ -164,8 +195,6 @@ export const getStaticProps: GetStaticProps<Props> = async (context) => {
     path.join(process.cwd(), "sampleCode", language as string, name as string),
     "utf8"
   );
-
-  console.log(code);
 
   return {
     props: {
