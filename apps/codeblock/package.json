@@ -16,7 +16,9 @@
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "codevis": "workspace:codevis"
+    "codevis": "workspace:codevis",
+    "glob": "8.0.3",
+    "@types/glob": "8.0.0"
   },
   "devDependencies": {
     "@types/node": "18.7.9",

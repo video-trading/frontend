@@ -54,6 +54,12 @@ export function ConfigPanel(props: Props) {
     setCode(props.code);
   }, [props.url, props.language, props.code]);
 
+  useEffect(() => {
+    setIsLoading(true);
+    setCode(props.code);
+    parse(props.code);
+  }, [props.code]);
+
   const onChange = useCallback(
     async (value: string, index: number) => {
       // on config panel changing
