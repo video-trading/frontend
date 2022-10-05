@@ -17,6 +17,7 @@ export function useCodeVisulization() {
     blocks,
     setBlocks,
     shouldParseEditorCode,
+    error,
   } = useContext(CodeVisulizationContext);
 
   return {
@@ -32,5 +33,6 @@ export function useCodeVisulization() {
     blocks,
     setBlocks,
     shouldParseEditorCode,
+    error,
   };
 }

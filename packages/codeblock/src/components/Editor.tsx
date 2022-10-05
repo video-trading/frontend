@@ -1,5 +1,9 @@
-import React, { useMemo } from "react";
-import MonacoEditor, { EditorProps } from "@monaco-editor/react";
+import React, { useCallback, useEffect, useMemo } from "react";
+import MonacoEditor, {
+  EditorProps,
+  Monaco,
+  useMonaco,
+} from "@monaco-editor/react";
 import { useCodeVisulization } from "../hooks/useCodeVis";
 
 export function Editor(props: EditorProps) {
@@ -11,6 +15,34 @@ export function Editor(props: EditorProps) {
     setCode,
     setIsLoading,
   } = useCodeVisulization();
+  const monaco = useMonaco();
+
+  const setupAutocompletion = useCallback(
+    (monaco: Monaco, language: string) => {
+      monaco.languages.registerCompletionItemProvider(language, {
+        provideCompletionItems: (model, position, context, token) => {
+          let word = model.getWordUntilPosition(position);
+
+          return {
+            suggestions: [
+              {
+                label: "codeblock",
+                kind: monaco.languages.CompletionItemKind.Function,
+                insertText: "//@codeblock",
+                range: {
+                  startLineNumber: position.lineNumber,
+                  endLineNumber: position.lineNumber,
+                  startColumn: word.startColumn,
+                  endColumn: word.endColumn,
+                },
+              },
+            ],
+          };
+        },
+      });
+    },
+    []
+  );
 
   const editorLanguage = useMemo(() => {
     switch (language) {
@@ -19,6 +51,12 @@ export function Editor(props: EditorProps) {
     }
     return language;
   }, [language]);
+
+  useEffect(() => {
+    if (monaco) {
+      setupAutocompletion(monaco, editorLanguage);
+    }
+  }, [editorLanguage, monaco]);
 
   return (
     <MonacoEditor

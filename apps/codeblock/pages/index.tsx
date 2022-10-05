@@ -4,7 +4,10 @@ import {
   CircularProgress,
   Collapse,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
+  Select,
   Stack,
   Toolbar,
 } from "@mui/material";
@@ -14,23 +17,29 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 
-const sampleCode = `// SPDX-License-Identifier: MIT
-// compiler version must be greater than or equal to 0.8.13 and less than 0.9.0
-pragma solidity ^0.8.13;
-
-contract HelloWorld {
+const sampleCode: { [key: string]: string } = {
+  solidity: `// SPDX-License-Identifier: MIT
+  // compiler version must be greater than or equal to 0.8.13 and less than 0.9.0
+  pragma solidity ^0.8.13;
+  
+  contract HelloWorld {
+      //@codeblock
+      string greet = "Hello World!";
+  
+      //@codeblock
+      // Price of the item
+      int price = 0;
+  }
+  `,
+  typescript: `
     //@codeblock
-    string greet = "Hello World!";
-
-    //@codeblock
-    // Price of the item
-    int price = 0;
-}
-`;
+    const greet = "Hello World!";
+  `,
+};
 
 const url = process.env.NEXT_PUBLIC_URL!;
 const Home: NextPage = () => {
-  const [checked, setChecked] = useState(false);
+  const [language, setLanguage] = useState<string>("solidity");
   const { isLoading } = useCodeVisulization();
 
   return (
@@ -40,27 +49,54 @@ const Home: NextPage = () => {
       </Head>
       <AppBar>
         <Toolbar>
-          <Stack justifyContent={"space-between"} width="100%" direction="row">
-            <Collapse in={isLoading} mountOnEnter unmountOnExit>
-              <CircularProgress size={30} />
-            </Collapse>
+          <Stack justifyContent={"space-between"} width="100vw" direction="row">
+            <Box flex={1}>
+              <Collapse in={isLoading} mountOnEnter unmountOnExit>
+                <CircularProgress size={30} />
+              </Collapse>
+            </Box>
+            <Box flex={10} />
+            <Box flex={2}>
+              <FormControl fullWidth variant="standard">
+                <InputLabel>Language</InputLabel>
+                <Select
+                  native
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                >
+                  {Object.keys(sampleCode).map((key) => (
+                    <option key={key} value={key}>
+                      {key}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
           </Stack>
         </Toolbar>
       </AppBar>
       <Box pt={12} component="main">
-        <Body />
+        <Body language={language} />
       </Box>
     </div>
   );
 };
 
-function Body() {
+interface BodyProps {
+  language: string;
+}
+
+function Body(props: BodyProps) {
   return (
     <Grid container spacing={5}>
       <Grid item xs={12} md={6}>
         <Stack p={5}>
           <Divider>Code Blocks</Divider>
-          <ConfigPanel language="solidity" code={sampleCode} url={url} />
+          <ConfigPanel
+            language={props.language}
+            code={sampleCode[props.language]}
+            url={url}
+          />
         </Stack>
       </Grid>
       <Grid item xs={12} md={6}>

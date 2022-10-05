@@ -22,6 +22,7 @@ interface ContextInterface {
   parse: (code: string) => void;
   generate: (blocks: any[], code: string) => void;
   shouldParseEditorCode: boolean;
+  error?: any;
 }
 
 //@ts-ignore
@@ -34,18 +35,20 @@ export function CodeVisulizationProvider(props: any) {
   const [shouldParseEditorCode, setShouldParseEditorCode] = useState(true);
   const [url, setUrl] = useState("");
   const [blocks, setBlocks] = useState<any[]>([]);
+  const [error, setError] = useState<any>(undefined);
 
   const parser = useMemo(() => {
-    console.log("init parser", url, language);
     return new NetworkParser(url, language);
   }, [url, language]);
 
   const generate = useCallback(
     async (blocks: any[], code: string) => {
+      setError(undefined);
       try {
         let codeResult = await parser.generate(blocks, code);
         setCode(codeResult);
       } catch (err) {
+        setError(err);
         console.error(err);
       }
       setIsLoading(false);
@@ -62,11 +65,13 @@ export function CodeVisulizationProvider(props: any) {
 
   const parse = useCallback(
     async (code: string) => {
+      setError(undefined);
       setShouldParseEditorCode(false);
       try {
         const blocks = await parser.parse(code);
         setBlocks(blocks);
       } catch (err) {
+        setError(err);
         console.error(err);
       }
       setIsLoading(false);
@@ -102,6 +107,7 @@ export function CodeVisulizationProvider(props: any) {
     parse: debounceParsing,
     generate: debounceGenerating,
     shouldParseEditorCode,
+    error,
   };
 
   return (

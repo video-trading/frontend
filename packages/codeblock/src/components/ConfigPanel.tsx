@@ -1,4 +1,12 @@
-import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "@mui/material";
 import debounce from "lodash.debounce";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useCodeVisulization } from "../hooks/useCodeVis";
@@ -30,6 +38,7 @@ export function ConfigPanel(props: Props) {
     setLanguage,
     setBlocks,
     blocks,
+    error,
   } = useCodeVisulization();
   const { code, language } = props;
 
@@ -42,7 +51,8 @@ export function ConfigPanel(props: Props) {
   useEffect(() => {
     setUrl(props.url);
     setLanguage(props.language);
-  }, [props.url, props.language]);
+    setCode(props.code);
+  }, [props.url, props.language, props.code]);
 
   const onChange = useCallback(
     async (value: string, index: number) => {
@@ -82,6 +92,11 @@ export function ConfigPanel(props: Props) {
 
   return (
     <Stack spacing={2}>
+      {error && (
+        <Alert severity="error">
+          {JSON.stringify(error.response?.data?.message)}
+        </Alert>
+      )}
       {blocks.map((block, index) => (
         <Card key={`config-card-${index}`}>
           <CardContent>
