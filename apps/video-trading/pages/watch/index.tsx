@@ -3,49 +3,44 @@ import {
   Box,
   Button,
   Card,
+  CardActionArea,
   CardContent,
   CardHeader,
-  CardMedia,
+  Dialog,
+  DialogContent,
+  DialogTitle,
   Divider,
   Grid,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { Video } from "client";
-import { abbreviateNumber } from "utils";
-import { useRouter } from "next/router";
 import dayjs from "dayjs";
-import React from "react";
+import { useRouter } from "next/router";
+import { abbreviateNumber } from "utils";
+import { Player } from "video-react";
 
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import VideoButton from "../../components/VideoButton";
 import ShareIcon from "@mui/icons-material/Share";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import "video-react/dist/video-react.css";
 import CategoryCard from "../../components/CategoryCard";
-import VideoCardSmall from "../../components/VideoCardSmall";
-import { appBarHeight } from "../../config";
-
-const video: Video = {
-  id: "1",
-  title: "Video 1",
-  description: "This is a video",
-  cover:
-    "https://img.freepik.com/free-photo/cloud-sky-twilight-times_74190-4017.jpg?w=2000",
-  source: "https://www.youtube.com/watch?v=QH2-TGUlwu4",
-  created_at: new Date(),
-  updated_at: new Date(),
-  size: 200 * 1024 * 1024,
-  uid: "1",
-  cid: "1",
-  views: 3000,
-  likes: 3000,
-};
+import VideoButton from "../../components/VideoButton";
+import useUser from "../../hooks/useUser";
+import useVideo from "../../hooks/useVideo";
+import useComents from "../../hooks/useComents";
+import VideoHistoryPage from "../../components/video/VideoHistoryPage";
+import { useState } from "react";
+import { doc, getFirestore } from "firebase/firestore";
 
 export default function Index() {
   const router = useRouter();
   // get video id from url
   const videoId = router.query.v;
+  const video = useVideo(videoId as string);
+  const user = useUser(video.data?.owner as string);
+  const comments = useComents(video.data as any);
+  const [openVideoHistory, setOpenVideoHistory] = useState(false);
 
   return (
     <Grid container style={{ height: "100%" }} p={2} spacing={2}>
@@ -54,14 +49,12 @@ export default function Index() {
         <Stack height={"100%"} spacing={2}>
           {/* video */}
           <Box>
-            <CardMedia
-              image={video.cover}
-              component={"div"}
-              style={{ height: 640, width: "100%", backgroundSize: "cover" }}
-            />
+            {video.data && (
+              <Player poster={video.data.cover} src={video.data.video} />
+            )}
           </Box>
           <Typography variant="h6" fontWeight={600}>
-            {video.title}
+            {video.data?.title}
           </Typography>
           {/* video info */}
           <Stack
@@ -70,12 +63,14 @@ export default function Index() {
             justifyContent={"space-between"}
           >
             <Typography color={"gray"} fontSize={"1rem"} fontWeight={400}>
-              {video.views.toLocaleString("en-US")} views •{" "}
-              {dayjs(video.created_at).format("MMM DD, YYYY")}
+              0 views •{" "}
+              {dayjs(video.data?.created_at.seconds * 1000).format(
+                "MMM DD, YYYY"
+              )}
             </Typography>
             <Stack direction={"row"} spacing={2}>
               <VideoButton
-                title={abbreviateNumber(video.likes)}
+                title={abbreviateNumber(10000)}
                 icon={<ThumbUpIcon />}
               />
               <VideoButton title={"Dislike"} icon={<ThumbDownIcon />} />
@@ -89,14 +84,11 @@ export default function Index() {
             <Avatar>A</Avatar>
             {/* description */}
             <Stack flex={2}>
-              <Typography>User name</Typography>
+              <Typography>{user.data?.display_name}</Typography>
               <Typography fontSize={"0.8rem"} color="gray">
                 12K subscribers
               </Typography>
-              <Typography mt={2}>
-                Recorded live at Reactathon 2022. Learn more at
-                https://reactathon.com Goodbye, useEffect
-              </Typography>
+              <Typography mt={2}>{video.data?.description}</Typography>
             </Stack>
             {/* subscribe */}
             <Box>
@@ -111,6 +103,19 @@ export default function Index() {
               100 Comments
             </Typography>
           </Box>
+          <Divider />
+          <CardActionArea
+            onClick={() => {
+              setOpenVideoHistory(true);
+            }}
+          >
+            <Box p={2}>
+              <Typography fontWeight={600}>
+                Show video trading history
+              </Typography>
+            </Box>
+          </CardActionArea>
+          <Divider />
           {/* add comment */}
           <Box>
             <Card sx={{ borderRadius: 5 }}>
@@ -125,28 +130,24 @@ export default function Index() {
             </Card>
           </Box>
           {/* comments */}
-          <Stack direction={"row"} spacing={1}>
-            <Avatar>A</Avatar>
-            <Stack>
-              <Stack direction={"row"} alignItems="center" spacing={1}>
-                <Typography>User name</Typography>
-                <Typography color={"gray"} fontSize={"0.8rem"}>
-                  12 months ago
-                </Typography>
-              </Stack>
-              <Typography>
-                This is a comment. This is a comment. This is a comment. This is
-                a comment. This is a comment. This is a comment. This is a
-                comment. This is a comment. This is a comment. This is a
-                comment. This is a comment. This is a comment. This is a
-                comment. This is a comment.
-              </Typography>
-              <Stack mt={1} direction="row" spacing={2}>
-                <VideoButton icon={<ThumbUpIcon />} title="252" />
-                <VideoButton icon={<ThumbDownIcon />} title="252" />
+          {comments.data?.map((comment: any) => (
+            <Stack direction={"row"} spacing={1} key={comment.content}>
+              <Avatar>A</Avatar>
+              <Stack>
+                <Stack direction={"row"} alignItems="center" spacing={1}>
+                  <Typography>User name</Typography>
+                  <Typography color={"gray"} fontSize={"0.8rem"}>
+                    {dayjs(comment.created_at.seconds * 1000).format("MMM DD")}
+                  </Typography>
+                </Stack>
+                <Typography>{comment.content}</Typography>
+                <Stack mt={1} direction="row" spacing={2}>
+                  <VideoButton icon={<ThumbUpIcon />} title="252" />
+                  <VideoButton icon={<ThumbDownIcon />} title="252" />
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
+          ))}
         </Stack>
       </Grid>
       {/* right sidebar */}
@@ -156,20 +157,35 @@ export default function Index() {
             <CardHeader title="Purchase this video" />
             <CardContent>
               <Stack spacing={2}>
-                <Button variant="contained">Purchase for $10</Button>
-                <Divider>OR</Divider>
-                <Button variant="contained">Purchase for 10 Coin</Button>
+                <Button variant="contained">
+                  Purchase for HKD ${video.data?.price}
+                </Button>
               </Stack>
             </CardContent>
           </Card>
-          <CategoryCard useCard={false} />
-          {Array(100)
+          <CategoryCard useCard={false} keywords={video.data?.tags ?? []} />
+          {/* {Array(100)
             .fill(1)
             .map((_, i) => (
               <VideoCardSmall video={video} key={`video-${i}`} />
-            ))}
+            ))} */}
         </Stack>
       </Grid>
+
+      {video.data && (
+        <Dialog
+          fullWidth
+          open={openVideoHistory}
+          onClose={() => setOpenVideoHistory(false)}
+        >
+          <DialogTitle>Video trading history</DialogTitle>
+          <DialogContent>
+            <VideoHistoryPage
+              video={doc(getFirestore(), "Video", video.data.id)}
+            />
+          </DialogContent>
+        </Dialog>
+      )}
     </Grid>
   );
 }
