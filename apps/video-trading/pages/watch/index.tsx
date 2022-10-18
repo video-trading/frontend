@@ -50,7 +50,14 @@ export default function Index() {
           {/* video */}
           <Box>
             {video.data && (
-              <Player poster={video.data.cover} src={video.data.video} />
+              <Player
+                fluid={false}
+                poster={video.data.cover}
+                src={video.data.video}
+                height={500}
+                //@ts-ignore
+                width={"100%"}
+              />
             )}
           </Box>
           <Typography variant="h6" fontWeight={600}>
