@@ -14,10 +14,10 @@ export default function VideoCardSmall({ video }: Props) {
       <Stack>
         <Typography fontWeight={600}>{video.title}</Typography>
         <Typography color={"gray"} fontSize={"0.8rem"} fontWeight={400}>
-          {video.uid}
+          {video.title}
         </Typography>
         <Typography color={"gray"} fontSize={"0.8rem"} fontWeight={400}>
-          {video.views.toLocaleString("en-US")} views •{" "}
+          {"0"} views •{" "}
           {dayjs(video.created_at).format("MMM DD, YYYY")}
         </Typography>
       </Stack>

@@ -1,43 +1,25 @@
 import {
   CardActionArea,
   CardMedia,
-  Chip,
   Grid,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
-import type { NextPage } from "next";
 import { Video } from "client";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import React from "react";
-import CategoryCard from "../components/CategoryCard";
+import type { NextPage } from "next";
 import { useRouter } from "next/router";
-
-const videos: Video[] = Array(100)
-  .fill(1)
-  .map(() => ({
-    id: "1",
-    title: "Video 1",
-    description: "This is a video",
-    cover:
-      "https://assets.xboxservices.com/assets/8c/bf/8cbfa53c-96c4-42e1-9aa0-290cc166033c.jpg?n=XGP-2022_Small-tout-0_12-17-21_1067x600.jpg",
-    source: "https://www.youtube.com/watch?v=QH2-TGUlwu4",
-    created_at: new Date(),
-    updated_at: new Date(),
-    uid: "1",
-    cid: "1",
-    views: 3000,
-    likes: 3000,
-    size: 200 * 1024 * 1024,
-  }));
+import { useState } from "react";
+import CategoryCard from "../components/CategoryCard";
+import useVideos from "../hooks/useVideos";
+import dayjs from "dayjs";
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const videos = useVideos();
 
   return (
     <div>
-      <CategoryCard useCard={true} />
+      <CategoryCard useCard={true} keywords={[]} />
       <Grid container spacing={5} p={3}>
         {videos.map((video, index) => (
           <Grid item xs={3} key={`video-${index}`}>
@@ -53,7 +35,7 @@ const Home: NextPage = () => {
                 />
                 <Typography>{video.title}</Typography>
                 <Typography variant="subtitle2" color={"gray"}>
-                  {video.uid}
+                  {dayjs(video.created_at.seconds * 1000).format("YYYY-MM-DD")}
                 </Typography>
               </CardActionArea>
             </Stack>

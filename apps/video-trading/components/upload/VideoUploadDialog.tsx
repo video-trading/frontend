@@ -73,7 +73,7 @@ export default function VideoUploadDialog(props: Props) {
     }
 
     if (video) {
-      return video.size;
+      return 0;
     }
     return 0;
   }, [props.video, props.file]);

@@ -15,18 +15,20 @@
     "@monaco-editor/react": "^4.4.5",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.1",
-    "@supabase/supabase-js": "^1.35.6",
     "@tanstack/react-query": "^4.2.1",
     "@tanstack/react-query-devtools": "^4.2.1",
     "@tanstack/react-virtual": "3.0.0-beta.18",
+    "@types/video-react": "^0.15.1",
     "client": "workspace:client",
+    "codevis": "workspace:codevis",
     "dayjs": "^1.11.5",
+    "firebase": "9.12.1",
     "monaco-editor": "^0.34.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "utils": "workspace:utils",
-    "codevis": "workspace:codevis"
+    "video-react": "^0.15.0"
   },
   "devDependencies": {
     "@types/node": "18.7.9",

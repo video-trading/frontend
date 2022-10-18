@@ -7,13 +7,15 @@ interface Props {
    * use card component to wrap the category card
    */
   useCard: boolean;
+  keywords: string[];
 }
 
-export default function CategoryCard({ useCard }: Props) {
+export default function CategoryCard({ useCard, keywords }: Props) {
   const chips = (
     <Stack direction={"row"} spacing={2} p={2}>
-      <Chip label="Chip Outlined" variant="outlined" />
-      <Chip label="Chip Outlined" variant="outlined" />
+      {keywords.map((keyword, index) => (
+        <Chip key={keyword} label={keyword} variant="outlined" />
+      ))}
     </Stack>
   );
 
