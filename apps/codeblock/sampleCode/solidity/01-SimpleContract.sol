@@ -7,6 +7,15 @@ contract HelloWorld {
     string greet = "Hello World!";
 
     //@codeblock
-    // Price of the item
+    // This is the comment
     int price = 0;
+
+    //@codeblock
+    bool isTrue = true;
+
+    //@codeblock
+    address addr = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+
+    //@codeblock
+    uint256 num = 0;
 }
