@@ -9,7 +9,7 @@ contract ERC20FixedSupply is ERC20 {
     //@codeblock
     string constant contractSymbol = "FIX";
     //@codeblock
-    int constant supply = 1000;
+    uint256 constant supply = 1000;
 
     constructor() ERC20(contractName, contractSymbol) {
         _mint(msg.sender, supply);
