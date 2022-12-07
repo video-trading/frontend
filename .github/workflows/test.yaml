@@ -17,14 +17,13 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm build
-      - run: pnpm test
-  
+
   create-release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     if: ${{ (github.event.pusher.name != 'github action') && (github.ref == 'refs/heads/main') }}
-    needs: 
+    needs:
       - test
     steps:
       - name: Checkout
