@@ -1,18 +1,25 @@
 import axios from "axios";
 
 interface LoginResponse {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    username: string;
-    avatar: string;
-    Wallet: {
-      id: string;
-      address: string;
-    };
-  };
+  user: Profile;
   accessToken: string;
+}
+
+export interface Profile {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  avatar?: {
+    url: string;
+    key: string;
+  };
+  shortDescription: string;
+  longDescription: string;
+  Wallet: {
+    id: string;
+    address: string;
+  };
 }
 
 export class AuthenticationService {
@@ -52,5 +59,17 @@ export class AuthenticationService {
         error: `${e}`,
       };
     }
+  }
+
+  static async profile(accessKey: string): Promise<Profile> {
+    const profile = await axios.get(
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/user/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      }
+    );
+    return profile.data;
   }
 }

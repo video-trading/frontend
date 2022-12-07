@@ -5,6 +5,8 @@ import { Avatar, Box, Divider, Menu, MenuItem } from "@mui/material";
 import { bindMenu, usePopupState } from "material-ui-popup-state/hooks";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { UIConfig } from "../../src/UIConfig";
+import Link from "next/link";
 
 type Props = {};
 
@@ -15,6 +17,7 @@ export function UserAvatar(props: Props) {
     popupId: "userAvatar",
   });
   const router = useRouter();
+  console.log(session);
 
   const user = useMemo(() => {
     return session.data?.user as any;
@@ -37,8 +40,13 @@ export function UserAvatar(props: Props) {
         </Avatar>
       </Box>
       <Menu {...bindMenu(popupState)}>
-        <MenuItem>Profile</MenuItem>
+        <MenuItem sx={{ color: "gray", width: UIConfig.userAvatarMenuWidth }}>
+          {session.data?.user?.name}
+        </MenuItem>
         <Divider />
+        <MenuItem>
+          <Link href={"/user/profile"}>Profile</Link>
+        </MenuItem>
         <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
       </Menu>
     </>

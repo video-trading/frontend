@@ -13,6 +13,7 @@ interface UIProvider {
   setTitle: (title: string) => void;
   title?: string;
   notify: (message: string, variant: VariantType) => void;
+  notifyError: (message: Error) => void;
 }
 
 //@ts-ignore
@@ -68,6 +69,17 @@ export function UIContextProvider(props: any) {
     [enqueueSnackbar]
   );
 
+  const notifyError = useCallback(
+    (message: any) => {
+      // check if error is axios error
+      if (message.response?.data?.message) {
+        notify(message.response.data.message, "error");
+      }
+      notify(message.message, "error");
+    },
+    [enqueueSnackbar]
+  );
+
   const value: UIProvider = {
     showDialog,
     closeDialog,
@@ -80,6 +92,7 @@ export function UIContextProvider(props: any) {
     closeRightPanel,
     isRightPanelOpen,
     rightPanelContent,
+    notifyError,
   };
 
   return (
