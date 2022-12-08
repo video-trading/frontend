@@ -1,0 +1,31 @@
+{
+  "name": "editor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lexical/clipboard": "^0.6.5",
+    "@lexical/code": "^0.6.5",
+    "@lexical/link": "^0.6.5",
+    "@lexical/list": "^0.6.5",
+    "@lexical/markdown": "^0.6.5",
+    "@lexical/react": "^0.6.5",
+    "@lexical/rich-text": "^0.6.5",
+    "@lexical/selection": "^0.6.5",
+    "@lexical/table": "^0.6.5",
+    "@lexical/utils": "^0.6.5",
+    "lexical": "^0.6.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "yjs": "^13.5.43"
+  },
+  "devDependencies": {
+    "typescript": "4.9.3"
+  }
+}

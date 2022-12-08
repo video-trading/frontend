@@ -28,6 +28,7 @@ import { UIContext } from "../../src/models/UIModel";
 import { StorageService } from "../../src/services/StorageService";
 import { UserService } from "../../src/services/UserService";
 import QRCode from "react-qr-code";
+import { Editor } from "editor";
 
 interface Props {
   user: Profile;
@@ -210,15 +211,14 @@ export default function Index(props: Props) {
                       sx={{ boxShadow: "none", p: 1 }}
                     >
                       <Stack spacing={1}>
-                        <TextField
-                          multiline={true}
-                          rows={20}
-                          label="Bio"
-                          name="longDescription"
-                          placeholder="longDescription"
-                          onChange={formik.handleChange}
-                          value={formik.values.longDescription ?? ""}
-                        />
+                        <Box height={550}>
+                          <Editor
+                            initialValue={formik.values.longDescription}
+                            onChange={(value) =>
+                              formik.setFieldValue("longDescription", value)
+                            }
+                          />
+                        </Box>
                         <Divider />
                       </Stack>
                     </Card>
