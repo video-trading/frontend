@@ -17,7 +17,6 @@ export function UserAvatar(props: Props) {
     popupId: "userAvatar",
   });
   const router = useRouter();
-  console.log(session);
 
   const user = useMemo(() => {
     return session.data?.user as any;

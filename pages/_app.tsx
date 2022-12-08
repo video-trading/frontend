@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
 import { menus } from "../src/Menus";
@@ -7,6 +6,8 @@ import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
 import { UIContext, UIContextProvider } from "../src/models/UIModel";
+import "editor/src/style.css";
+import "../styles/globals.css";
 
 const theme = createTheme({
   components: {
