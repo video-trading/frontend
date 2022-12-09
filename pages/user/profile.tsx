@@ -88,16 +88,15 @@ export default function Index(props: Props) {
 
       setIsUploading(true);
       try {
-        const { url, key, previewUrl } =
-          await AvatarService.createPreSignedAvatarUploadUrl(
-            (session.data as any).accessToken
-          );
+        const signedUrl = await AvatarService.createPreSignedAvatarUploadUrl(
+          (session.data as any).accessToken
+        );
 
         const file = e.target.files[0];
-        await StorageService.uploadUsingPreSignedUrl(url, file);
+        await StorageService.uploadUsingPreSignedUrl(signedUrl, file);
         notify("Avatar uploaded successfully", "success");
-        setAvatar(previewUrl);
-        await formik.setFieldValue("avatar", key);
+        setAvatar(signedUrl.previewUrl);
+        await formik.setFieldValue("avatar", signedUrl.key);
       } catch (e) {
         notify(`${e}`, "error");
       }
