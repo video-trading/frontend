@@ -11,3 +11,10 @@ a {
 a:visited {
     color: inherit;
 }
+
+.leftBlueRectangle {
+    width: 6px;
+    height: 26px;
+    background: #1F94FF;
+    border-radius: 4px;
+}
