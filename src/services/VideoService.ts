@@ -15,21 +15,12 @@ export interface CreateVideoResponse {
   };
   preSignedURL: SignedUrl;
 }
-// {
-//   "id": "63917736bea189c90e3ad819",
-//     "createdAt": "2022-12-08T05:33:42.026Z",
-//     "updatedAt": "2022-12-08T05:33:42.026Z",
-//     "title": "Test Video",
-//     "fileName": "test.mov",
-//     "description": "My Video",
-//     "thumbnail": null,
-//     "views": 0,
-//     "likes": 0,
-//     "dislikes": 0,
-//     "userId": "638cde7db45ac58fb4b0f077",
-//     "playlistId": null,
-//     "status": "UPLOADING"
-// }
+export interface SalesInfo {
+  id: string;
+  price: number;
+  tokenId?: string;
+}
+
 export interface GetVideoResponse {
   id: string;
   createdAt: string;
@@ -44,11 +35,13 @@ export interface GetVideoResponse {
   userId: string;
   playlistId: string;
   status: string;
-  SalesInfo: {
-    id: string;
-    price: number;
-    tokenId?: string;
-  };
+  SalesInfo: SalesInfo;
+}
+
+export interface UpdateVideoDto {
+  title?: string;
+  description?: string;
+  SalesInfo?: SalesInfo;
 }
 
 export class VideoService {
@@ -68,6 +61,20 @@ export class VideoService {
   static async getVideo(videoId: string): Promise<GetVideoResponse> {
     const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
     const video = await axios.get(url, {});
+    return video.data;
+  }
+
+  static async updateVideo(
+    accessToken: string,
+    videoId: string,
+    data: UpdateVideoDto
+  ): Promise<GetVideoResponse[]> {
+    const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
+    const video = await axios.patch(url, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return video.data;
   }
 }

@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import { useCallback, useContext } from "react";
 import { Dropzone } from "../components/Upload/Dragzone";
 import { GetServerSideProps } from "next";
 import { requireAuthentication } from "../src/requireAuthentication";
@@ -7,7 +8,6 @@ import {
   UploadContext,
   UploadContextProvider,
 } from "../src/models/UploadModel";
-import { useCallback, useContext } from "react";
 import {
   Box,
   Breadcrumbs,
@@ -20,6 +20,7 @@ import {
   FormControlLabel,
   FormLabel,
   Link,
+  Paper,
   Radio,
   RadioGroup,
   Stack,
@@ -30,23 +31,36 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import {
-  CreateVideoDto,
-  GetVideoResponse,
-  VideoService,
-} from "../src/services/VideoService";
+import { GetVideoResponse, VideoService } from "../src/services/VideoService";
 import { useSession } from "next-auth/react";
 import { UIContext } from "../src/models/UIModel";
 import { ProgressBar } from "../components/Upload/ProgressBar";
 import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import { Editor } from "editor";
+import Image from "next/image";
 
 type Props = {
   uploadType: "video" | "audio";
   step: number;
   video?: GetVideoResponse;
 };
+
+function UploadStepper({ step }: { step: number }) {
+  return (
+    <Stepper activeStep={step}>
+      <Step>
+        <StepLabel>Pick Video</StepLabel>
+      </Step>
+      <Step>
+        <StepLabel>Upload Video</StepLabel>
+      </Step>
+      <Step>
+        <StepLabel>Finished</StepLabel>
+      </Step>
+    </Stepper>
+  );
+}
 
 export default function Create(props: Props) {
   return (
@@ -62,6 +76,7 @@ export default function Create(props: Props) {
           </Breadcrumbs>
           {props.step === 1 && <UploadStep uploadType={props.uploadType} />}
           {props.step === 2 && <CreateVideoStep video={props.video!} />}
+          {props.step === 3 && <FinishStep />}
         </Stack>
       </Container>
     </UploadContextProvider>
@@ -73,9 +88,9 @@ interface UploadStepProps {
 }
 
 export function UploadStep(props: UploadStepProps) {
-  const { setFile, file, upload } = useContext(UploadContext);
+  const { setFile, file, upload, setPreSignedUrl } = useContext(UploadContext);
   const [loading, setLoading] = React.useState(false);
-  const { notifyError, notify } = useContext(UIContext);
+  const { notifyError } = useContext(UIContext);
   const router = useRouter();
   const session = useSession();
 
@@ -95,6 +110,7 @@ export function UploadStep(props: UploadStepProps) {
             description: "",
           }
         );
+        setPreSignedUrl(video.preSignedURL);
         upload(video.preSignedURL, file);
         await router.push(`/create?video=${video.video.id}&step=2`);
       } catch (e: any) {
@@ -157,14 +173,35 @@ interface CreateVideoStep {
   video: GetVideoResponse;
 }
 function CreateVideoStep(props: CreateVideoStep) {
-  const [currentStep, setCurrentStep] = React.useState(1);
   const { uploadProgress, totalUploadBytes, currentUploadBytes } =
     useContext(UploadContext);
   const [isForSale, setIsForSale] = React.useState(false);
+  const session = useSession();
+  const { notifyError } = useContext(UIContext);
+  const router = useRouter();
 
   const formik = useFormik({
-    initialValues: props.video,
-    onSubmit: async (values) => {},
+    initialValues: {
+      title: props.video.title,
+      description: props.video.description,
+      SalesInfo: props.video.SalesInfo,
+    },
+    onSubmit: async (values) => {
+      try {
+        console.log("values", values);
+        await VideoService.updateVideo(
+          (session.data! as any).accessToken,
+          props.video.id,
+          {
+            ...values,
+            SalesInfo: isForSale ? values.SalesInfo : undefined,
+          }
+        );
+        router.push(`/create?video=${props.video.id}&step=3`);
+      } catch (e: any) {
+        notifyError(e);
+      }
+    },
   });
 
   return (
@@ -172,18 +209,7 @@ function CreateVideoStep(props: CreateVideoStep) {
       <Card>
         <CardContent>
           <Stack spacing={2}>
-            <Stepper activeStep={currentStep}>
-              <Step>
-                <StepLabel>Pick Video</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>Upload Video</StepLabel>
-              </Step>
-              <Step>
-                <StepLabel>Finished</StepLabel>
-              </Step>
-            </Stepper>
-
+            <UploadStepper step={2} />
             <ProgressBar
               progress={uploadProgress * 100}
               title={props.video!.fileName ?? ""}
@@ -191,7 +217,7 @@ function CreateVideoStep(props: CreateVideoStep) {
               totalUploadBytes={totalUploadBytes}
             />
 
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={(e) => e.preventDefault()}>
               <Stack spacing={2}>
                 <TextField
                   fullWidth
@@ -201,15 +227,28 @@ function CreateVideoStep(props: CreateVideoStep) {
                   value={formik.values.title}
                   onChange={formik.handleChange}
                 />
-                <Editor />
-
+                <Typography fontWeight={"bold"}>Description</Typography>
+                <Card variant={"outlined"}>
+                  <Editor
+                    initialValue={formik.values.description}
+                    onChange={(v) => {
+                      formik.setFieldValue("description", v);
+                    }}
+                  />
+                </Card>
                 <FormControl>
                   <FormLabel>
                     Is this video for sale or is it free to watch?
                   </FormLabel>
                   <RadioGroup
                     value={isForSale}
-                    onChange={(e, value) => setIsForSale(value === "true")}
+                    onChange={(e, value) => {
+                      const forSale = value === "true";
+                      if (!forSale) {
+                        formik.setFieldValue("SalesInfo", undefined);
+                      }
+                      setIsForSale(forSale);
+                    }}
                   >
                     <FormControlLabel
                       control={<Radio />}
@@ -229,7 +268,10 @@ function CreateVideoStep(props: CreateVideoStep) {
                     value={formik.values.SalesInfo?.price ?? 0}
                     onChange={(e) => {
                       formik.setFieldValue("SalesInfo", {
-                        price: parseFloat(e.target.value),
+                        price:
+                          e.target.value.length > 0
+                            ? parseFloat(e.target.value)
+                            : 0,
                       });
                     }}
                   />
@@ -245,7 +287,7 @@ function CreateVideoStep(props: CreateVideoStep) {
                   <LoadingButton
                     variant={"contained"}
                     loading={formik.isSubmitting}
-                    type={"submit"}
+                    onClick={formik.submitForm}
                   >
                     Publish
                   </LoadingButton>
@@ -256,6 +298,28 @@ function CreateVideoStep(props: CreateVideoStep) {
         </CardContent>
       </Card>
     </>
+  );
+}
+
+function FinishStep() {
+  const router = useRouter();
+
+  return (
+    <Card>
+      <CardContent>
+        <UploadStepper step={3} />
+        <Stack spacing={2} alignItems={"center"} justifyContent={"center"}>
+          <Image
+            src={"/images/finish.webp"}
+            alt={"Finish"}
+            height={200}
+            width={200}
+          />
+          <Typography>Your video has been published!</Typography>
+          <Button onClick={() => router.push("/")}>Go to home</Button>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 }
 

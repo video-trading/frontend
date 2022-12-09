@@ -35,6 +35,7 @@ export function Dropzone(props: DropzoneProps) {
         alignItems={"center"}
         height={"100%"}
         width={"100%"}
+        position={"relative"}
       >
         <Box>
           <Typography>
