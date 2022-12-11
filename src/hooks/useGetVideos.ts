@@ -8,9 +8,7 @@ export function useGetVideos() {
   const result = useInfiniteQuery(
     "videos",
     async ({ pageParam }) => {
-      console.log("fetching videos", pageParam);
       const videos = await VideoService.getVideos(pageParam);
-      console.log(videos);
       return videos;
     },
     {
