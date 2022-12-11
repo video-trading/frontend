@@ -111,7 +111,12 @@ export function UploadStep(props: UploadStepProps) {
           }
         );
         setPreSignedUrl(video.preSignedURL);
-        upload(video.preSignedURL, file);
+        upload(
+          (session.data as any).accessToken,
+          video.video.id,
+          video.preSignedURL,
+          file
+        );
         await router.push(`/create?video=${video.video.id}&step=2`);
       } catch (e: any) {
         notifyError(e);
@@ -188,8 +193,7 @@ function CreateVideoStep(props: CreateVideoStep) {
     },
     onSubmit: async (values) => {
       try {
-        console.log("values", values);
-        await VideoService.updateVideo(
+        await VideoService.publishVideo(
           (session.data! as any).accessToken,
           props.video.id,
           {
@@ -197,7 +201,7 @@ function CreateVideoStep(props: CreateVideoStep) {
             SalesInfo: isForSale ? values.SalesInfo : undefined,
           }
         );
-        router.push(`/create?video=${props.video.id}&step=3`);
+        await router.push(`/create?video=${props.video.id}&step=3`);
       } catch (e: any) {
         notifyError(e);
       }
@@ -326,12 +330,15 @@ function FinishStep() {
 export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
   requireAuthentication(context, async (accessToken, user) => {
     const uploadType = context.query.uploadType ?? "video";
-    const step = parseInt((context.query.step as any) ?? "1");
+    let step = parseInt((context.query.step as any) ?? "1");
     const videoId = (context.query.video as any) ?? null;
     let video: GetVideoResponse | null = null;
 
     if (videoId) {
       video = await VideoService.getVideo(videoId);
+      if (video.status !== "UPLOADING") {
+        step = 3;
+      }
     }
 
     return {

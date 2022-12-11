@@ -1,14 +1,19 @@
 import { createContext, useCallback, useState } from "react";
 import { SignedUrl, StorageService } from "../services/StorageService";
 import { Sign } from "crypto";
-import { GetVideoResponse } from "../services/VideoService";
+import { GetVideoResponse, VideoService } from "../services/VideoService";
 
 export interface UploadModelInterface {
   file: File | undefined;
   setFile: (file: File) => void;
   preSignedUrl: SignedUrl | undefined;
   setPreSignedUrl: (url: SignedUrl) => void;
-  upload: (url: SignedUrl, file: File) => void;
+  upload: (
+    accessToken: string,
+    videoId: string,
+    url: SignedUrl,
+    file: File
+  ) => void;
   uploadProgress: number;
   currentUploadBytes: number;
   totalUploadBytes: number;
@@ -25,17 +30,26 @@ export function UploadContextProvider(props: any) {
   const [currentUploadBytes, setCurrentUploadBytes] = useState(0);
   const [totalUploadBytes, setTotalUploadBytes] = useState(0);
 
-  const upload = useCallback(async (url: SignedUrl, file: File) => {
-    await StorageService.uploadUsingPreSignedUrl(
-      url,
-      file,
-      (progress, current, total) => {
-        setUploadProgress(progress);
-        setCurrentUploadBytes(current);
-        setTotalUploadBytes(total);
-      }
-    );
-  }, []);
+  const upload = useCallback(
+    async (
+      accessToken: string,
+      videoId: string,
+      url: SignedUrl,
+      file: File
+    ) => {
+      await StorageService.uploadUsingPreSignedUrl(
+        url,
+        file,
+        (progress, current, total) => {
+          setUploadProgress(progress);
+          setCurrentUploadBytes(current);
+          setTotalUploadBytes(total);
+        }
+      );
+      await VideoService.onUploaded(accessToken, videoId);
+    },
+    []
+  );
 
   const value: UploadModelInterface = {
     file,

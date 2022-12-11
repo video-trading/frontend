@@ -21,6 +21,16 @@ export interface SalesInfo {
   tokenId?: string;
 }
 
+export interface PaginationResponse<T> {
+  items: T[];
+  metadata: {
+    total: number;
+    per: number;
+    page: number;
+    totalPages: number;
+  };
+}
+
 export interface GetVideoResponse {
   id: string;
   createdAt: string;
@@ -64,17 +74,54 @@ export class VideoService {
     return video.data;
   }
 
+  static async getVideos(
+    page: number
+  ): Promise<PaginationResponse<GetVideoResponse>> {
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video?page=${page ?? 1}`;
+    const videos = await axios.get(url, {});
+    return videos.data;
+  }
+
   static async updateVideo(
     accessToken: string,
     videoId: string,
     data: UpdateVideoDto
-  ): Promise<GetVideoResponse[]> {
+  ): Promise<GetVideoResponse> {
     const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
     const video = await axios.patch(url, data, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    return video.data;
+  }
+
+  static async onUploaded(
+    accessToken: string,
+    videoId: string
+  ): Promise<GetVideoResponse> {
+    return await VideoService.updateVideo(accessToken, videoId, {});
+  }
+
+  static async publishVideo(
+    accessToken: string,
+    videoId: string,
+    data: UpdateVideoDto
+  ): Promise<any> {
+    console.log("publishVideo", accessToken, videoId, data);
+    await VideoService.updateVideo(accessToken, videoId, data);
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}/publish`;
+    const video = await axios.post(
+      url,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return video.data;
   }
 }
