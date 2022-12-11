@@ -8,6 +8,9 @@ import { SnackbarProvider } from "notistack";
 import { UIContext, UIContextProvider } from "../src/models/UIModel";
 import "editor/src/style.css";
 import "../styles/globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import React from "react";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const theme = createTheme({
   components: {
@@ -15,7 +18,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: "white",
-          backgroundColor: "rgb(255, 255, 255, 0.8)",
+          backgroundColor: "rgb(255, 255, 255, 1)",
           boxShadow: "none",
           height: 64,
           transition:
@@ -48,21 +51,34 @@ const theme = createTheme({
         },
       },
     },
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
   },
 });
+
+const queryClient = new QueryClient();
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <SnackbarProvider>
-      <SessionProvider session={(pageProps as any).session}>
-        <UIContextProvider>
-          <ThemeProvider theme={theme}>
-            <Layout menus={menus} actions={actions}>
-              <Component {...pageProps} />
-              <CssBaseline />
-            </Layout>
-          </ThemeProvider>
-        </UIContextProvider>
-      </SessionProvider>
-    </SnackbarProvider>
+    <QueryClientProvider client={queryClient}>
+      <SnackbarProvider>
+        <SessionProvider session={(pageProps as any).session}>
+          <UIContextProvider>
+            <ThemeProvider theme={theme}>
+              <Layout menus={menus} actions={actions}>
+                <Component {...pageProps} />
+                <CssBaseline />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Layout>
+            </ThemeProvider>
+          </UIContextProvider>
+        </SessionProvider>
+      </SnackbarProvider>
+    </QueryClientProvider>
   );
 }

@@ -23,7 +23,7 @@ interface Props {
 export default function Layout({ children, menus, actions }: Props) {
   return (
     <>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="sticky" elevation={0}>
         <Toolbar>
           <Stack direction={"row"} alignItems={"center"} mr={5} spacing={2}>
             <Image
