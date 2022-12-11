@@ -9,6 +9,7 @@ import {
   UploadContextProvider,
 } from "../src/models/UploadModel";
 import {
+  Alert,
   Box,
   Breadcrumbs,
   Button,
@@ -133,6 +134,7 @@ export function UploadStep(props: UploadStepProps) {
           <Stack direction={"row"} spacing={2}>
             {["video", "audio"].map((uploadType) => (
               <Button
+                key={uploadType}
                 size={"small"}
                 onClick={() => router.push(`/create?uploadType=${uploadType}`)}
                 variant={
@@ -191,6 +193,11 @@ function CreateVideoStep(props: CreateVideoStep) {
       description: props.video.description,
       SalesInfo: props.video.SalesInfo,
     },
+    validate: (values) => {
+      if (!values.title) {
+        return { title: "Title is Required" };
+      }
+    },
     onSubmit: async (values) => {
       try {
         await VideoService.publishVideo(
@@ -220,6 +227,9 @@ function CreateVideoStep(props: CreateVideoStep) {
               currentUploadBytes={currentUploadBytes}
               totalUploadBytes={totalUploadBytes}
             />
+            {formik.errors.title && (
+              <Alert severity={"error"}>{formik.errors.title}</Alert>
+            )}
 
             <form onSubmit={(e) => e.preventDefault()}>
               <Stack spacing={2}>
@@ -228,6 +238,7 @@ function CreateVideoStep(props: CreateVideoStep) {
                   id="title"
                   name="title"
                   label="Title"
+                  required
                   value={formik.values.title}
                   onChange={formik.handleChange}
                 />
