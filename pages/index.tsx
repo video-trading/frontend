@@ -5,6 +5,7 @@ import {
   Box,
   Chip,
   CircularProgress,
+  Fade,
   Grid,
   Paper,
   Stack,
@@ -16,12 +17,14 @@ import {
   CategoryService,
   GetCategoryResponse,
 } from "../src/services/CategoryService";
+import { useRouter } from "next/router";
 
 interface Props {
   categories: GetCategoryResponse[];
+  categoryId: string;
 }
 
-export default function Home({ categories }: Props) {
+export default function Home({ categories, categoryId }: Props) {
   const {
     status,
     data,
@@ -30,9 +33,10 @@ export default function Home({ categories }: Props) {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
-  } = useGetVideos();
+  } = useGetVideos(categoryId);
 
   const parentRef = useRef(null);
+  const router = useRouter();
 
   const rows = data ? data.pages.flatMap((page) => page.items) : [];
 
@@ -91,11 +95,22 @@ export default function Home({ categories }: Props) {
                 key={category.id}
                 label={category.name}
                 sx={{ fontSize: "1rem" }}
+                variant={categoryId === category.id ? "filled" : "outlined"}
+                onClick={() => router.push(`/?categoryId=${category.id}`)}
               />
             ))}
           </Stack>
         </Paper>
       </Box>
+      <Fade in={isFetching} timeout={{ exit: 1000 }}>
+        <Stack
+          alignContent={"center"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <CircularProgress />
+        </Stack>
+      </Fade>
       <Grid
         container
         spacing={2}
@@ -119,9 +134,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async (
   context
 ) => {
   const categories = await CategoryService.getCategories();
+  const category = context.query.categoryId ?? "";
+
   return {
     props: {
-      categories,
+      categories: [{ id: "", name: "All" } as any, ...categories],
+      categoryId: category as string,
     },
   };
 };

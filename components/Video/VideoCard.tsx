@@ -31,7 +31,7 @@ export function VideoCard(props: Props) {
           width={20}
           height={20}
         />
-        <Typography fontSize={14}>{props.video.title}</Typography>
+        <Typography fontSize={14}>{props.video.User.name}</Typography>
       </Stack>
     </Stack>
   );

@@ -21,7 +21,6 @@ import {
   FormControlLabel,
   FormLabel,
   Link,
-  Paper,
   Radio,
   RadioGroup,
   Stack,
@@ -32,7 +31,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/router";
-import { GetVideoResponse, VideoService } from "../src/services/VideoService";
+import {
+  GetVideoResponse,
+  VideoService,
+  VideoStatus,
+} from "../src/services/VideoService";
 import { useSession } from "next-auth/react";
 import { UIContext } from "../src/models/UIModel";
 import { ProgressBar } from "../components/Upload/ProgressBar";
@@ -40,11 +43,18 @@ import { useFormik } from "formik";
 import { LoadingButton } from "@mui/lab";
 import { Editor } from "editor";
 import Image from "next/image";
+import TreeSelect from "mui-tree-select";
+import {
+  CategoryNode,
+  CategoryService,
+  GetCategoryResponse,
+} from "../src/services/CategoryService";
 
 type Props = {
   uploadType: "video" | "audio";
   step: number;
   video?: GetVideoResponse;
+  categories: GetCategoryResponse[];
 };
 
 function UploadStepper({ step }: { step: number }) {
@@ -76,7 +86,12 @@ export default function Create(props: Props) {
             <Typography color="text.primary">Profile</Typography>
           </Breadcrumbs>
           {props.step === 1 && <UploadStep uploadType={props.uploadType} />}
-          {props.step === 2 && <CreateVideoStep video={props.video!} />}
+          {props.step === 2 && (
+            <CreateVideoStep
+              video={props.video!}
+              categories={props.categories}
+            />
+          )}
           {props.step === 3 && <FinishStep />}
         </Stack>
       </Container>
@@ -178,6 +193,7 @@ export function UploadStep(props: UploadStepProps) {
 
 interface CreateVideoStep {
   video: GetVideoResponse;
+  categories: GetCategoryResponse[];
 }
 function CreateVideoStep(props: CreateVideoStep) {
   const { uploadProgress, totalUploadBytes, currentUploadBytes } =
@@ -192,11 +208,21 @@ function CreateVideoStep(props: CreateVideoStep) {
       title: props.video.title,
       description: props.video.description,
       SalesInfo: props.video.SalesInfo,
+      categoryId: props.video.categoryId,
     },
     validate: (values) => {
+      const errors: any = {};
+
       if (!values.title) {
-        return { title: "Title is Required" };
+        errors.title = "Title is required";
       }
+
+      if (!values.categoryId) {
+        errors.categoryId = "Category is required";
+      }
+
+      console.log(errors);
+      return errors;
     },
     onSubmit: async (values) => {
       try {
@@ -214,7 +240,6 @@ function CreateVideoStep(props: CreateVideoStep) {
       }
     },
   });
-
   return (
     <>
       <Card>
@@ -227,10 +252,11 @@ function CreateVideoStep(props: CreateVideoStep) {
               currentUploadBytes={currentUploadBytes}
               totalUploadBytes={totalUploadBytes}
             />
-            {formik.errors.title && (
-              <Alert severity={"error"}>{formik.errors.title}</Alert>
-            )}
-
+            {Object.entries(formik.errors).map(([key, value]) => (
+              <Alert severity={"error"} key={key}>
+                {`${value}`}
+              </Alert>
+            ))}
             <form onSubmit={(e) => e.preventDefault()}>
               <Stack spacing={2}>
                 <TextField
@@ -251,6 +277,28 @@ function CreateVideoStep(props: CreateVideoStep) {
                     }}
                   />
                 </Card>
+                <Typography fontWeight={"bold"}>Category</Typography>
+                <TreeSelect
+                  getChildren={(node: CategoryNode | null) => {
+                    if (node !== null) {
+                      return node.subCategories;
+                    }
+                    return CategoryService.getCategoriesTree(props.categories);
+                  }}
+                  getParent={(node) => node.parent}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label={"Category"}
+                      helperText={"Select a category"}
+                    />
+                  )}
+                  getOptionLabel={(node) => node.name}
+                  onChange={(e, v) => {
+                    formik.setFieldValue("categoryId", v?.id);
+                  }}
+                />
+
                 <FormControl>
                   <FormLabel>
                     Is this video for sale or is it free to watch?
@@ -347,16 +395,24 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
 
     if (videoId) {
       video = await VideoService.getVideo(videoId);
-      if (video.status !== "UPLOADING") {
+      if (
+        video.status === VideoStatus.UPLOADING ||
+        video.status === VideoStatus.UPLOADED
+      ) {
+        step = 2;
+      } else {
         step = 3;
       }
     }
+
+    const categories = await CategoryService.getCategories();
 
     return {
       props: {
         uploadType: uploadType,
         step: step,
         video: video,
+        categories: categories,
       },
     };
   });
