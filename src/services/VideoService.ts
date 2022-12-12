@@ -1,6 +1,17 @@
 import axios from "axios";
 import { SignedUrl } from "./StorageService";
+import { Profile } from "./AuthenticationService";
+import { GetCategoryResponse } from "./CategoryService";
 
+export enum VideoStatus {
+  UPLOADING = "UPLOADING",
+  UPLOADED = "UPLOADED",
+  PUBLISHED = "PUBLISHED",
+  ANALYZING = "ANALYZING",
+  TRANSCODING = "TRANSCODING",
+  READY = "READY",
+  FAILED = "FAILED",
+}
 export interface CreateVideoDto {
   title: string;
   fileName: string;
@@ -44,14 +55,18 @@ export interface GetVideoResponse {
   dislikes: number;
   userId: string;
   playlistId: string;
-  status: string;
+  status: VideoStatus;
   SalesInfo: SalesInfo;
+  categoryId: string;
+  User: Profile;
+  Category: GetCategoryResponse;
 }
 
-export interface UpdateVideoDto {
-  title?: string;
-  description?: string;
+export interface PublishVideoDto {
+  title: string;
+  description: string;
   SalesInfo?: SalesInfo;
+  categoryId: string;
 }
 
 export class VideoService {
@@ -75,10 +90,12 @@ export class VideoService {
   }
 
   static async getVideos(
-    page: number
+    page: number,
+    categoryId?: string
   ): Promise<PaginationResponse<GetVideoResponse>> {
     const url =
-      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video?page=${page ?? 1}`;
+      process.env.NEXT_PUBLIC_API_ENDPOINT +
+      `/video?page=${page ?? 1}&category=${categoryId}`;
     const videos = await axios.get(url, {});
     return videos.data;
   }
@@ -86,7 +103,7 @@ export class VideoService {
   static async updateVideo(
     accessToken: string,
     videoId: string,
-    data: UpdateVideoDto
+    data: PublishVideoDto
   ): Promise<GetVideoResponse> {
     const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
     const video = await axios.patch(url, data, {
@@ -101,19 +118,9 @@ export class VideoService {
     accessToken: string,
     videoId: string
   ): Promise<GetVideoResponse> {
-    return await VideoService.updateVideo(accessToken, videoId, {});
-  }
-
-  static async publishVideo(
-    accessToken: string,
-    videoId: string,
-    data: UpdateVideoDto
-  ): Promise<any> {
-    console.log("publishVideo", accessToken, videoId, data);
-    await VideoService.updateVideo(accessToken, videoId, data);
     const url =
-      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}/publish`;
-    const video = await axios.post(
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}/uploaded`;
+    const video = await axios.patch(
       url,
       {},
       {
@@ -122,6 +129,22 @@ export class VideoService {
         },
       }
     );
+    return video.data;
+  }
+
+  static async publishVideo(
+    accessToken: string,
+    videoId: string,
+    data: PublishVideoDto
+  ): Promise<any> {
+    await VideoService.updateVideo(accessToken, videoId, data);
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}/publish`;
+    const video = await axios.post(url, data, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     return video.data;
   }
 }

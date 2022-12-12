@@ -4,11 +4,11 @@ import { VideoService } from "../services/VideoService";
 /**
  * React hook for getting list of videos
  */
-export function useGetVideos() {
+export function useGetVideos(categoryId?: string) {
   const result = useInfiniteQuery(
-    "videos",
+    ["videos", categoryId],
     async ({ pageParam }) => {
-      const videos = await VideoService.getVideos(pageParam);
+      const videos = await VideoService.getVideos(pageParam, categoryId);
       return videos;
     },
     {
