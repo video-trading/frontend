@@ -48,7 +48,14 @@ export function UserAvatar(props: Props) {
             Profile
           </Link>
         </MenuItem>
-        <MenuItem onClick={() => signOut()}>Sign out</MenuItem>
+        <MenuItem
+          onClick={() => {
+            popupState.close();
+            signOut({ redirect: false });
+          }}
+        >
+          Sign out
+        </MenuItem>
       </Menu>
     </>
   );
