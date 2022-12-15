@@ -48,6 +48,11 @@ export function UserAvatar(props: Props) {
             Profile
           </Link>
         </MenuItem>
+        <MenuItem>
+          <Link href={"/user/myVideo"} onClick={() => popupState.close()}>
+            My Videos
+          </Link>
+        </MenuItem>
         <MenuItem
           onClick={() => {
             popupState.close();

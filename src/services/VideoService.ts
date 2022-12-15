@@ -60,6 +60,7 @@ export interface GetVideoResponse {
   categoryId: string;
   User: Profile;
   Category: GetCategoryResponse;
+  progress: number;
 }
 
 export interface PublishVideoDto {
@@ -67,6 +68,11 @@ export interface PublishVideoDto {
   description: string;
   SalesInfo?: SalesInfo;
   categoryId: string;
+}
+
+export interface GetMyVideoDto {
+  _id: string;
+  videos: GetVideoResponse[];
 }
 
 export class VideoService {
@@ -146,5 +152,21 @@ export class VideoService {
       },
     });
     return video.data;
+  }
+
+  static async getMyVideos(
+    accessToken: string,
+    page?: number
+  ): Promise<PaginationResponse<GetMyVideoDto>> {
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT +
+      `/video/my/videos?page=${page ?? ""}`;
+    console.log(url);
+    const videos = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return videos.data;
   }
 }
