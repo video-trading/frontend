@@ -1,19 +1,6 @@
 // @flow
 import * as React from "react";
-import { useFormik } from "formik";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Grid,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+import { Button, CardMedia, Grid, Stack, Typography } from "@mui/material";
 import { AuthenticationForm } from "../../components/Auth/AuthenticationForm";
 import Link from "next/link";
 

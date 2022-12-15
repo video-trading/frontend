@@ -1,6 +1,6 @@
 import { useDropzone } from "react-dropzone";
 import * as React from "react";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 type DropzoneProps = {
   file?: File;

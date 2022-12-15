@@ -1,5 +1,4 @@
 import axios from "axios";
-import { SignedUrl } from "./StorageService";
 
 export interface GetCategoryResponse {
   id: string;

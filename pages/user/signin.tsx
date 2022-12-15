@@ -1,18 +1,8 @@
 // @flow
 import * as React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Button, CardMedia, Grid, Stack, Typography } from "@mui/material";
 import { AuthenticationForm } from "../../components/Auth/AuthenticationForm";
 import Link from "next/link";
-import Image from "next/image";
 
 type Props = {};
 

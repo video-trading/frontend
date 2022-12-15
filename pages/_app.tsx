@@ -5,7 +5,7 @@ import { actions } from "../src/Action";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
 import { SnackbarProvider } from "notistack";
-import { UIContext, UIContextProvider } from "../src/models/UIModel";
+import { UIContextProvider } from "../src/models/UIModel";
 import "editor/src/style.css";
 import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";

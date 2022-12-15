@@ -1,10 +1,10 @@
 // @flow
 import * as React from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useCallback, useMemo } from "react";
+import { signOut, useSession } from "next-auth/react";
 import { Avatar, Box, Divider, Menu, MenuItem } from "@mui/material";
 import { bindMenu, usePopupState } from "material-ui-popup-state/hooks";
 import { useRouter } from "next/router";
-import { useCallback, useMemo } from "react";
 import { UIConfig } from "../../src/UIConfig";
 import Link from "next/link";
 
@@ -49,7 +49,7 @@ export function UserAvatar(props: Props) {
           </Link>
         </MenuItem>
         <MenuItem>
-          <Link href={"/user/myVideo"} onClick={() => popupState.close()}>
+          <Link href={"/user/my/video"} onClick={() => popupState.close()}>
             My Videos
           </Link>
         </MenuItem>
