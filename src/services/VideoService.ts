@@ -75,6 +75,21 @@ export interface GetMyVideoDto {
   videos: GetVideoResponse[];
 }
 
+export interface GetMyVideoByIdDto extends GetVideoResponse {
+  transcodings: {
+    id: string;
+    targetQuality: string;
+    status: string;
+  }[];
+  analyzingResult?: {
+    id: string;
+    status: string;
+    quality: string;
+    length: number;
+    frameRate: string;
+  };
+}
+
 export class VideoService {
   static async createVideo(
     accessToken: string,
@@ -168,5 +183,19 @@ export class VideoService {
       },
     });
     return videos.data;
+  }
+
+  static async getMyVideoById(
+    accessToken: string,
+    videoId: string
+  ): Promise<GetMyVideoByIdDto> {
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/my/videos/${videoId}`;
+    const video = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return video.data;
   }
 }

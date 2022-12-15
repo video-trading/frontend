@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { mockSession } from "next-auth/client/__tests__/helpers/mocks";
-import user = mockSession.user;
 import { AuthenticationService } from "../../../src/services/AuthenticationService";
 
 export const authOptions = {

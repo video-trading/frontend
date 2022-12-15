@@ -11,36 +11,36 @@ import {
   Fade,
   List,
   ListItem,
-  ListItemAvatar,
+  ListItemSecondaryAction,
   ListItemText,
   Stack,
   Tooltip,
   Typography,
 } from "@mui/material";
 import PersonalVideoIcon from "@mui/icons-material/PersonalVideo";
-import { TitleWithIcon } from "../../components/shared/TitleWithIcon";
+import { TitleWithIcon } from "../../../../components/shared/TitleWithIcon";
 import {
   Timeline,
   TimelineConnector,
   TimelineContent,
   TimelineDot,
   TimelineItem,
-  timelineItemClasses,
   TimelineOppositeContent,
   timelineOppositeContentClasses,
   TimelineSeparator,
 } from "@mui/lab";
 import { GetServerSideProps } from "next";
-import { requireAuthentication } from "../../src/requireAuthentication";
+import { requireAuthentication } from "../../../../src/requireAuthentication";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import { useGetMyVideos } from "../../src/hooks/useGetMyVideos";
+import { useGetMyVideos } from "../../../../src/hooks/useGetMyVideos";
 import { useSession } from "next-auth/react";
-import { GetMyVideoDto } from "../../src/services/VideoService";
+import { GetMyVideoDto } from "../../../../src/services/VideoService";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Link from "next/link";
 
 type Props = {};
 
-export default function MyVideo(props: Props) {
+export default function Index(props: Props) {
   const session = useSession();
   const {
     status,
@@ -185,6 +185,11 @@ function VideoCard({ videos }: GetMyVideoDto) {
                       </Stack>
                     }
                   />
+                  <ListItemSecondaryAction>
+                    <Link href={`/user/my/video/${video.id}`}>
+                      <Typography>View</Typography>
+                    </Link>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 <Divider variant={"inset"} />
               </div>

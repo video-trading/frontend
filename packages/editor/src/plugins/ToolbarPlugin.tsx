@@ -1,5 +1,5 @@
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
-import {
+import React, {
   ChangeEvent,
   useCallback,
   useEffect,
@@ -8,33 +8,33 @@ import {
   useState,
 } from "react";
 import {
-  CAN_REDO_COMMAND,
-  CAN_UNDO_COMMAND,
-  REDO_COMMAND,
-  UNDO_COMMAND,
-  SELECTION_CHANGE_COMMAND,
-  FORMAT_TEXT_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
-  $getSelection,
-  $isRangeSelection,
   $createParagraphNode,
   $getNodeByKey,
+  $getSelection,
+  $isRangeSelection,
+  CAN_REDO_COMMAND,
+  CAN_UNDO_COMMAND,
+  FORMAT_ELEMENT_COMMAND,
+  FORMAT_TEXT_COMMAND,
   LexicalEditor,
   RangeSelection,
+  REDO_COMMAND,
+  SELECTION_CHANGE_COMMAND,
+  UNDO_COMMAND,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
+  $isAtNodeEnd,
   $isParentElementRTL,
   $wrapNodes,
-  $isAtNodeEnd,
 } from "@lexical/selection";
 import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 import {
+  $isListNode,
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
-  REMOVE_LIST_COMMAND,
-  $isListNode,
   ListNode,
+  REMOVE_LIST_COMMAND,
 } from "@lexical/list";
 import { createPortal } from "react-dom";
 import {
@@ -45,10 +45,9 @@ import {
 import {
   $createCodeNode,
   $isCodeNode,
-  getDefaultCodeLanguage,
   getCodeLanguages,
+  getDefaultCodeLanguage,
 } from "@lexical/code";
-import React from "react";
 
 const LowPriority = 1;
 

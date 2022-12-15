@@ -19,10 +19,6 @@ import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { TRANSFORMERS } from "@lexical/markdown";
 import React, { useMemo } from "react";
-import {
-  LexicalComposerContext,
-  useLexicalComposerContext,
-} from "@lexical/react/LexicalComposerContext";
 import { SaveAndLoadPlugin } from "./plugins/SaveAndLoadPlugin";
 
 function Placeholder() {
