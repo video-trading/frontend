@@ -275,6 +275,7 @@ function CreateVideoStep(props: CreateVideoStep) {
                     onChange={(v) => {
                       formik.setFieldValue("description", v);
                     }}
+                    editable={true}
                   />
                 </Card>
                 <Typography fontWeight={"bold"}>Category</Typography>

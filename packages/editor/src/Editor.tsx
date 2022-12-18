@@ -21,16 +21,21 @@ import { TRANSFORMERS } from "@lexical/markdown";
 import React, { useMemo } from "react";
 import { SaveAndLoadPlugin } from "./plugins/SaveAndLoadPlugin";
 
-function Placeholder() {
-  return <div className="editor-placeholder">Enter some rich text...</div>;
+function Placeholder({ editable }: { editable: boolean }) {
+  return (
+    <div className="editor-placeholder">
+      {editable ? "Enter some rich text..." : "No content"}
+    </div>
+  );
 }
 
 type Props = {
   initialValue?: string;
   onChange?: (value: string) => void;
+  editable: boolean;
 };
 
-export function Editor({ initialValue, onChange }: Props) {
+export function Editor({ initialValue, onChange, editable }: Props) {
   const editorConfig: InitialConfigType = useMemo(() => {
     return {
       // The editor theme
@@ -40,6 +45,7 @@ export function Editor({ initialValue, onChange }: Props) {
         throw error;
       },
       namespace: "editor",
+      editable: editable,
       // Any custom nodes go here
       nodes: [
         HeadingNode,
@@ -55,16 +61,16 @@ export function Editor({ initialValue, onChange }: Props) {
         LinkNode,
       ],
     };
-  }, [initialValue]);
+  }, [initialValue, editable]);
 
   return (
     <LexicalComposer initialConfig={editorConfig}>
       <div className="editor-container">
-        <ToolbarPlugin />
+        {editable && <ToolbarPlugin />}
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={<Placeholder />}
+            placeholder={<Placeholder editable={editable} />}
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />
