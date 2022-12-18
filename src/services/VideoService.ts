@@ -56,11 +56,15 @@ export interface GetVideoResponse {
   userId: string;
   playlistId: string;
   status: VideoStatus;
-  SalesInfo: SalesInfo;
+  SalesInfo?: SalesInfo;
   categoryId: string;
   User: Profile;
   Category: GetCategoryResponse;
   progress: number;
+}
+
+export interface GetVideoDetailResponse extends GetVideoResponse {
+  transcodings: { url: string; targetQuality: string }[];
 }
 
 export interface PublishVideoDto {
@@ -104,7 +108,7 @@ export class VideoService {
     return newVideo.data;
   }
 
-  static async getVideo(videoId: string): Promise<GetVideoResponse> {
+  static async getVideo(videoId: string): Promise<GetVideoDetailResponse> {
     const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
     const video = await axios.get(url, {});
     return video.data;

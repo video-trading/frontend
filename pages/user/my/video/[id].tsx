@@ -190,7 +190,7 @@ export default function Detail({ video }: Props) {
                 variant={"outlined"}
                 sx={{ boxShadow: "none", height: 400 }}
               >
-                <Editor initialValue={video.description} />
+                <Editor initialValue={video.description} editable={true} />
               </Card>
             </Stack>
           </Card>

@@ -1,0 +1,1 @@
+export { QualitySelectorPlugin } from "./quality";

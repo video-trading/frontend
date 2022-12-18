@@ -216,6 +216,7 @@ export default function Index(props: Props) {
                             onChange={(value) =>
                               formik.setFieldValue("longDescription", value)
                             }
+                            editable={true}
                           />
                         </Box>
                         <Divider />
