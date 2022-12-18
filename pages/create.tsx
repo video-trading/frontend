@@ -49,6 +49,7 @@ import {
   CategoryService,
   GetCategoryResponse,
 } from "../src/services/CategoryService";
+import Head from "next/head";
 
 type Props = {
   uploadType: "video" | "audio";
@@ -77,6 +78,9 @@ export default function Create(props: Props) {
   return (
     <UploadContextProvider>
       <Container>
+        <Head>
+          <title>Upload Video</title>
+        </Head>
         <Stack spacing={2} p={2}>
           <Typography variant="h5">Creation center</Typography>
           <Breadcrumbs aria-label="breadcrumb">

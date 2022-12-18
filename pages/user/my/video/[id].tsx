@@ -29,6 +29,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useGetMyVideoDetail } from "../../../../src/hooks/useGetMyVideoDetail";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import Head from "next/head";
 
 type Props = {
   video: GetMyVideoByIdDto;
@@ -67,6 +68,9 @@ export default function Detail({ video: initialVideo }: Props) {
 
   return (
     <Container>
+      <Head>
+        <title>My Videos | {video.title}</title>
+      </Head>
       <Grid container mt={2} spacing={2}>
         <Grid item lg={5}>
           <Card>

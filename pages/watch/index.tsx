@@ -26,6 +26,7 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { UIConfig } from "../../src/UIConfig";
 import { PurchaseCard } from "../../components/Video/PurchaseCard";
 import { VideoPlayer } from "player";
+import Head from "next/head";
 
 type Props = {
   video: GetVideoDetailResponse;
@@ -34,6 +35,9 @@ type Props = {
 const Index: NextPage<Props> = ({ video }: Props) => {
   return (
     <Container>
+      <Head>
+        <title>Watch | {video.title}</title>
+      </Head>
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <Stack spacing={1}>
