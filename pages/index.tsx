@@ -18,6 +18,7 @@ import {
   GetCategoryResponse,
 } from "../src/services/CategoryService";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface Props {
   categories: GetCategoryResponse[];
@@ -71,6 +72,9 @@ export default function Home({ categories, categoryId }: Props) {
 
   return (
     <Stack spacing={2} ref={parentRef}>
+      <Head>
+        <title>Video Trading</title>
+      </Head>
       <Box position={"sticky"} top={64}>
         <Paper
           elevation={0}

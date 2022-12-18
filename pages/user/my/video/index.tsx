@@ -37,6 +37,7 @@ import { useSession } from "next-auth/react";
 import { GetMyVideoDto } from "../../../../src/services/VideoService";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Link from "next/link";
+import Head from "next/head";
 
 type Props = {};
 
@@ -85,6 +86,9 @@ export default function Index(props: Props) {
 
   return (
     <Container>
+      <Head>
+        <title>My Videos</title>
+      </Head>
       <Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={10}>
           <TitleWithIcon title={"My Video"} icon={"/images/history.icon.svg"} />

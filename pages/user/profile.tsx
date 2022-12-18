@@ -29,6 +29,7 @@ import { StorageService } from "../../src/services/StorageService";
 import { UserService } from "../../src/services/UserService";
 import QRCode from "react-qr-code";
 import { Editor } from "editor";
+import Head from "next/head";
 
 interface Props {
   user: Profile;
@@ -107,6 +108,9 @@ export default function Index(props: Props) {
 
   return (
     <Container>
+      <Head>
+        <title>Profile</title>
+      </Head>
       <Stack pt={2} spacing={2}>
         <Typography variant="h5">Profile</Typography>
         <Breadcrumbs aria-label="breadcrumb">

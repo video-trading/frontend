@@ -3,12 +3,16 @@ import * as React from "react";
 import { Button, CardMedia, Grid, Stack, Typography } from "@mui/material";
 import { AuthenticationForm } from "../../components/Auth/AuthenticationForm";
 import Link from "next/link";
+import Head from "next/head";
 
 type Props = {};
 
 export default function Signup(props: Props) {
   return (
     <Grid container>
+      <Head>
+        <title>Sign up</title>
+      </Head>
       <Grid item xs={8}>
         <CardMedia
           component={"div"}

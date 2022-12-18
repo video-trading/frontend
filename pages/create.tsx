@@ -49,6 +49,7 @@ import {
   CategoryService,
   GetCategoryResponse,
 } from "../src/services/CategoryService";
+import Head from "next/head";
 
 type Props = {
   uploadType: "video" | "audio";
@@ -77,6 +78,9 @@ export default function Create(props: Props) {
   return (
     <UploadContextProvider>
       <Container>
+        <Head>
+          <title>Upload Video</title>
+        </Head>
         <Stack spacing={2} p={2}>
           <Typography variant="h5">Creation center</Typography>
           <Breadcrumbs aria-label="breadcrumb">
@@ -92,7 +96,7 @@ export default function Create(props: Props) {
               categories={props.categories}
             />
           )}
-          {props.step === 3 && <FinishStep />}
+          {props.step === 3 && <FinishStep video={props.video!} />}
         </Stack>
       </Container>
     </UploadContextProvider>
@@ -269,14 +273,16 @@ function CreateVideoStep(props: CreateVideoStep) {
                   onChange={formik.handleChange}
                 />
                 <Typography fontWeight={"bold"}>Description</Typography>
-                <Card variant={"outlined"}>
-                  <Editor
-                    initialValue={formik.values.description}
-                    onChange={(v) => {
-                      formik.setFieldValue("description", v);
-                    }}
-                    editable={true}
-                  />
+                <Card variant={"outlined"} sx={{ boxShadow: "none" }}>
+                  <Box height={400} maxHeight={400}>
+                    <Editor
+                      initialValue={formik.values.description}
+                      onChange={(v) => {
+                        formik.setFieldValue("description", v);
+                      }}
+                      editable={true}
+                    />
+                  </Box>
                 </Card>
                 <Typography fontWeight={"bold"}>Category</Typography>
                 <TreeSelect
@@ -364,8 +370,11 @@ function CreateVideoStep(props: CreateVideoStep) {
     </>
   );
 }
+interface FinishStepProps {
+  video: GetVideoResponse;
+}
 
-function FinishStep() {
+function FinishStep({ video }: FinishStepProps) {
   const router = useRouter();
 
   return (
@@ -380,7 +389,9 @@ function FinishStep() {
             width={200}
           />
           <Typography>Your video has been published!</Typography>
-          <Button onClick={() => router.push("/")}>Go to home</Button>
+          <Button onClick={() => router.push(`/user/my/video/${video.id}`)}>
+            Check video status here
+          </Button>
         </Stack>
       </CardContent>
     </Card>

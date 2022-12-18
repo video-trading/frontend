@@ -26,21 +26,51 @@ import { TitleWithIcon } from "../../../../components/shared/TitleWithIcon";
 import { Chip } from "../../../../components/shared/Chip";
 import { orange } from "@mui/material/colors";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useGetMyVideoDetail } from "../../../../src/hooks/useGetMyVideoDetail";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import Head from "next/head";
 
 type Props = {
   video: GetMyVideoByIdDto;
 };
 
-export default function Detail({ video }: Props) {
+export default function Detail({ video: initialVideo }: Props) {
   const formik = useFormik({
     initialValues: {
-      ...video,
+      ...initialVideo,
     },
     onSubmit: async (values) => {},
   });
 
+  const session = useSession();
+
+  const { data: video, isFetching } = useGetMyVideoDetail(
+    initialVideo.id,
+    (session.data as any)?.accessToken,
+    initialVideo
+  );
+
+  useEffect(() => {
+    // update analyzing data in the formik
+    if (video) {
+      formik.setValues(video);
+    }
+  }, [video]);
+
+  if (video === undefined || video === null) {
+    return (
+      <Container maxWidth="md">
+        <CircularProgress />
+      </Container>
+    );
+  }
+
   return (
     <Container>
+      <Head>
+        <title>My Videos | {video.title}</title>
+      </Head>
       <Grid container mt={2} spacing={2}>
         <Grid item lg={5}>
           <Card>
@@ -65,7 +95,7 @@ export default function Detail({ video }: Props) {
               </Stack>
               <CardMedia
                 component={"div"}
-                image={video.thumbnail ?? UIConfig.fallbackImageUrl}
+                image={initialVideo.thumbnail ?? UIConfig.fallbackImageUrl}
                 sx={{
                   height: 300,
                   width: "90%",
@@ -204,7 +234,6 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
   requireAuthentication(context, async (accessToken, user) => {
     const id = (context.params as any).id;
     const video = await VideoService.getMyVideoById(accessToken, id);
-
     return {
       props: {
         video,

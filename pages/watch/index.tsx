@@ -26,16 +26,18 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { UIConfig } from "../../src/UIConfig";
 import { PurchaseCard } from "../../components/Video/PurchaseCard";
 import { VideoPlayer } from "player";
+import Head from "next/head";
 
 type Props = {
   video: GetVideoDetailResponse;
 };
 
 const Index: NextPage<Props> = ({ video }: Props) => {
-  console.log(video.transcodings);
-
   return (
     <Container>
+      <Head>
+        <title>Watch | {video.title}</title>
+      </Head>
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <Stack spacing={1}>
