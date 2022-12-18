@@ -32,8 +32,6 @@ type Props = {
 };
 
 const Index: NextPage<Props> = ({ video }: Props) => {
-  console.log(video.transcodings);
-
   return (
     <Container>
       <Grid container spacing={2}>

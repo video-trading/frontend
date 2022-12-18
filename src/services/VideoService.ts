@@ -180,7 +180,6 @@ export class VideoService {
     const url =
       process.env.NEXT_PUBLIC_API_ENDPOINT +
       `/video/my/videos?page=${page ?? ""}`;
-    console.log(url);
     const videos = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
