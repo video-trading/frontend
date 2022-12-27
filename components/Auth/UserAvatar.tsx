@@ -53,6 +53,14 @@ export function UserAvatar(props: Props) {
             My Videos
           </Link>
         </MenuItem>
+        <MenuItem>
+          <Link
+            href={`/tx/user/${user?.id}`}
+            onClick={() => popupState.close()}
+          >
+            My Transactions
+          </Link>
+        </MenuItem>
         <MenuItem
           onClick={() => {
             popupState.close();

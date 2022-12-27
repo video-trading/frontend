@@ -74,6 +74,7 @@ export function UIContextProvider(props: any) {
       // check if error is axios error
       if (message.response?.data?.message) {
         notify(message.response.data.message, "error");
+        return;
       }
       notify(message.message, "error");
     },

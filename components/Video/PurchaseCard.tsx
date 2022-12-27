@@ -14,13 +14,17 @@ import {
   Typography,
 } from "@mui/material";
 import { Editor } from "editor";
+import { useRouter } from "next/router";
 
 type Props = {
+  videoId: string;
   salesInfo?: SalesInfo;
   description: string;
 };
 
-export function PurchaseCard({ salesInfo, description }: Props) {
+export function PurchaseCard({ salesInfo, description, videoId }: Props) {
+  const router = useRouter();
+
   return (
     <Card>
       <Stack spacing={2} p={1}>
@@ -53,9 +57,7 @@ export function PurchaseCard({ salesInfo, description }: Props) {
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={10}>Single time purchase</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -69,8 +71,12 @@ export function PurchaseCard({ salesInfo, description }: Props) {
         )}
         {salesInfo && (
           <Box p={2}>
-            <Button fullWidth variant={"contained"}>
-              Purchase for
+            <Button
+              fullWidth
+              variant={"contained"}
+              onClick={() => router.push(`purchase?v=${videoId}`)}
+            >
+              Purchase for {salesInfo.price} HKD
             </Button>
           </Box>
         )}
