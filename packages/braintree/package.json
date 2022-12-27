@@ -1,0 +1,26 @@
+{
+  "name": "braintree-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.20.5",
+    "@emotion/css": "^11.10.5",
+    "@types/braintree-web": "^3.75.22",
+    "@types/braintree-web-drop-in": "^1.33.0",
+    "braintree-web": "3.88.6",
+    "braintree-web-drop-in": "^1.33.7",
+    "lexical": "^0.6.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "4.9.3"
+  }
+}

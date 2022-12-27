@@ -23,7 +23,6 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { VideoIcon } from "../../components/Video/VideoIcon";
 import StarIcon from "@mui/icons-material/Star";
 import ReplyIcon from "@mui/icons-material/Reply";
-import { UIConfig } from "../../src/UIConfig";
 import { PurchaseCard } from "../../components/Video/PurchaseCard";
 import { VideoPlayer } from "player";
 import Head from "next/head";
@@ -110,6 +109,7 @@ const Index: NextPage<Props> = ({ video }: Props) => {
           <PurchaseCard
             salesInfo={video.SalesInfo}
             description={video.description}
+            videoId={video.id}
           />
         </Grid>
       </Grid>
