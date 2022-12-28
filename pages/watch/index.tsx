@@ -32,12 +32,16 @@ import CreateIcon from "@mui/icons-material/Create";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ChatIcon from "@mui/icons-material/Chat";
 import { CommentRow } from "../../components/Video/CommentRow";
+import { VideoTransactionHistoryDialog } from "../../components/Video/VideoTransactionHistoryDialog";
 
 type Props = {
   video: GetVideoDetailResponse;
 };
 
 const Index: NextPage<Props> = ({ video }: Props) => {
+  const [showTransactionHistory, setShowTransactionHistory] =
+    React.useState(false);
+
   return (
     <Container>
       <Head>
@@ -119,7 +123,12 @@ const Index: NextPage<Props> = ({ video }: Props) => {
               <Box flex={3} height={200}>
                 <Card>
                   <Stack p={2} direction={"row"} height={90}>
-                    <Button variant={"contained"}>Purchase History</Button>
+                    <Button
+                      variant={"contained"}
+                      onClick={() => setShowTransactionHistory(true)}
+                    >
+                      Purchase History
+                    </Button>
                   </Stack>
                 </Card>
               </Box>
@@ -152,6 +161,13 @@ const Index: NextPage<Props> = ({ video }: Props) => {
           />
         </Grid>
       </Grid>
+
+      <VideoTransactionHistoryDialog
+        videoId={video.id}
+        open={showTransactionHistory}
+        onClose={() => setShowTransactionHistory(false)}
+        fullWidth
+      />
     </Container>
   );
 };

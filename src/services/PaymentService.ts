@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Profile } from "./AuthenticationService";
 
 export interface TokenResponse {
   token: string;
@@ -13,6 +14,10 @@ export interface TransactionHistory {
   videoId: string | null;
   fromId: string | null;
   toId: string | null;
+
+  From: Profile;
+
+  To: Profile;
 }
 
 export class PaymentService {
