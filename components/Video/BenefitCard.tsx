@@ -14,8 +14,8 @@ export function BenefitCard({
     <Stack p={2} direction={"row"} alignItems={"center"} spacing={2}>
       {icon}
       <Stack>
-        <Typography variant={"h6"}>{benefit}</Typography>
-        <Typography variant={"body2"}>{description}</Typography>
+        <Typography variant={"subtitle1"}>{benefit}</Typography>
+        <Typography variant={"subtitle2"}>{description}</Typography>
       </Stack>
     </Stack>
   );
