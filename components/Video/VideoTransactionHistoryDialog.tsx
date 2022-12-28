@@ -35,7 +35,7 @@ export function VideoTransactionHistoryDialog(props: Props) {
         {transactions.data === undefined && <LinearProgress />}
         <List>
           {transactions.data?.items.map((t) => (
-            <>
+            <div key={t.id}>
               <ListItem>
                 <ListItemText
                   primary={dayjs(t.createdAt).format("YYYY-MM-DD HH:mm:ss")}
@@ -45,7 +45,7 @@ export function VideoTransactionHistoryDialog(props: Props) {
                         {t.From.username}
                       </Link>
                       <span>→</span>
-                      <Link href={`tx/user/${t.fromId}`}>{t.To.username}</Link>
+                      <Link href={`tx/user/${t.toId}`}>{t.To.username}</Link>
                     </Stack>
                   }
                 />
@@ -60,7 +60,7 @@ export function VideoTransactionHistoryDialog(props: Props) {
                 </ListItemSecondaryAction>
               </ListItem>
               <Divider variant={"middle"} />
-            </>
+            </div>
           ))}
         </List>
       </DialogContent>

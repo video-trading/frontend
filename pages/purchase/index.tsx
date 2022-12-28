@@ -34,6 +34,7 @@ import { UIContext } from "../../src/models/UIModel";
 import { LoadingButton } from "@mui/lab";
 import { PaymentService } from "../../src/services/PaymentService";
 import { useRouter } from "next/router";
+import { requireAuthentication } from "../../src/requireAuthentication";
 
 type Props = {
   video: GetVideoDetailResponse;
@@ -213,15 +214,14 @@ const Index: NextPage<Props> = ({ video }: Props) => {
 
 export default Index;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const videoId = context.query.v as string;
-  const video = await VideoService.getVideo(videoId);
+export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
+  requireAuthentication(context, async (accessToken, user) => {
+    const videoId = context.query.v as string;
+    const video = await VideoService.getVideo(videoId, accessToken);
 
-  return {
-    props: {
-      video,
-    },
-  };
-};
+    return {
+      props: {
+        video,
+      },
+    };
+  });

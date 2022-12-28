@@ -54,7 +54,12 @@ export class AuthenticationService {
         }
       );
       return user;
-    } catch (e) {
+    } catch (e: any) {
+      if (e.response?.data?.message) {
+        return {
+          error: e.response.data.message,
+        };
+      }
       return {
         error: `${e}`,
       };

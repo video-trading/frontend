@@ -33,6 +33,9 @@ import WalletIcon from "@mui/icons-material/Wallet";
 import ChatIcon from "@mui/icons-material/Chat";
 import { CommentRow } from "../../components/Video/CommentRow";
 import { VideoTransactionHistoryDialog } from "../../components/Video/VideoTransactionHistoryDialog";
+import { requireAuthentication } from "../../src/requireAuthentication";
+import { AuthenticationService } from "../../src/services/AuthenticationService";
+import { optionalAuthentication } from "../../src/optionalAuthentication";
 
 type Props = {
   video: GetVideoDetailResponse;
@@ -41,7 +44,6 @@ type Props = {
 const Index: NextPage<Props> = ({ video }: Props) => {
   const [showTransactionHistory, setShowTransactionHistory] =
     React.useState(false);
-
   return (
     <Container>
       <Head>
@@ -155,6 +157,7 @@ const Index: NextPage<Props> = ({ video }: Props) => {
         </Grid>
         <Grid item xs={4}>
           <PurchaseCard
+            purchasable={video.purchasable}
             salesInfo={video.SalesInfo}
             description={video.description}
             videoId={video.id}
@@ -174,15 +177,14 @@ const Index: NextPage<Props> = ({ video }: Props) => {
 
 export default Index;
 
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context
-) => {
-  const videoId = context.query.v as string;
-  const video = await VideoService.getVideo(videoId);
+export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
+  optionalAuthentication(context, async (accessToken, user) => {
+    const videoId = context.query.v as string;
+    const video = await VideoService.getVideo(videoId, accessToken);
 
-  return {
-    props: {
-      video,
-    },
-  };
-};
+    return {
+      props: {
+        video,
+      },
+    };
+  });

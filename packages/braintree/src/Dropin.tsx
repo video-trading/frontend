@@ -38,6 +38,7 @@ export function DropInUI({ token, amount, submitButton, onSubmitted }: Props) {
       setLoading(false);
     },
     loading: loading,
+    disabled: instance === undefined,
   });
 
   useEffect(() => {
