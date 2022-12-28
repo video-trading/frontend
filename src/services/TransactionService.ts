@@ -17,4 +17,13 @@ export class TransactionService {
     const resp = await axios.get(url);
     return resp.data;
   }
+
+  static async getTransactionsByVideoId(
+    videoId: string
+  ): Promise<PaginationResponse<TransactionHistory>> {
+    let url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/transaction/video/" + videoId;
+    const resp = await axios.get(url);
+    return resp.data;
+  }
 }
