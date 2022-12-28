@@ -59,6 +59,7 @@ export interface GetVideoResponse {
   SalesInfo?: SalesInfo;
   categoryId: string;
   User: Profile;
+  Owner: Profile;
   Category: GetCategoryResponse;
   progress: number;
 }

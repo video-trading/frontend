@@ -1,10 +1,8 @@
 // @flow
 import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
-import ReactPlayer from "react-player";
 import {
   GetVideoDetailResponse,
-  GetVideoResponse,
   VideoService,
 } from "../../src/services/VideoService";
 import {
@@ -13,8 +11,11 @@ import {
   Card,
   CardContent,
   Container,
+  Divider,
   Grid,
   Stack,
+  TextField,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
@@ -26,6 +27,11 @@ import ReplyIcon from "@mui/icons-material/Reply";
 import { PurchaseCard } from "../../components/Video/PurchaseCard";
 import { VideoPlayer } from "player";
 import Head from "next/head";
+
+import CreateIcon from "@mui/icons-material/Create";
+import WalletIcon from "@mui/icons-material/Wallet";
+import ChatIcon from "@mui/icons-material/Chat";
+import { CommentRow } from "../../components/Video/CommentRow";
 
 type Props = {
   video: GetVideoDetailResponse;
@@ -61,10 +67,25 @@ const Index: NextPage<Props> = ({ video }: Props) => {
                   </Typography>
                   <Chip label={video.Category.name} />
                 </Stack>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
+                  <CreateIcon />
+                  <Tooltip title={"Creator"}>
+                    <Typography variant={"caption"}>
+                      {video.Owner.username}
+                    </Typography>
+                  </Tooltip>
+                  <Divider orientation={"vertical"} flexItem />
+                  <WalletIcon />
+                  <Tooltip title={"Owner"}>
+                    <Typography variant={"caption"}>
+                      {video.User.username}
+                    </Typography>
+                  </Tooltip>
+                </Stack>
               </CardContent>
             </Card>
 
-            <Stack direction={"row"} spacing={2}>
+            <Stack direction={"row"} spacing={2} height={100}>
               <Box flex={1}>
                 <Card>
                   <Box p={2} height={90}>
@@ -103,6 +124,24 @@ const Index: NextPage<Props> = ({ video }: Props) => {
                 </Card>
               </Box>
             </Stack>
+            <Stack direction={"row"} spacing={2} alignItems={"center"}>
+              <ChatIcon />
+              <Typography variant={"h6"}>Comments</Typography>
+            </Stack>
+            <Card>
+              <CardContent>
+                <Stack direction={"row"}>
+                  <TextField fullWidth />
+                  <Button>Send</Button>
+                </Stack>
+              </CardContent>
+            </Card>
+            <CommentRow
+              user={video.Owner}
+              content={"Hello"}
+              createdAt={dayjs().format("YYYY-MM-DD HH:mm:ss")}
+            />
+            <Divider />
           </Stack>
         </Grid>
         <Grid item xs={4}>

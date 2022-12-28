@@ -130,9 +130,8 @@ const Index: NextPage<Props> = ({ video }: Props) => {
                 <Stack direction={"row"} spacing={1} alignItems={"center"}>
                   <Typography variant={"body2"}>{video.createdAt}</Typography>
                   <Divider orientation={"vertical"} flexItem />
-                  <Chip label={"Daily"} />
-                  <Chip label={"Daily"} />
-                  <Chip label={"Daily"} />
+                  <Chip label={video.Category.name} />
+                  <Chip label={video.Category.parent.name} />
                 </Stack>
                 <Editor editable={false} initialValue={video.description} />
                 <Divider />
