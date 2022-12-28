@@ -1,6 +1,6 @@
 import React from "react";
 import MessageIcon from "@mui/icons-material/Message";
-import CreateIcon from "@mui/icons-material/Create";
+import UploadIcon from "@mui/icons-material/Upload";
 
 export interface Action {
   icon: React.ReactNode;
@@ -15,7 +15,7 @@ export const actions: Action[] = [
     link: "/messages",
   },
   {
-    icon: <CreateIcon />,
+    icon: <UploadIcon />,
     title: "Create",
     link: "/create",
   },

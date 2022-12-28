@@ -7,7 +7,7 @@ import { AuthenticationService } from "../../../src/services/AuthenticationServi
 export const authOptions = {
   // Configure one or more authentication providers
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/user/signin",
   },
   providers: [
     CredentialsProvider({

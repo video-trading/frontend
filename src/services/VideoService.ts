@@ -62,6 +62,7 @@ export interface GetVideoResponse {
   Owner: Profile;
   Category: GetCategoryResponse;
   progress: number;
+  purchasable: boolean;
 }
 
 export interface GetVideoDetailResponse extends GetVideoResponse {
@@ -109,9 +110,17 @@ export class VideoService {
     return newVideo.data;
   }
 
-  static async getVideo(videoId: string): Promise<GetVideoDetailResponse> {
+  static async getVideo(
+    videoId: string,
+    accessToken: string | undefined
+  ): Promise<GetVideoDetailResponse> {
     const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/${videoId}`;
-    const video = await axios.get(url, {});
+    const video = await axios.get(url, {
+      headers: {
+        Authorization:
+          accessToken !== undefined ? `Bearer ${accessToken}` : undefined,
+      },
+    });
     return video.data;
   }
 

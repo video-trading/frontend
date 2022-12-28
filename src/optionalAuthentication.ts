@@ -7,7 +7,7 @@ type Callback = (accessToken: string, user: Profile) => Promise<any>;
 
 const secret = process.env.NEXTAUTH_SECRET;
 
-export const requireAuthentication = async (
+export const optionalAuthentication = async (
   ctx: GetServerSidePropsContext<any, any>,
   cb: Callback
 ) => {
@@ -17,15 +17,6 @@ export const requireAuthentication = async (
     authOptions
   );
 
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/user/signin",
-        permanent: false,
-      },
-    };
-  }
-
   let userSession = session as any;
-  return cb(userSession.accessToken, userSession.user);
+  return cb(userSession?.accessToken, userSession?.user);
 };

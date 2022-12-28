@@ -406,7 +406,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
     let video: GetVideoResponse | null = null;
 
     if (videoId) {
-      video = await VideoService.getVideo(videoId);
+      video = await VideoService.getVideo(videoId, accessToken);
       if (
         video.status === VideoStatus.UPLOADING ||
         video.status === VideoStatus.UPLOADED

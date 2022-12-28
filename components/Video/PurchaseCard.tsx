@@ -20,10 +20,36 @@ type Props = {
   videoId: string;
   salesInfo?: SalesInfo;
   description: string;
+  purchasable: boolean;
 };
 
-export function PurchaseCard({ salesInfo, description, videoId }: Props) {
+const purchaseOptions: { title: string; description: string }[] = [
+  {
+    title: "Single Purchase",
+    description: "Purchase this video once",
+  },
+  {
+    title: "Rent for 24 hours",
+    description: "Rent this video for 24 hours",
+  },
+  {
+    title: "Referral program",
+    description:
+      "For every purchase made through our platform, a percentage of the sale price will be paid as a royalty to the original author " +
+      "of the item. This ensures that the creator of the item " +
+      "is fairly compensated for their work and contribution to our community.",
+  },
+];
+
+export function PurchaseCard({
+  salesInfo,
+  description,
+  videoId,
+  purchasable,
+}: Props) {
   const router = useRouter();
+  const [selectedPurchaseOption, setSelectedPurchaseOption] =
+    React.useState<any>();
 
   return (
     <Card>
@@ -40,7 +66,7 @@ export function PurchaseCard({ salesInfo, description, videoId }: Props) {
             }}
           />
         )}
-        {salesInfo && (
+        {salesInfo && purchasable && (
           <Stack
             direction={"row"}
             spacing={2}
@@ -50,28 +76,38 @@ export function PurchaseCard({ salesInfo, description, videoId }: Props) {
             <Box flex={2}>
               <Typography>Purchase options</Typography>
             </Box>
-            <Box flex={1}>
+            <Box flex={3}>
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Option</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  variant={"standard"}
                 >
-                  <MenuItem value={10}>Single time purchase</MenuItem>
+                  {purchaseOptions.map((option, index) => (
+                    <MenuItem
+                      key={index}
+                      value={index}
+                      onClick={() => setSelectedPurchaseOption(option)}
+                    >
+                      {option.title}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
           </Stack>
         )}
 
-        {salesInfo && (
+        {salesInfo && purchasable && (
           <Typography variant={"subtitle2"} color={"gray"}>
-            This will purchase the video for once{" "}
+            {selectedPurchaseOption?.description}
           </Typography>
         )}
-        {salesInfo && (
+        {salesInfo && purchasable && (
           <Box p={2}>
             <Button
+              disabled={!selectedPurchaseOption}
               fullWidth
               variant={"contained"}
               onClick={() => router.push(`purchase?v=${videoId}`)}
