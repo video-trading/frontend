@@ -124,7 +124,9 @@ const Index: NextPage<Props> = ({ video }: Props) => {
           <Grid item md={7}>
             <Card>
               <Stack p={2}>
-                <Typography variant={"h5"}>{video.title}</Typography>
+                <Typography variant={"h5"} fontWeight={"bold"}>
+                  {video.title}
+                </Typography>
                 <Stack direction={"row"} spacing={1} alignItems={"center"}>
                   <Typography variant={"body2"}>{video.createdAt}</Typography>
                   <Divider orientation={"vertical"} flexItem />
