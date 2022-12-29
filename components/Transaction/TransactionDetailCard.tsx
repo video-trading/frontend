@@ -1,14 +1,19 @@
 // @flow
 import * as React from "react";
-import { Stack, Typography } from "@mui/material";
+import { CardActionArea, CardActions, Stack, Typography } from "@mui/material";
+import { useRouter } from "next/router";
 
 type Props = {
   title: string;
   description: string;
+
+  link?: string;
 };
 
 export function TransactionDetailCard(props: Props) {
-  return (
+  const router = useRouter();
+
+  const body = (
     <Stack spacing={2}>
       <Typography
         fontWeight={"700"}
@@ -20,4 +25,14 @@ export function TransactionDetailCard(props: Props) {
       <Typography>{props.description}</Typography>
     </Stack>
   );
+
+  if (props.link) {
+    return (
+      <CardActionArea onClick={() => router.push(props.link!)}>
+        {body}
+      </CardActionArea>
+    );
+  }
+
+  return body;
 }

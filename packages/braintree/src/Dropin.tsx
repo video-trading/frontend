@@ -1,8 +1,7 @@
 // @flow
 import * as React from "react";
-import braintree from "braintree-web";
-import BraintreeWebDropIn from "braintree-web-drop-in";
 import { useEffect } from "react";
+import BraintreeWebDropIn from "braintree-web-drop-in";
 
 type Props = {
   /**
@@ -13,15 +12,26 @@ type Props = {
    * amount to charge
    */
   amount: number;
-  submitButton: React.ReactElement;
+  renderSubmitButton: (props: {
+    isLoading: boolean;
+    disabled: boolean;
+    onClick: any;
+  }) => React.ReactElement;
   onSubmitted: (nonce?: string, error?: Error) => Promise<void>;
 };
 
-export function DropInUI({ token, amount, submitButton, onSubmitted }: Props) {
+export function DropInUI({
+  token,
+  amount,
+  renderSubmitButton,
+  onSubmitted,
+}: Props) {
   const [instance, setInstance] = React.useState<BraintreeWebDropIn.Dropin>();
   const [loading, setLoading] = React.useState(false);
 
-  const button = React.cloneElement(submitButton, {
+  const button = renderSubmitButton({
+    isLoading: loading,
+    disabled: !instance,
     onClick: async () => {
       setLoading(true);
       try {
@@ -37,8 +47,6 @@ export function DropInUI({ token, amount, submitButton, onSubmitted }: Props) {
       }
       setLoading(false);
     },
-    loading: loading,
-    disabled: instance === undefined,
   });
 
   useEffect(() => {
