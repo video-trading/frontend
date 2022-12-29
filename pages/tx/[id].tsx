@@ -5,6 +5,7 @@ import { Container } from "@mui/system";
 import {
   Button,
   Card,
+  CardMedia,
   Divider,
   Grid,
   Stack,
@@ -21,34 +22,37 @@ interface Props {
 }
 
 export default function Index({ transaction }: Props) {
-  const description: { title: string; description: string }[] = useMemo(() => {
-    return [
-      {
-        title: "From",
-        description: `${transaction.fromId}`,
-      },
-      {
-        title: "To",
-        description: `${transaction.toId}`,
-      },
-      {
-        title: "Amount",
-        description: `${transaction.value}`,
-      },
-      {
-        title: "Transaction Hash",
-        description: `${transaction.txHash}`,
-      },
-      {
-        title: "Created At",
-        description: `${transaction.createdAt}`,
-      },
-      {
-        title: "Video",
-        description: `${transaction.videoId}`,
-      },
-    ];
-  }, []);
+  const description: { title: string; description: string; link?: string }[] =
+    useMemo(() => {
+      return [
+        {
+          title: "From",
+          description: `${transaction.From.username}`,
+          link: `/tx/user/${transaction.From.id}`,
+        },
+        {
+          title: "To",
+          description: `${transaction.To.username}`,
+          link: `/tx/user/${transaction.To.id}`,
+        },
+        {
+          title: "Amount",
+          description: `${transaction.value}`,
+        },
+        {
+          title: "Transaction Hash",
+          description: `${transaction.txHash}`,
+        },
+        {
+          title: "Created At",
+          description: `${transaction.createdAt}`,
+        },
+        {
+          title: "Video",
+          description: `${transaction.videoId}`,
+        },
+      ];
+    }, []);
 
   return (
     <Container>
@@ -75,12 +79,27 @@ export default function Index({ transaction }: Props) {
               </Stack>
             </Stack>
             <Grid container spacing={5}>
+              <Grid item md={12} xs={12}>
+                <CardMedia
+                  image={transaction.Video!.thumbnail}
+                  sx={{ width: 250, height: 200, borderRadius: 5 }}
+                />
+              </Grid>
+
+              <Grid item md={6} xs={12}>
+                <TransactionDetailCard
+                  title={"Video Title"}
+                  description={transaction.Video!.title}
+                />
+              </Grid>
+
               {description.map((d, index) => (
-                <Grid item xs={6}>
+                <Grid item md={6} xs={12}>
                   <TransactionDetailCard
                     key={index}
                     title={d.title}
                     description={d.description}
+                    link={d.link}
                   />
                 </Grid>
               ))}

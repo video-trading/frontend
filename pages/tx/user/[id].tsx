@@ -3,13 +3,16 @@ import { TransactionService } from "../../../src/services/TransactionService";
 import { TransactionHistory } from "../../../src/services/PaymentService";
 import { Container } from "@mui/system";
 import {
+  Box,
   Button,
   Card,
   CardContent,
+  CardMedia,
   Divider,
   Grid,
   List,
   ListItem,
+  ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
   Pagination,
@@ -31,23 +34,39 @@ interface Props {
 }
 
 export default function Index({ transactions, user }: Props) {
+  console.log(transactions);
+
   return (
     <Container>
       <List>
         <Typography variant={"h5"} mb={5}>
           Transactions by user {user}
         </Typography>
-        <Pagination />
+        <Pagination sx={{ marginBottom: 5 }} />
         {transactions.items.map((transaction) => (
           <Card sx={{ mb: 5 }}>
             <CardContent>
               <ListItem>
-                <ListItemText
-                  primary={transaction.id}
-                  secondary={dayjs(transaction.createdAt).format(
-                    "YYYY-MM-DD HH:mm:ss"
-                  )}
-                />
+                <ListItemAvatar>
+                  <CardMedia
+                    image={transaction.Video?.thumbnail}
+                    sx={{ width: 150, height: 100, mr: 2, borderRadius: 5 }}
+                  />
+                </ListItemAvatar>
+                <Stack>
+                  <Box width={100}>
+                    <Chip label={transaction.type} />
+                  </Box>
+                  <Typography variant={"h6"} fontWeight={"bold"}>
+                    {transaction.Video?.title}
+                  </Typography>
+                  <Typography variant={"body2"} color={"text.secondary"}>
+                    {transaction.id}
+                  </Typography>
+                  <Typography variant={"body2"} color={"text.secondary"}>
+                    {dayjs(transaction.createdAt).format("DD/MM/YYYY")}
+                  </Typography>
+                </Stack>
                 <ListItemSecondaryAction>
                   <Link href={`/tx/${transaction.id}`}>
                     <Button>View</Button>

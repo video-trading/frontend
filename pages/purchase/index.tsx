@@ -191,11 +191,17 @@ const Index: NextPage<Props> = ({ video }: Props) => {
               <DropInUI
                 token={paymentToken.data.token}
                 amount={video.SalesInfo?.price ?? 0}
-                submitButton={
-                  <LoadingButton variant={"contained"} fullWidth>
+                renderSubmitButton={({ onClick, isLoading, disabled }) => (
+                  <LoadingButton
+                    onClick={onClick}
+                    loading={isLoading}
+                    disabled={disabled}
+                    variant={"contained"}
+                    fullWidth
+                  >
                     Pay
                   </LoadingButton>
-                }
+                )}
                 onSubmitted={async (nonce, error) => {
                   if (error) {
                     notifyError(error);
