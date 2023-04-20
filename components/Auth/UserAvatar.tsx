@@ -7,6 +7,7 @@ import { bindMenu, usePopupState } from "material-ui-popup-state/hooks";
 import { useRouter } from "next/router";
 import { UIConfig } from "../../src/UIConfig";
 import Link from "next/link";
+import { useMyTotalToken } from "../../src/hooks/useMyTotalTokens";
 
 type Props = {};
 
@@ -21,6 +22,7 @@ export function UserAvatar(props: Props) {
   const user = useMemo(() => {
     return session.data?.user as any;
   }, [session]);
+  const totalToken = useMyTotalToken((session.data as any)?.accessToken);
 
   const handleOnClick = useCallback(
     async (e: any) => {
@@ -59,6 +61,11 @@ export function UserAvatar(props: Props) {
             onClick={() => popupState.close()}
           >
             My Transactions
+          </Link>
+        </MenuItem>
+        <MenuItem>
+          <Link href={`/token/${user?.id}`} onClick={() => popupState.close()}>
+            My Token Rewards: {totalToken.data}
           </Link>
         </MenuItem>
         <MenuItem

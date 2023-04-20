@@ -1,6 +1,5 @@
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
-import { menus } from "../src/Menus";
 import { actions } from "../src/Action";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
@@ -11,6 +10,7 @@ import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import React from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { appWithTranslation } from "next-i18next";
 
 const theme = createTheme({
   components: {
@@ -63,14 +63,14 @@ const theme = createTheme({
 
 const queryClient = new QueryClient();
 
-export default function App({ Component, pageProps }: AppProps) {
+export function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <SnackbarProvider>
         <SessionProvider session={(pageProps as any).session}>
           <UIContextProvider>
             <ThemeProvider theme={theme}>
-              <Layout menus={menus} actions={actions}>
+              <Layout actions={actions}>
                 <Component {...pageProps} />
                 <CssBaseline />
                 <ReactQueryDevtools initialIsOpen={false} />
@@ -82,3 +82,5 @@ export default function App({ Component, pageProps }: AppProps) {
     </QueryClientProvider>
   );
 }
+
+export default appWithTranslation(App);

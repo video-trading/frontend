@@ -14,13 +14,39 @@ import SearchField from "./shared/SearchTextField";
 import Image from "next/image";
 import { Action } from "../src/Action";
 import { UserAvatar } from "./Auth/UserAvatar";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   children: React.ReactNode;
-  menus: Menu[];
+
   actions: Action[];
 }
-export default function Layout({ children, menus, actions }: Props) {
+export default function Layout({ children, actions }: Props) {
+  const { t } = useTranslation("common");
+  const home = t("home");
+  const trending = t("trending");
+  const top100 = t("top100");
+  const newVideo = t("new");
+
+  const menus: Menu[] = [
+    {
+      title: home,
+      href: "/",
+    },
+    {
+      title: trending,
+      href: "/trending",
+    },
+    {
+      title: top100,
+      href: "/top100",
+    },
+    {
+      title: newVideo,
+      href: "/new",
+    },
+  ];
+
   return (
     <div>
       <AppBar position="sticky" elevation={0}>

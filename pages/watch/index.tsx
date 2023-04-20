@@ -36,6 +36,9 @@ import { VideoTransactionHistoryDialog } from "../../components/Video/VideoTrans
 import { requireAuthentication } from "../../src/requireAuthentication";
 import { AuthenticationService } from "../../src/services/AuthenticationService";
 import { optionalAuthentication } from "../../src/optionalAuthentication";
+import { languageMap } from "../../src/languages";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   video: GetVideoDetailResponse;
@@ -44,6 +47,11 @@ type Props = {
 const Index: NextPage<Props> = ({ video }: Props) => {
   const [showTransactionHistory, setShowTransactionHistory] =
     React.useState(false);
+  const { t } = useTranslation("common");
+
+  const comments = t("comments");
+  const purchaseHistory = t("purchase_history");
+
   return (
     <Container>
       <Head>
@@ -129,7 +137,7 @@ const Index: NextPage<Props> = ({ video }: Props) => {
                       variant={"contained"}
                       onClick={() => setShowTransactionHistory(true)}
                     >
-                      Purchase History
+                      {purchaseHistory}
                     </Button>
                   </Stack>
                 </Card>
@@ -137,7 +145,7 @@ const Index: NextPage<Props> = ({ video }: Props) => {
             </Stack>
             <Stack direction={"row"} spacing={2} alignItems={"center"}>
               <ChatIcon />
-              <Typography variant={"h6"}>Comments</Typography>
+              <Typography variant={"h6"}>{comments}</Typography>
             </Stack>
             <Card>
               <CardContent>
@@ -181,9 +189,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) =>
   optionalAuthentication(context, async (accessToken, user) => {
     const videoId = context.query.v as string;
     const video = await VideoService.getVideo(videoId, accessToken);
+    const locale = languageMap[context.locale ?? "en"];
 
     return {
       props: {
+        ...(await serverSideTranslations(locale, ["common"])),
         video,
       },
     };
