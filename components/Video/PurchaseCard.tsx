@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { Editor } from "editor";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   videoId: string;
@@ -22,24 +23,6 @@ type Props = {
   description: string;
   purchasable: boolean;
 };
-
-const purchaseOptions: { title: string; description: string }[] = [
-  {
-    title: "Single Purchase",
-    description: "Purchase this video once",
-  },
-  {
-    title: "Rent for 24 hours",
-    description: "Rent this video for 24 hours",
-  },
-  {
-    title: "Referral program",
-    description:
-      "For every purchase made through our platform, a percentage of the sale price will be paid as a royalty to the original author " +
-      "of the item. This ensures that the creator of the item " +
-      "is fairly compensated for their work and contribution to our community.",
-  },
-];
 
 export function PurchaseCard({
   salesInfo,
@@ -50,6 +33,33 @@ export function PurchaseCard({
   const router = useRouter();
   const [selectedPurchaseOption, setSelectedPurchaseOption] =
     React.useState<any>();
+  const { t } = useTranslation("common");
+
+  const purchaseFor = t("purchase_for");
+  const tokens = t("tokens");
+  const or = t("or");
+  const purchaseOptionsText = t("purchase_options");
+  const singlePurchase = t("single_purchase");
+  const rentFor24Hours = t("rent_for_24_hours");
+  const referralProgram = t("referral_program");
+
+  const purchaseOptions: { title: string; description: string }[] = [
+    {
+      title: singlePurchase,
+      description: "Purchase this video once",
+    },
+    {
+      title: rentFor24Hours,
+      description: "Rent this video for 24 hours",
+    },
+    {
+      title: referralProgram,
+      description:
+        "For every purchase made through our platform, a percentage of the sale price will be paid as a royalty to the original author " +
+        "of the item. This ensures that the creator of the item " +
+        "is fairly compensated for their work and contribution to our community.",
+    },
+  ];
 
   return (
     <Card>
@@ -74,7 +84,7 @@ export function PurchaseCard({
             alignItems={"center"}
           >
             <Box flex={2}>
-              <Typography>Purchase options</Typography>
+              <Typography>{purchaseOptionsText}</Typography>
             </Box>
             <Box flex={3}>
               <FormControl fullWidth>
@@ -112,7 +122,20 @@ export function PurchaseCard({
               variant={"contained"}
               onClick={() => router.push(`purchase?v=${videoId}`)}
             >
-              Purchase for {salesInfo.price} HKD
+              {purchaseFor} {salesInfo.price} HKD
+            </Button>
+          </Box>
+        )}
+        <Divider>{or}</Divider>
+        {salesInfo && purchasable && (
+          <Box p={2}>
+            <Button
+              disabled={!selectedPurchaseOption}
+              fullWidth
+              variant={"contained"}
+              onClick={() => router.push(`purchase/token?v=${videoId}`)}
+            >
+              {purchaseFor} {salesInfo.price * 10} {tokens}
             </Button>
           </Box>
         )}

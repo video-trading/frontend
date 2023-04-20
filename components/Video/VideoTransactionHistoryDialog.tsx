@@ -19,6 +19,7 @@ import {
 import { useGetTransactionsByVideo } from "../../src/hooks/useGetTransactionsByVideo";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 
 interface Props extends DialogProps {
   videoId: string;
@@ -27,10 +28,12 @@ interface Props extends DialogProps {
 export function VideoTransactionHistoryDialog(props: Props) {
   const transactions = useGetTransactionsByVideo(props.videoId);
   const router = useRouter();
+  const { t } = useTranslation("common");
+  const purchaseHistory = t("purchase_history");
 
   return (
     <Dialog {...props} maxWidth={"lg"}>
-      <DialogTitle>Transaction History</DialogTitle>
+      <DialogTitle>{purchaseHistory}</DialogTitle>
       <DialogContent>
         {transactions.data === undefined && <LinearProgress />}
         <List>
