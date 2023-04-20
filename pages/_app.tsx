@@ -1,6 +1,5 @@
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
-import { menus } from "../src/Menus";
 import { actions } from "../src/Action";
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { SessionProvider } from "next-auth/react";
@@ -71,7 +70,7 @@ export function App({ Component, pageProps }: AppProps) {
         <SessionProvider session={(pageProps as any).session}>
           <UIContextProvider>
             <ThemeProvider theme={theme}>
-              <Layout  actions={actions}>
+              <Layout actions={actions}>
                 <Component {...pageProps} />
                 <CssBaseline />
                 <ReactQueryDevtools initialIsOpen={false} />
