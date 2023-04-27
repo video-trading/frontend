@@ -53,7 +53,7 @@ export default function Layout({ children, actions }: Props) {
         <Toolbar>
           <Stack direction={"row"} alignItems={"center"} mr={5} spacing={2}>
             <Image
-              src={"/images/logo.svg"}
+              src={"/images/logo.jpg"}
               alt={"logo"}
               width={50}
               height={50}
