@@ -1,6 +1,6 @@
-import { GetServerSidePropsContext } from "next";
+// import { GetServerSidePropsContext } from "next";
 // import { unstable_getServerSession } from "next-auth/next";
-// import { authOptions } from "../pages/api/auth/[...nextauth]";
+// // import { authOptions } from "../pages/api/auth/[...nextauth]";
 // import { Profile } from "./services/AuthenticationService";
 
 // type Callback = (accessToken: string, user: Profile) => Promise<any>;

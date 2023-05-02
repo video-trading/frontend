@@ -97,6 +97,7 @@ export default function Inspiration({ videos }: Props) {
                 {/* 1st Gallery Image */}
                 {videos.map((video) => (
                   <VideoCard
+                    id={video.id}
                     title={video.title}
                     author={video.User.name}
                     cover={video.thumbnail}

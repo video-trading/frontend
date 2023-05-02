@@ -29,6 +29,7 @@ export default function VideoGridCard({
               className={`md:col-span-${i % 4 === 0 ? 3 : 2} col-span-12 h-60`}
             >
               <VideoCardGrid
+                id={v.id}
                 title={v.title}
                 author={v.User.name}
                 cover={v.thumbnail}

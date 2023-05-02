@@ -2,6 +2,7 @@ import Image from "next/image";
 import Author01 from "@/public/images/author-01.jpg";
 
 interface VideoCardProps {
+  id: string;
   title: string;
   author: string;
   cover: string;
@@ -9,6 +10,7 @@ interface VideoCardProps {
 }
 
 export function VideoCard({
+  id,
   title,
   author,
   cover,
@@ -17,7 +19,7 @@ export function VideoCard({
   return (
     <a
       className="relative group hover:shadow-xl transition duration-150 ease-in-out"
-      href="#0"
+      href={`/watch/${id}`}
       data-aos="fade-down"
       data-aos-anchor="[data-aos-id-inpspiration]"
     >
@@ -89,6 +91,7 @@ export function VideoCard({
 }
 
 export function VideoCardGrid({
+  id,
   title,
   author,
   cover,
