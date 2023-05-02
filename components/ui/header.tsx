@@ -56,7 +56,7 @@ export default function Header({ nav = true }: { nav?: boolean }) {
 
 function SearchBar() {
   return (
-    <form className="w-96">
+    <form className="w-96 hidden sm:block">
       <label className="mb-2 text-sm font-medium text-gray-900 sr-only">
         Search
       </label>
