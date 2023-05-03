@@ -1,6 +1,7 @@
 import BrainTreePurchaseCard from "@/components/payment/BrainTreePurchaseCard";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
+import useTranslation from "next-translate/useTranslation";
 
 export const metadata = {
   title: "Check out",
@@ -22,6 +23,8 @@ const products = [
 ];
 
 export default function Page({ params }: any) {
+  const { t } = useTranslation("common");
+
   return (
     <>
       <main className="relative h-screen">
@@ -51,16 +54,15 @@ export default function Page({ params }: any) {
                 Purchase details
               </h1>
               <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                Thanks for ordering
+                {t("checkout-title")}
               </p>
               <p className="mt-2 text-base text-gray-500">
-                We appreciate your order, we’re currently processing it. So hang
-                tight and we’ll send you confirmation very soon!
+                {t("checkout-description")}
               </p>
 
               <dl className="mt-16 text-sm font-medium">
-                <dt className="text-gray-900">Tracking number</dt>
-                <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
+                <dt className="text-gray-900">Video Id</dt>
+                <dd className="mt-2 text-indigo-600">{params.id}</dd>
               </dl>
 
               <ul
@@ -90,17 +92,17 @@ export default function Page({ params }: any) {
 
               <dl className="space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">
                 <div className="flex justify-between">
-                  <dt>Subtotal</dt>
+                  <dt>{t("item-total")}</dt>
                   <dd className="text-gray-900">$72.00</dd>
                 </div>
 
                 <div className="flex justify-between">
-                  <dt>Shipping</dt>
+                  <dt>{t("gas-fee")}</dt>
                   <dd className="text-gray-900">$8.00</dd>
                 </div>
 
                 <div className="flex justify-between">
-                  <dt>Taxes</dt>
+                  <dt>{t("platform-commission")}</dt>
                   <dd className="text-gray-900">$6.40</dd>
                 </div>
 

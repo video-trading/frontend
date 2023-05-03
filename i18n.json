@@ -2,6 +2,6 @@
   "locales": ["zh"],
   "defaultLocale": "zh",
   "pages": {
-    "*": ["common"]
+    "*": ["common", "features"]
   }
 }
