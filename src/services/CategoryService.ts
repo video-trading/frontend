@@ -8,7 +8,7 @@ export interface GetCategoryResponse {
     name: string;
   }[];
 
-  parent: GetCategoryResponse;
+  parent: GetCategoryResponse | null;
 }
 
 export class CategoryNode {

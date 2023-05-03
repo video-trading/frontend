@@ -2,7 +2,7 @@ import { AuthenticationService } from "@/src/services/AuthenticationService";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-export const authOptions = {
+const authOptions = {
   // Configure one or more authentication providers
   pages: {
     signIn: "/user/signin",

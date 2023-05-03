@@ -7,7 +7,7 @@ import Image from "next/image";
 import Author01 from "@/public/images/author-01.jpg";
 import useTranslation from "next-translate/useTranslation";
 import { GetVideoResponse } from "@/src/services/VideoService";
-import { VideoCard } from "./video/VideoCard";
+import { VideoCard } from "../video/VideoCard";
 
 interface Props {
   videos: GetVideoResponse[];

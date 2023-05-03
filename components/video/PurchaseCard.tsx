@@ -1,145 +1,109 @@
-// @flow
-import * as React from "react";
-import { SalesInfo } from "../../src/services/VideoService";
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { Editor } from "editor";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
+"use client";
 
-type Props = {
-  videoId: string;
-  salesInfo?: SalesInfo;
-  description: string;
-  purchasable: boolean;
-};
+import { classNames } from "@/src/classNames";
+import { RadioGroup } from "@headlessui/react";
+import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
+import { ShieldCheckIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
+import useTranslation from "next-translate/useTranslation";
 
-export function PurchaseCard({
-  salesInfo,
-  description,
-  videoId,
-  purchasable,
-}: Props) {
-  const router = useRouter();
-  const [selectedPurchaseOption, setSelectedPurchaseOption] =
-    React.useState<any>();
+interface Props {
+  purchaseOptions: { name: string; description: string; disabled?: boolean }[];
+}
+
+export function PurchaseCard({ purchaseOptions }: Props) {
   const { t } = useTranslation("common");
 
-  const purchaseFor = t("purchase_for");
-  const tokens = t("tokens");
-  const or = t("or");
-  const purchaseOptionsText = t("purchase_options");
-  const singlePurchase = t("single_purchase");
-  const rentFor24Hours = t("rent_for_24_hours");
-  const referralProgram = t("referral_program");
-
-  const purchaseOptions: { title: string; description: string }[] = [
-    {
-      title: singlePurchase,
-      description: "Purchase this video once",
-    },
-    {
-      title: rentFor24Hours,
-      description: "Rent this video for 24 hours",
-    },
-    {
-      title: referralProgram,
-      description:
-        "For every purchase made through our platform, a percentage of the sale price will be paid as a royalty to the original author " +
-        "of the item. This ensures that the creator of the item " +
-        "is fairly compensated for their work and contribution to our community.",
-    },
-  ];
-
   return (
-    <Card>
-      <Stack spacing={2} p={1}>
-        <Typography fontWeight={"bold"}>Description</Typography>
-        <Editor initialValue={description} editable={false} />
-        {salesInfo && (
-          <Divider
-            variant={"inset"}
-            sx={{
-              border: "dashed",
-              borderColor: "rgba(145, 158, 171, 0.24)",
-              borderWidth: "0px 0px thin",
-            }}
-          />
-        )}
-        {salesInfo && purchasable && (
-          <Stack
-            direction={"row"}
-            spacing={2}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Box flex={2}>
-              <Typography>{purchaseOptionsText}</Typography>
-            </Box>
-            <Box flex={3}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Option</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  variant={"standard"}
+    <section aria-labelledby="options-heading">
+      <form>
+        <div className="sm:flex sm:justify-between">
+          {/* Size selector */}
+          <RadioGroup value={0}>
+            <RadioGroup.Label className="block text-sm font-medium text-gray-700">
+              {t("purchase-options")}
+            </RadioGroup.Label>
+            <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {purchaseOptions.map((option, index) => (
+                <RadioGroup.Option
+                  as="div"
+                  key={option.name}
+                  value={index}
+                  disabled={option.disabled}
+                  className={({ active }) =>
+                    classNames(
+                      active ? "ring-2 ring-indigo-500" : "",
+                      "relative block cursor-pointer rounded-lg border border-gray-300 p-4 focus:outline-none"
+                    )
+                  }
                 >
-                  {purchaseOptions.map((option, index) => (
-                    <MenuItem
-                      key={index}
-                      value={index}
-                      onClick={() => setSelectedPurchaseOption(option)}
-                    >
-                      {option.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Stack>
-        )}
-
-        {salesInfo && purchasable && (
-          <Typography variant={"subtitle2"} color={"gray"}>
-            {selectedPurchaseOption?.description}
-          </Typography>
-        )}
-        {salesInfo && purchasable && (
-          <Box p={2}>
-            <Button
-              disabled={!selectedPurchaseOption}
-              fullWidth
-              variant={"contained"}
-              onClick={() => router.push(`purchase?v=${videoId}`)}
-            >
-              {purchaseFor} {salesInfo.price} HKD
-            </Button>
-          </Box>
-        )}
-        <Divider>{or}</Divider>
-        {salesInfo && purchasable && (
-          <Box p={2}>
-            <Button
-              disabled={!selectedPurchaseOption}
-              fullWidth
-              variant={"contained"}
-              onClick={() => router.push(`purchase/token?v=${videoId}`)}
-            >
-              {purchaseFor} {salesInfo.price * 10} {tokens}
-            </Button>
-          </Box>
-        )}
-      </Stack>
-    </Card>
+                  {({ active, checked }) => (
+                    <>
+                      <RadioGroup.Label
+                        as="p"
+                        className="text-base font-medium text-gray-900"
+                      >
+                        {option.name}
+                      </RadioGroup.Label>
+                      <RadioGroup.Description
+                        as="p"
+                        className="mt-1 text-sm text-gray-500"
+                      >
+                        {option.description}
+                      </RadioGroup.Description>
+                      <div
+                        className={classNames(
+                          active ? "border" : "border-2",
+                          checked ? "border-indigo-500" : "border-transparent",
+                          "pointer-events-none absolute -inset-px rounded-lg"
+                        )}
+                        aria-hidden="true"
+                      />
+                    </>
+                  )}
+                </RadioGroup.Option>
+              ))}
+            </div>
+          </RadioGroup>
+        </div>
+        <div className="mt-4">
+          <a
+            href="#"
+            className="group inline-flex text-sm text-gray-500 hover:text-gray-700"
+          >
+            <span>Which option shall I choose?</span>
+            <QuestionMarkCircleIcon
+              className="ml-2 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+              aria-hidden="true"
+            />
+          </a>
+        </div>
+        <div className="mt-10 space-y-4">
+          <button
+            type="submit"
+            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+          >
+            {t("purchase-button")}
+          </button>
+          <button
+            type="submit"
+            className="flex w-full items-center justify-center rounded-md border bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
+          >
+            {t("view-video-transaction-history")}
+          </button>
+        </div>
+        <div className="mt-6 text-center">
+          <a href="#" className="group inline-flex text-base font-medium">
+            <ShieldCheckIcon
+              className="mr-2 h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+              aria-hidden="true"
+            />
+            <span className="text-gray-500 hover:text-gray-700">
+              Lifetime Guarantee
+            </span>
+          </a>
+        </div>
+      </form>
+    </section>
   );
 }

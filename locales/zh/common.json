@@ -17,5 +17,12 @@
   "most-liked": "最受喜爱",
   "video-transcation-description": "品视视频交易平台让我轻松获得了高质量的视频素材，真的太方便了",
   "sign-in-title": "欢迎回来！",
-  "sign-up-title": "欢迎加入我们！"
+  "sign-up-title": "欢迎加入我们！",
+  "purchase-options": "购买选项",
+  "purchase-button": "购买",
+  "purchase-option-1": "完全购买",
+  "purchase-option-1-description": "购买视频,接下来视频的所属权将直接转让给你，你可以出租、出售、修改、发布等等",
+  "purchase-option-2": "分成购买",
+  "purchase-option-2-description": "每次购买视频，视频原作者都将会获得一定量的分成。",
+  "view-video-transaction-history": "查看视频交易历史"
 }
