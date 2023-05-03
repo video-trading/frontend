@@ -100,7 +100,7 @@ export function VideoCardGrid({
   return (
     <a
       className="relative group hover:shadow-xl transition duration-150 ease-in-out h-full"
-      href="#0"
+      href={`/watch/${id}`}
       data-aos="fade-down"
       data-aos-anchor="[data-aos-id-inpspiration]"
     >

@@ -6,13 +6,16 @@ import { QuestionMarkCircleIcon } from "@heroicons/react/20/solid";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
+import { useRouter } from "next/navigation";
 
 interface Props {
+  videoId: string;
   purchaseOptions: { name: string; description: string; disabled?: boolean }[];
 }
 
-export function PurchaseCard({ purchaseOptions }: Props) {
+export function PurchaseCard({ videoId, purchaseOptions }: Props) {
   const { t } = useTranslation("common");
+  const router = useRouter();
 
   return (
     <section aria-labelledby="options-heading">
@@ -80,13 +83,14 @@ export function PurchaseCard({ purchaseOptions }: Props) {
         </div>
         <div className="mt-10 space-y-4">
           <button
-            type="submit"
+            type="button"
             className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
+            onClick={async () => router.push(`/checkout/${videoId}`)}
           >
             {t("purchase-button")}
           </button>
           <button
-            type="submit"
+            type="button"
             className="flex w-full items-center justify-center rounded-md border bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
           >
             {t("view-video-transaction-history")}

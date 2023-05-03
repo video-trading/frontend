@@ -95,6 +95,7 @@ export default async function Video({ params }: any) {
         {/* Product form */}
         <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
           <PurchaseCard
+            videoId={video.id}
             purchaseOptions={[
               {
                 name: t("purchase-option-1"),
