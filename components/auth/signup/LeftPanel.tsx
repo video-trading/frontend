@@ -45,7 +45,7 @@ export default function LeftPanel() {
             {t("sign-in-title")}
           </h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
-            Already have an account?{" "}
+            {t("sign-in-description")}
             <a
               href="#"
               className="font-semibold text-indigo-600 hover:text-indigo-500"

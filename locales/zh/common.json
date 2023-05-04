@@ -3,6 +3,8 @@
   "logo": "品视交易",
   "sign-in": "登录",
   "sign-up": "注册",
+  "sign-in-description": "已经是会员？",
+  "sign-up-description": "还不是会员？",
   "create-videos": "创建视频",
   "welcome-description": "一家专注于为用户提供安全、高效、便捷的视频交易服务的在线平台。在这里，您可以轻松地发布视频交易信息、浏览视频资源、与卖家进行交流和议价，完成您的交易需求。我们的平台提供丰富的交易保障措施，确保您的交易安全可靠，欢迎您来体验！",
   "browse-categories": "浏览分类",
