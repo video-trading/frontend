@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  web:
+    image: frontend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - NEXT_PUBLIC_API_ENDPOINT=https://api.video2.trade
