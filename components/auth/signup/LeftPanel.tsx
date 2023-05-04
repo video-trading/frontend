@@ -5,6 +5,7 @@ import React from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingButton from "@/components/shared/LoadingButton";
+import { AuthenticationService } from "@/src/services/AuthenticationService";
 
 export default function LeftPanel() {
   const { t } = useTranslation("common");
@@ -13,30 +14,25 @@ export default function LeftPanel() {
 
   const formik = useFormik({
     initialValues: {
+      email: "",
+      name: "",
       username: "",
       password: "",
     },
     onSubmit: async (values) => {
       setLoading(true);
-      const result = await signIn("credentials", {
-        ...values,
-
-        // we want to get the signin result
-        // by turning off the redirect
-        redirect: false,
-      });
-
-      // somethimes next-auth returns an error object
-      // even if the login was successful
-      // so we need to check if the error is not "credentialSignin"
-      if (result?.error && result.error !== "credentialSignin") {
-        alert(result.error);
-        return;
+      const { error } = await AuthenticationService.signUp(
+        values.username,
+        values.password,
+        values.name,
+        values.email
+      );
+      if (error) {
+        alert(error);
+      } else {
+        router.push("/signin");
       }
 
-      // if the login was successful
-      // redirect to the home page
-      router.push("/");
       setLoading(false);
     },
   });
@@ -49,12 +45,12 @@ export default function LeftPanel() {
             {t("sign-in-title")}
           </h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
-            Not a member?{" "}
+            Already have an account?{" "}
             <a
-              href="/signup"
+              href="#"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
-              {t("sign-up-title")}
+              {t("sign-in-title")}
             </a>
           </p>
         </div>
@@ -62,6 +58,43 @@ export default function LeftPanel() {
         <div className="mt-10">
           <div>
             <form onSubmit={formik.handleSubmit} className="space-y-6">
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Email
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Full Name
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    className="block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 p-3"
+                  />
+                </div>
+              </div>
               <div>
                 <label
                   htmlFor="email"
@@ -101,39 +134,12 @@ export default function LeftPanel() {
                   />
                 </div>
               </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-3 block text-sm leading-6 text-gray-700"
-                  >
-                    Remember me
-                  </label>
-                </div>
-
-                <div className="text-sm leading-6">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-
               <div>
                 <LoadingButton
                   loading={loading}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  {t("sign-in")}
+                  {t("sign-up")}
                 </LoadingButton>
               </div>
             </form>
