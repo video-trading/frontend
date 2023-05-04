@@ -1,8 +1,13 @@
 "use client";
 import React from "react";
 import { VideoPlayer as Player } from "player";
+import { GetVideoDetailResponse } from "@/src/services/VideoService";
 
-export default function VideoPlayer() {
+interface Props {
+  transcodings: { url: string; targetQuality: string }[];
+}
+
+export default function VideoPlayer({ transcodings }: Props) {
   return (
     <Player
       options={{
@@ -11,12 +16,10 @@ export default function VideoPlayer() {
         fluid: true,
       }}
       onReady={(player) => {}}
-      transcoding={[
-        {
-          label: "1080p",
-          src: "https://vjs.zencdn.net/v/oceans.mp4",
-        },
-      ]}
+      transcoding={transcodings.map((t) => ({
+        label: t.targetQuality,
+        src: t.url,
+      }))}
     />
   );
 }

@@ -1,18 +1,22 @@
 import { PurchaseCard } from "@/components/video/PurchaseCard";
-import VideoPlayer from "@/components/video/VideoPlayer";
-import { classNames } from "@/src/classNames";
-import {
-  GetVideoDetailResponse,
-  VideoService,
-  VideoStatus,
-} from "@/src/services/VideoService";
-import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
-import useTranslation from "next-translate/useTranslation";
-import { Editor } from "editor";
-import VideoReviews from "@/components/video/VideoReviews";
 import VideoBreadcrumb from "@/components/video/VideoBreadcrumb";
+import VideoPlayer from "@/components/video/VideoPlayer";
+import VideoReviews from "@/components/video/VideoReviews";
+import { classNames } from "@/src/classNames";
+import { VideoService } from "@/src/services/VideoService";
+import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
+import { Editor } from "editor";
+import useTranslation from "next-translate/useTranslation";
 
 const reviews = { average: 4, totalCount: 1624 };
+
+export async function generateMetadata({ params }: any) {
+  const video = await VideoService.getVideo(params.id, undefined);
+  return {
+    title: video.title,
+    image: video.thumbnail,
+  };
+}
 
 export default async function Video({ params }: any) {
   const { t } = useTranslation("common");
@@ -87,7 +91,7 @@ export default async function Video({ params }: any) {
         <div className="mt-10 lg:col-start-2 lg:col-span-2 lg:row-span-2 lg:mt-0 lg:self-center">
           <div className="overflow-hidden rounded-lg">
             <div className="h-full w-full object-cover object-center">
-              <VideoPlayer />
+              <VideoPlayer transcodings={video.transcodings} />
             </div>
           </div>
         </div>

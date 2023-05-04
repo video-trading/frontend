@@ -2,28 +2,18 @@ import BrainTreePurchaseCard from "@/components/payment/BrainTreePurchaseCard";
 import Link from "next/link";
 import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import useTranslation from "next-translate/useTranslation";
+import {
+  GetVideoDetailResponse,
+  VideoService,
+} from "@/src/services/VideoService";
 
 export const metadata = {
   title: "Check out",
 };
 
-const products = [
-  {
-    id: 1,
-    name: "Basic Tee",
-    href: "#",
-    price: "$36.00",
-    color: "Charcoal",
-    size: "L",
-    imageSrc:
-      "https://tailwindui.com/img/ecommerce-images/confirmation-page-06-product-01.jpg",
-    imageAlt: "Model wearing men's charcoal basic tee in large.",
-  },
-  // More products...
-];
-
-export default function Page({ params }: any) {
+export default async function Page({ params }: any) {
   const { t } = useTranslation("common");
+  const video = await VideoService.getVideo(params.id, undefined);
 
   return (
     <>
@@ -69,46 +59,46 @@ export default function Page({ params }: any) {
                 role="list"
                 className="mt-6 divide-y divide-gray-200 border-t border-gray-200 text-sm font-medium text-gray-500"
               >
-                {products.map((product) => (
-                  <li key={product.id} className="flex space-x-6 py-6">
-                    <img
-                      src={product.imageSrc}
-                      alt={product.imageAlt}
-                      className="h-24 w-24 flex-none rounded-md bg-gray-100 object-cover object-center"
-                    />
-                    <div className="flex-auto space-y-1">
-                      <h3 className="text-gray-900">
-                        <a href={product.href}>{product.name}</a>
-                      </h3>
-                      <p>{product.color}</p>
-                      <p>{product.size}</p>
-                    </div>
-                    <p className="flex-none font-medium text-gray-900">
-                      {product.price}
-                    </p>
-                  </li>
-                ))}
+                <li key={video.id} className="flex space-x-6 py-6">
+                  <img
+                    src={video.thumbnail}
+                    alt={video.title}
+                    className="h-24 w-24 flex-none rounded-md bg-gray-100 object-cover object-center"
+                  />
+                  <div className="flex-auto space-y-1">
+                    <h3 className="text-gray-900">
+                      <a href={`/watch/${video.id}`}>{video.title}</a>
+                    </h3>
+                    <p>{video.Category.name}</p>
+                    <p>{video.User.name}</p>
+                  </div>
+                  <p className="flex-none font-medium text-gray-900">
+                    {video.SalesInfo?.price} HKD
+                  </p>
+                </li>
               </ul>
 
               <dl className="space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-500">
                 <div className="flex justify-between">
                   <dt>{t("item-total")}</dt>
-                  <dd className="text-gray-900">$72.00</dd>
+                  <dd className="text-gray-900">0.00 HKD</dd>
                 </div>
 
                 <div className="flex justify-between">
                   <dt>{t("gas-fee")}</dt>
-                  <dd className="text-gray-900">$8.00</dd>
+                  <dd className="text-gray-900">0.00 HKD</dd>
                 </div>
 
                 <div className="flex justify-between">
                   <dt>{t("platform-commission")}</dt>
-                  <dd className="text-gray-900">$6.40</dd>
+                  <dd className="text-gray-900">0.00 HKD</dd>
                 </div>
 
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900">
                   <dt className="text-base">Total</dt>
-                  <dd className="text-base">$86.40</dd>
+                  <dd className="text-base">
+                    ${video.SalesInfo?.price.toFixed(2)} HKD
+                  </dd>
                 </div>
               </dl>
 
