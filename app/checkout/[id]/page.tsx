@@ -6,6 +6,9 @@ import {
   GetVideoDetailResponse,
   VideoService,
 } from "@/src/services/VideoService";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/src/authOptions";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Check out",
@@ -14,6 +17,11 @@ export const metadata = {
 export default async function Page({ params }: any) {
   const { t } = useTranslation("common");
   const video = await VideoService.getVideo(params.id, undefined);
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect("/unauthorized");
+  }
 
   return (
     <>

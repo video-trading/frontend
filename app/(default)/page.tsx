@@ -14,6 +14,8 @@ import Blog from "@/components/home/blog";
 import Cta from "@/components/home/cta";
 import { CategoryService } from "@/src/services/CategoryService";
 import { VideoService } from "@/src/services/VideoService";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/src/authOptions";
 
 export default async function Home() {
   const categories = await CategoryService.getCategories();
@@ -21,6 +23,7 @@ export default async function Home() {
 
   return (
     <>
+      {/*@ts-ignore */}
       <Hero />
       <Testimonials />
       <Carousel categories={categories} />

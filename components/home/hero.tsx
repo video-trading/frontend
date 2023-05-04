@@ -3,9 +3,12 @@ import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 import HeroImage from "@/public/images/hero-image.png";
+import { authOptions } from "@/src/authOptions";
+import { getServerSession } from "next-auth/next";
 
-export default function Hero() {
+export default async function Hero() {
   const { t } = useTranslation("common");
+  const session = await getServerSession(authOptions);
 
   return (
     <section className="relative">
@@ -52,7 +55,7 @@ export default function Hero() {
                 {t("welcome-description")}
               </p>
               {/* Buttons */}
-              <AuthenticationButtons />
+              {!session ? <AuthenticationButtons /> : <CreationButton />}
 
               {/* Stats */}
               <div
