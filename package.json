@@ -36,7 +36,7 @@
     "lexical": "^0.6.5",
     "material-ui-popup-state": "^4.1.0",
     "mui-tree-select": "1.0.0-beta.11",
-    "next": "13.3.4",
+    "next": "13.4.0",
     "next-auth": "4.22.1",
     "next-i18next": "^13.2.2",
     "next-translate": "^2.0.5",
@@ -53,6 +53,7 @@
     "react-qr-code": "^2.0.8",
     "react-query": "^3.39.2",
     "sass": "^1.57.0",
+    "sharp": "^0.32.1",
     "swiper": "^8.4.7",
     "typescript": "5.0.4"
   },

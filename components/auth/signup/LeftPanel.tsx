@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingButton from "@/components/shared/LoadingButton";
 import { AuthenticationService } from "@/src/services/AuthenticationService";
+import Link from "next/link";
 
 export default function LeftPanel() {
   const { t } = useTranslation("common");
@@ -46,12 +47,12 @@ export default function LeftPanel() {
           </h2>
           <p className="mt-2 text-sm leading-6 text-gray-500">
             {t("sign-in-description")}
-            <a
-              href="#"
+            <Link
+              href="/signin"
               className="font-semibold text-indigo-600 hover:text-indigo-500"
             >
               {t("sign-in-title")}
-            </a>
+            </Link>
           </p>
         </div>
 

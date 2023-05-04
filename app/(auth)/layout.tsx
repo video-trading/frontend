@@ -5,8 +5,8 @@ import React from "react";
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <body>
-        <div className="flex flex-col min-h-screen overflow-hidden">
+      <body className="overflow-y-hidden">
+        <div className="flex flex-col overflow-hidden h-screen">
           <div className="absolute top-20 left-20">
             <Link href={`/`}>
               <button
