@@ -4,6 +4,7 @@ const nextTranslate = require("next-translate-plugin");
 const nextConfig = {
   experimental: {
     appDir: true,
+    typedRoutes: true,
   },
 };
 
