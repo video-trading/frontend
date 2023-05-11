@@ -1,10 +1,10 @@
-import { createContext, useCallback, useState } from "react";
+import { useState, useCallback } from "react";
 import { SignedUrl, StorageService } from "../services/StorageService";
 import { VideoService } from "../services/VideoService";
 
 export interface UploadModelInterface {
   file: File | undefined;
-  setFile: (file: File) => void;
+  setFile: (file: File | undefined) => void;
   preSignedUrl: SignedUrl | undefined;
   setPreSignedUrl: (url: SignedUrl) => void;
   upload: (
@@ -12,17 +12,13 @@ export interface UploadModelInterface {
     videoId: string,
     url: SignedUrl,
     file: File
-  ) => void;
+  ) => Promise<void>;
   uploadProgress: number;
   currentUploadBytes: number;
   totalUploadBytes: number;
 }
 
-export const UploadContext = createContext<UploadModelInterface>(
-  {} as UploadModelInterface
-);
-
-export function UploadContextProvider(props: any) {
+export function useUploadVideo() {
   const [file, setFile] = useState<File>();
   const [preSignedUrl, setPreSignedUrl] = useState<SignedUrl>();
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -61,9 +57,5 @@ export function UploadContextProvider(props: any) {
     preSignedUrl,
   };
 
-  return (
-    <UploadContext.Provider value={value}>
-      {props.children}
-    </UploadContext.Provider>
-  );
+  return value;
 }

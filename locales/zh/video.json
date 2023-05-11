@@ -1,0 +1,8 @@
+{
+  "upload-video-title": "请在此上传视频",
+  "upload-video-description": "你可以在这里上传视频，或者从你的电脑中拖拽视频到这里。",
+  "video-upload-area": "视频上传区域",
+  "video-upload-area-upload-file": "点击上传视频",
+  "video-upload-area-dragndrop": "或者拖拽视频到这里",
+  "video-upload-area-file-types": "支持任何浏览器支持的视频格式"
+}

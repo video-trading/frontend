@@ -2,11 +2,12 @@ import { type } from "os";
 import React from "react";
 
 interface Props {
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   loading?: boolean;
   children?: React.ReactNode;
   className?: string;
   type?: "button" | "submit" | "reset";
+  disabled?: boolean;
 }
 
 export function LoadingProgress() {
@@ -28,6 +29,7 @@ export default function LoadingButton(props: Props) {
       className={props.className}
       onClick={props.onClick}
       type={props.type}
+      disabled={props.disabled}
     >
       {props.loading ? <LoadingProgress /> : props.children}
     </button>
