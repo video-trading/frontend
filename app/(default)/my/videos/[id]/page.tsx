@@ -4,7 +4,6 @@ import { authOptions } from "@/src/authOptions";
 import { VideoService } from "@/src/services/VideoService";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
-import React from "react";
 
 export async function generateMetadata({ params }: any) {
   return {
