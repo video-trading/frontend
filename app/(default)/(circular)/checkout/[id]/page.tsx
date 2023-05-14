@@ -9,6 +9,9 @@ import {
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/src/authOptions";
 import { redirect } from "next/navigation";
+import { PaymentService } from "@/src/services/PaymentService";
+import { Suspense } from "react";
+import { CircularProgressBar } from "@/components/shared/Placeholders";
 
 export const metadata = {
   title: "Check out",
@@ -18,6 +21,7 @@ export default async function Page({ params }: any) {
   const { t } = useTranslation("common");
   const video = await VideoService.getVideo(params.id, undefined);
   const session = await getServerSession(authOptions);
+  const accessToken = (session as any).accessToken;
 
   if (!session) {
     redirect("/unauthorized");
@@ -26,7 +30,7 @@ export default async function Page({ params }: any) {
   return (
     <>
       <main className="relative h-screen">
-        <div className="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
+        <div className="h-80 lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
           <video
             src="https://files.video2.trade/checkout.mp4"
             autoPlay
@@ -37,7 +41,7 @@ export default async function Page({ params }: any) {
         </div>
 
         <div>
-          <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-32 xl:gap-x-24">
+          <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-10 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-10 xl:gap-x-24 overflow-scroll max-h-screen">
             <div className="lg:col-start-2">
               <Link href={`/watch/${params.id}`}>
                 <button
@@ -58,7 +62,7 @@ export default async function Page({ params }: any) {
                 {t("checkout-description")}
               </p>
 
-              <dl className="mt-16 text-sm font-medium">
+              <dl className="mt-5 text-sm font-medium">
                 <dt className="text-gray-900">Video Id</dt>
                 <dd className="mt-2 text-indigo-600">{params.id}</dd>
               </dl>
@@ -108,15 +112,34 @@ export default async function Page({ params }: any) {
                     ${video.SalesInfo?.price.toFixed(2)} HKD
                   </dd>
                 </div>
+                {/*@ts-ignore*/}
+                <PaymentCard accessKey={accessToken} videoId={video.id} />
               </dl>
-
-              <div className="flex items-center justify-between border-t border-gray-200 pt-6 text-gray-900 mt-5">
-                <BrainTreePurchaseCard />
-              </div>
             </div>
           </div>
         </div>
       </main>
     </>
+  );
+}
+
+async function PaymentCard({
+  accessKey,
+  videoId,
+}: {
+  accessKey: string;
+  videoId: string;
+}) {
+  const token = await PaymentService.getClientToken(accessKey);
+  return (
+    <Suspense fallback={<CircularProgressBar />}>
+      <div className="w-full">
+        <BrainTreePurchaseCard
+          paymentToken={token.token}
+          accessToken={accessKey}
+          videoId={videoId}
+        />
+      </div>
+    </Suspense>
   );
 }

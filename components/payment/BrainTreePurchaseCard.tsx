@@ -1,23 +1,63 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 
 import { DropInUI } from "braintree-react";
+import { PaymentService } from "@/src/services/PaymentService";
+import { useRouter } from "next/navigation";
+import LoadingButton from "../shared/LoadingButton";
 
-export default function BrainTreePurchaseCard() {
+interface Props {
+  paymentToken: string;
+  videoId: string;
+  accessToken: string;
+}
+
+export default function BrainTreePurchaseCard({
+  paymentToken,
+  videoId,
+  accessToken,
+}: Props) {
+  const router = useRouter();
+  const checkout = useCallback(
+    async (nonce: string) => {
+      try {
+        const transactionHistory = await PaymentService.checkout(
+          accessToken,
+          nonce,
+          videoId
+        );
+        //@ts-ignore
+        router.push(`tx/${transactionHistory.id}`);
+      } catch (e) {
+        alert(e);
+      }
+    },
+    [accessToken, videoId, router]
+  );
+
   return (
     <DropInUI
-      token={"sandbox_8yrzsvtm_s2bg8fs563crhqzk"}
+      token={paymentToken}
       amount={30}
       renderSubmitButton={({ onClick, isLoading, disabled }) => (
-        <button
+        <LoadingButton
           type="button"
-          className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          loading={isLoading}
+          disabled={disabled}
+          className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-1"
+          onClick={onClick}
         >
           Pay
-        </button>
+        </LoadingButton>
       )}
-      onSubmitted={async (nonce, error) => {}}
+      onSubmitted={async (nonce, error) => {
+        if (error || !nonce) {
+          alert(error);
+          return;
+        }
+        await checkout(nonce);
+      }}
     />
   );
 }
