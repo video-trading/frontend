@@ -6,6 +6,7 @@ import { getSteps } from "@/src/getSteps";
 import { CategoryService } from "@/src/services/CategoryService";
 import { VideoService, VideoStatus } from "@/src/services/VideoService";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Create",
@@ -21,6 +22,10 @@ export default async function Page({ params }: any) {
   // check if video is UPLOADED
   if (video.status !== VideoStatus.UPLOADED) {
     return <VideoStatusErrorPage status={video.status} />;
+  }
+
+  if (!session) {
+    return redirect("/signin");
   }
 
   return (
