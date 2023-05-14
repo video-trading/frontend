@@ -16,18 +16,19 @@ import { CategoryService } from "@/src/services/CategoryService";
 import { VideoService } from "@/src/services/VideoService";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/src/authOptions";
+import CategoryDisplay from "@/components/home/CategoryDisplay";
+import VideoDisplay from "@/components/home/VideoDisplay";
 
 export default async function Home() {
-  const categories = await CategoryService.getCategories();
-  const videos = await VideoService.getVideos(1);
-
   return (
     <>
       {/*@ts-ignore */}
       <Hero />
       <Testimonials />
-      <Carousel categories={categories} />
-      <Inspiration videos={videos.items} />
+      {/*@ts-ignore */}
+      <CategoryDisplay />
+      {/*@ts-ignore */}
+      <VideoDisplay />
       <Creatives />
       {/* <Pricing /> */}
       {/* <Faqs /> */}

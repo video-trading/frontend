@@ -1,5 +1,5 @@
 import {
-  CircularProgressBar,
+  CircularProgressBarFullscreen,
   TextPlaceHolder,
 } from "@/components/shared/Placeholders";
 import React from "react";

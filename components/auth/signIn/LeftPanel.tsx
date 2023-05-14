@@ -9,7 +9,6 @@ import LoadingButton from "@/components/shared/LoadingButton";
 export default function LeftPanel() {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -17,7 +16,6 @@ export default function LeftPanel() {
       password: "",
     },
     onSubmit: async (values) => {
-      setLoading(true);
       const result = await signIn("credentials", {
         ...values,
 
@@ -37,7 +35,6 @@ export default function LeftPanel() {
       // if the login was successful
       // redirect to the home page
       router.push("/");
-      setLoading(false);
     },
   });
 
@@ -130,7 +127,7 @@ export default function LeftPanel() {
 
               <div>
                 <LoadingButton
-                  loading={loading}
+                  loading={formik.isSubmitting}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   {t("sign-in")}

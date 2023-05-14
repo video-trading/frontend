@@ -11,7 +11,6 @@ import Link from "next/link";
 export default function LeftPanel() {
   const { t } = useTranslation("common");
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -21,7 +20,6 @@ export default function LeftPanel() {
       password: "",
     },
     onSubmit: async (values) => {
-      setLoading(true);
       const { error } = await AuthenticationService.signUp(
         values.username,
         values.password,
@@ -33,8 +31,6 @@ export default function LeftPanel() {
       } else {
         router.push("/signin");
       }
-
-      setLoading(false);
     },
   });
 
@@ -137,7 +133,7 @@ export default function LeftPanel() {
               </div>
               <div>
                 <LoadingButton
-                  loading={loading}
+                  loading={formik.isSubmitting}
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   {t("sign-up")}
