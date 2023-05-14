@@ -1,6 +1,6 @@
 import { Editor } from "@/packages/editor/src";
 import { GetMyVideoDto, VideoStatus } from "@/src/services/VideoService";
-import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { CheckCircleIcon, ClockIcon } from "@heroicons/react/20/solid";
 import dayjs from "dayjs";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
@@ -12,7 +12,6 @@ interface Props {
 
 export default function HistoryList({ items }: Props) {
   const { t } = useTranslation("my");
-  console.log(items[1].videos);
 
   return (
     <div className="mx-auto max-w-7xl sm:px-2 lg:px-8">
@@ -78,6 +77,17 @@ export default function HistoryList({ items }: Props) {
                               "YYYY-MM-DD HH:mm:ss"
                             )}
                           </time>
+                        </p>
+                      </div>
+                    )}
+                    {video.status !== VideoStatus.READY && (
+                      <div className="flex items-center">
+                        <ClockIcon
+                          className="h-5 w-5 text-yellow-500"
+                          aria-hidden="true"
+                        />
+                        <p className="ml-2 text-sm font-medium text-gray-500">
+                          {t(video.status)}
                         </p>
                       </div>
                     )}

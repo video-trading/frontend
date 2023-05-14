@@ -18,5 +18,7 @@
   "video-description-is-for-sale-no": "否",
   "video-description-form-price": "售价",
   "video-publish-error-title": "视频发布失败",
-  "video-already-published-description": "这个视频已经发布了, 无法再次发布"
+  "video-already-published-description": "这个视频已经发布了, 无法再次发布",
+  "video-not-ready-title": "视频未准备好",
+  "video-not-ready-description": "这个视频还没有准备好, 请稍后再试"
 }

@@ -114,7 +114,7 @@ export default function HistoryDetail({ video }: Props) {
               </dl>
               <p className="mt-6 font-medium text-gray-900 md:mt-10">
                 {t("video-status")}: {"  "}
-                {video.status}
+                {t(video.status)}
               </p>
               <div className="mt-6">
                 <div className="overflow-hidden rounded-full bg-gray-200">

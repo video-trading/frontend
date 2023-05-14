@@ -49,13 +49,9 @@ export function VideoCard({
                 height="36"
               />
             ) : (
-              <Image
-                className="shrink-0 w-9 h-9 rounded-full mr-4"
-                src={Author01}
-                width="36"
-                height="36"
-                alt="Author 01"
-              />
+              <div className="shrink-0 w-9 h-9 rounded-full mr-4 capitalize bg-gray-500 flex">
+                <p className="mx-auto my-auto text-white">{author[0]}</p>
+              </div>
             )}
             <div className="truncate">
               <div className="font-bold text-white truncate">{title}</div>

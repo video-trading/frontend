@@ -3,10 +3,11 @@ import VideoBreadcrumb from "@/components/video/VideoBreadcrumb";
 import VideoPlayer from "@/components/video/VideoPlayer";
 import VideoReviews from "@/components/video/VideoReviews";
 import { classNames } from "@/src/classNames";
-import { VideoService } from "@/src/services/VideoService";
+import { VideoService, VideoStatus } from "@/src/services/VideoService";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { Editor } from "editor";
 import useTranslation from "next-translate/useTranslation";
+import { redirect } from "next/navigation";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -14,13 +15,20 @@ export async function generateMetadata({ params }: any) {
   const video = await VideoService.getVideo(params.id, undefined);
   return {
     title: video.title,
-    image: video.thumbnail,
+    openGraph: {
+      title: video.title,
+      images: video.thumbnail,
+    },
   };
 }
 
 export default async function Video({ params }: any) {
   const { t } = useTranslation("common");
   const video = await VideoService.getVideo(params.id, undefined);
+
+  if (video.status !== VideoStatus.READY) {
+    return redirect(`/watch/${params.id}/notReady`);
+  }
 
   return (
     <div className="bg-white">

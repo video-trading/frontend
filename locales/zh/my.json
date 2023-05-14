@@ -17,5 +17,10 @@
   "video-resolution": "分辨率",
   "video-framerate": "帧数",
   "transcoding-progress": "转码进度",
-  "transcoding-progress-description": "视频转码进度会分别的显示在这里"
+  "transcoding-progress-description": "视频转码进度会分别的显示在这里",
+  "UPLOADED": "上传完成",
+  "ANALYZING": "分析中",
+  "UPLOADING": "上传中",
+  "TRANSCODING": "转码中",
+  "READY": "准备就绪"
 }
