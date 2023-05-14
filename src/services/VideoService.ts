@@ -94,6 +94,7 @@ export interface GetMyVideoByIdDto extends GetVideoResponse {
     length: number;
     frameRate: string;
   };
+  passedStatus: string[];
 }
 
 export class VideoService {

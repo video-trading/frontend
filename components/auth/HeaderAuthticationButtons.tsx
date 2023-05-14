@@ -4,6 +4,7 @@ import { signIn, signOut } from "next-auth/react";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import React from "react";
+import Avatar from "./Avatar";
 
 export default function HeaderAuthticationButtons({
   session,
@@ -37,16 +38,7 @@ export default function HeaderAuthticationButtons({
             </Link>
           </li>
         )}
-        {session && (
-          <li className="ml-3">
-            <button
-              className="font-medium text-gray-600 decoration-blue-500 decoration-2 underline-offset-2 hover:underline px-3 lg:px-5 py-2 flex items-center transition duration-150 ease-in-out"
-              onClick={() => signOut()}
-            >
-              {t("sign-out")}
-            </button>
-          </li>
-        )}
+        {session && <Avatar user={session.user} />}
       </ul>
     </nav>
   );

@@ -3,6 +3,7 @@
   "logo": "品视交易",
   "sign-in": "登录",
   "sign-up": "注册",
+  "sign-out": "退出",
   "sign-in-description": "已经是会员？",
   "sign-up-description": "还不是会员？",
   "create-videos": "创建视频",
@@ -33,5 +34,9 @@
   "save": "保存",
   "cancel": "取消",
   "back-to-home": "返回首页",
-  "error": "错误"
+  "error": "错误",
+  "account-settings": "账户设置",
+  "my-videos": "我的视频",
+  "transactions": "交易记录",
+  "rewards": "奖励"
 }

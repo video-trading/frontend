@@ -121,6 +121,9 @@ importers:
       react-i18next:
         specifier: ^12.2.0
         version: 12.2.0(i18next@22.4.15)(react-dom@18.2.0)(react@18.2.0)
+      react-image:
+        specifier: ^4.1.0
+        version: 4.1.0(react-dom@18.2.0)(react@18.2.0)
       react-markdown:
         specifier: ^8.0.7
         version: 8.0.7(@types/react@18.0.34)(react@18.2.0)
@@ -4385,6 +4388,17 @@ packages:
       '@babel/runtime': 7.21.5
       html-parse-stringify: 3.0.1
       i18next: 22.4.15
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /react-image@4.1.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-qwPNlelQe9Zy14K2pGWSwoL+vHsAwmJKS6gkotekDgRpcnRuzXNap00GfibD3eEPYu3WCPlyIUUNzcyHOrLHjw==}
+    peerDependencies:
+      '@babel/runtime': '>=7'
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
