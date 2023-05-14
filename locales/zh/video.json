@@ -4,5 +4,19 @@
   "video-upload-area": "视频上传区域",
   "video-upload-area-upload-file": "点击上传视频",
   "video-upload-area-dragndrop": "或者拖拽视频到这里",
-  "video-upload-area-file-types": "支持任何浏览器支持的视频格式"
+  "video-upload-area-file-types": "支持任何浏览器支持的视频格式",
+  "video-description-title": "在添加视频描述",
+  "video-description-description": "视频可以拥有多种信息，方便日后大家搜索和了解视频。",
+  "video-description-form-title": "视频标题",
+  "video-description-title-placeholder": "标题",
+  "video-description-form-description": "视频描述",
+  "video-description-form-description-help": "这里可以输入关于视频的描述，方便大家清楚视频的内容",
+  "video-description-pricing-title": "视频售价",
+  "video-description-pricing-description": "视频可以是免费的也可以是收费的，取决于你的选择",
+  "video-description-pricing": "视频是否收费？",
+  "video-description-is-for-sale-yes": "是",
+  "video-description-is-for-sale-no": "否",
+  "video-description-form-price": "售价",
+  "video-publish-error-title": "视频发布失败",
+  "video-already-published-description": "这个视频已经发布了, 无法再次发布"
 }

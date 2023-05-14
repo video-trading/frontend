@@ -1,8 +1,8 @@
 "use client";
 
 import { useUploadVideo } from "@/src/hooks/useUpload";
-import { VideoService } from "@/src/services/VideoService";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { GetVideoResponse, VideoService } from "@/src/services/VideoService";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 import { Session } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/navigation";
