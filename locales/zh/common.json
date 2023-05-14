@@ -38,5 +38,7 @@
   "account-settings": "账户设置",
   "my-videos": "我的视频",
   "transactions": "交易记录",
-  "rewards": "奖励"
+  "rewards": "奖励",
+  "something-went-wrong": "出错了",
+  "retry": "重试"
 }
