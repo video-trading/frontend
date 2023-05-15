@@ -8,5 +8,15 @@
   "from-user": "来自用户",
   "to-user": "给用户",
   "time": "时间",
-  "total": "总计"
+  "total": "总计",
+  "sender": "发送者: {{sender}}",
+  "receiver": "接收者: {{receiver}}",
+  "tx-id": "交易ID: {{txId}}",
+  "transaction-list-title": "交易列表",
+  "transaction-list-description": "这是您的交易列表。 您可以点击任何交易以查看其详细信息。",
+  "view-details": "查看详细信息",
+  "watch": "观看",
+  "SENT": "发送的交易",
+  "RECEIVED": "收到的交易",
+  "total-txs": "总交易数"
 }

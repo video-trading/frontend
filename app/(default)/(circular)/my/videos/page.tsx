@@ -36,7 +36,7 @@ export default async function MyVideoPage({ searchParams }: any) {
         <div className="mt-16">
           <h2 className="sr-only">Recent orders</h2>
           <HistoryList items={myVideos.items} />
-          <div className="w-full justify-end flex pr-20 pt-20">
+          <div className="w-full justify-end flex pr-10 lg:pr-96">
             <Paginator
               total={myVideos.metadata.totalPages}
               page={myVideos.metadata.page}

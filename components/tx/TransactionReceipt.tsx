@@ -11,8 +11,8 @@ export default function TransactionReceipt({ transaction }: Props) {
   const { t } = useTranslation("tx");
 
   return (
-    <div className="bg-white">
-      <div className="mx-auto max-w-3xl px-4 sm:px-6 sm:py-24">
+    <div className="border rounded-3xl">
+      <div className="mx-auto w-full p-10">
         <div className="max-w-xl">
           <h1 className="text-base font-medium text-indigo-600">
             {t("thank-you")}
