@@ -8,8 +8,9 @@ export const metadata = {
   title: "Create",
 };
 
-export default function Page() {
+export default function Page({ params }: any) {
   const steps = getSteps();
+  const id = params.id;
 
   return (
     <div className="space-y-10">
@@ -22,7 +23,8 @@ export default function Page() {
           width={300}
           alt="Finish"
         />
-        <Link href={"/"} className="text-sky-600">
+        {/*@ts-expect-errors */}
+        <Link href={"/my/videos/" + id} className="text-sky-600">
           Check the video status
         </Link>
       </div>
