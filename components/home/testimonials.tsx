@@ -5,32 +5,25 @@ import {
 } from "@heroicons/react/20/solid";
 import useTranslation from "next-translate/useTranslation";
 
-const features = [
-  {
-    name: "Push to deploy",
-    description:
-      "Commodo nec sagittis tortor mauris sed. Turpis tortor quis scelerisque diam id accumsan nullam tempus. Pulvinar etiam lacus volutpat eu. Phasellus praesent ligula sit faucibus.",
-    href: "#",
-    icon: CloudArrowUpIcon,
-  },
-  {
-    name: "SSL certificates",
-    description:
-      "Pellentesque enim a commodo malesuada turpis eleifend risus. Facilisis donec placerat sapien consequat tempor fermentum nibh.",
-    href: "#",
-    icon: LockClosedIcon,
-  },
-  {
-    name: "Simple queues",
-    description:
-      "Pellentesque sit elit congue ante nec amet. Dolor aenean curabitur viverra suspendisse iaculis eget. Nec mollis placerat ultricies euismod ut condimentum.",
-    href: "#",
-    icon: ArrowPathIcon,
-  },
-];
-
 export default function Testimonials() {
   const { t } = useTranslation("features");
+  const features = [
+    {
+      name: t("feature-2-title"),
+      description: t("feature-2-subtitle"),
+      icon: CloudArrowUpIcon,
+    },
+    {
+      name: t("feature-3-title"),
+      description: t("feature-3-subtitle"),
+      icon: LockClosedIcon,
+    },
+    {
+      name: t("feature-4-title"),
+      description: t("feature-4-subtitle"),
+      icon: ArrowPathIcon,
+    },
+  ];
 
   return (
     <div className="bg-white py-24 sm:py-32">
@@ -59,14 +52,6 @@ export default function Testimonials() {
                 </dt>
                 <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
                   <p className="flex-auto">{feature.description}</p>
-                  <p className="mt-6">
-                    <a
-                      href={feature.href}
-                      className="text-sm font-semibold leading-6 text-indigo-600"
-                    >
-                      Learn more <span aria-hidden="true">→</span>
-                    </a>
-                  </p>
                 </dd>
               </div>
             ))}

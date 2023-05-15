@@ -1,0 +1,12 @@
+{
+  "thank-you": "感谢您的支持！",
+  "tx-receipt-title": "交易收据",
+  "tx-receipt-description": "你的订单{{txId}}已经被提交。 请注意，这可能需要几分钟才能出现在区块链上。",
+  "tx-hash": "交易哈希",
+  "quantity": "数量",
+  "price": "价格",
+  "from-user": "来自用户",
+  "to-user": "给用户",
+  "time": "时间",
+  "total": "总计"
+}

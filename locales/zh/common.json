@@ -40,5 +40,7 @@
   "transactions": "交易记录",
   "rewards": "奖励",
   "something-went-wrong": "出错了",
-  "retry": "重试"
+  "retry": "重试",
+  "under-constraction": "功能正在开发中",
+  "under-constraction-description": "该功能正在开发中，敬请期待！"
 }

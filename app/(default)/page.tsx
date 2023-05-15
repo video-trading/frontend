@@ -29,6 +29,7 @@ export default async function Home() {
       <CategoryDisplay />
       {/*@ts-ignore */}
       <VideoDisplay />
+      {/*@ts-expect-error*/}
       <Creatives />
       {/* <Pricing /> */}
       {/* <Faqs /> */}

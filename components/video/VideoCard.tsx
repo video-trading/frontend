@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Author01 from "@/public/images/author-01.jpg";
+import Author01 from "@/public/images/user.jpg";
 
 interface VideoCardProps {
   id: string;

@@ -11,4 +11,10 @@ export class UserService {
     });
     return resp.data;
   }
+
+  static async listUsers(): Promise<Profile[]> {
+    const url = process.env.NEXT_PUBLIC_API_ENDPOINT + "/user";
+    const resp = await axios.get(url);
+    return resp.data;
+  }
 }
