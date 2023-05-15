@@ -42,5 +42,7 @@
   "something-went-wrong": "出错了",
   "retry": "重试",
   "under-constraction": "功能正在开发中",
-  "under-constraction-description": "该功能正在开发中，敬请期待！"
+  "under-constraction-description": "该功能正在开发中，敬请期待！",
+  "owner": "所有者: {{owner}}",
+  "username": "用户名: {{username}}"
 }

@@ -56,10 +56,6 @@ export default async function Video({ params }: any) {
           </div>
 
           <section aria-labelledby="information-heading" className="mt-4">
-            <h2 id="information-heading" className="sr-only">
-              Product information
-            </h2>
-
             {video.SalesInfo && (
               <div className="flex items-center">
                 <p className="text-lg text-gray-900 sm:text-xl">
@@ -96,11 +92,15 @@ export default async function Video({ params }: any) {
               </div>
             )}
 
+            <div>
+              <p>{t("owner", { owner: video.Owner.name })}</p>
+            </div>
+
             <div className="mt-4 space-y-6">
               <Editor initialValue={video.description} editable={false} />
             </div>
 
-            {video.SalesInfo && (
+            {video.SalesInfo && video.purchasable && (
               <div className="mt-6 flex items-center">
                 <CheckIcon
                   className="h-5 w-5 flex-shrink-0 text-green-500"
@@ -124,7 +124,7 @@ export default async function Video({ params }: any) {
         </div>
 
         {/* Product form */}
-        {video.SalesInfo && (
+        {video.SalesInfo && video.purchasable && (
           <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
             <PurchaseCard
               videoId={video.id}

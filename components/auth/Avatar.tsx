@@ -16,6 +16,9 @@ export default function Avatar({ user }: Props) {
 
   const menus = [
     {
+      name: t("username", { username: user.name }),
+    },
+    {
       name: t("account-settings"),
       link: "/account",
     },
