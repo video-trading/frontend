@@ -112,7 +112,7 @@ export default async function Hero() {
               data-aos-duration="1100"
             >
               <video
-                src="https://static.gettyimages.com/display-sets/creative-video/hero/12/FINAL_Q42020VHP.mp4"
+                src="https://pub-52e4a46852484ba49e9aa9687ffa0adb.r2.dev/HomePageDemo.mp4"
                 className="md:max-w-none max-h-96 object-cover rounded-md shadow-lg"
                 autoPlay
                 muted
