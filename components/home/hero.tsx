@@ -58,7 +58,7 @@ export default async function Hero() {
               {!session ? <AuthenticationButtons /> : <CreationButton />}
 
               {/* Stats */}
-              <div
+              {/* <div
                 className="inline-flex items-center space-x-4 md:space-x-6"
                 data-aos="fade-right"
                 data-aos-delay="400"
@@ -103,7 +103,7 @@ export default async function Hero() {
                   </div>
                   <div className="text-gray-500">Creatives</div>
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* Image */}
             <div
@@ -117,6 +117,8 @@ export default async function Hero() {
                 autoPlay
                 muted
                 loop
+                // apple-inline="yes"
+                playsInline
               />
             </div>
           </div>

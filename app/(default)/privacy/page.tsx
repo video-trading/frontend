@@ -14,7 +14,7 @@ function getPrivacy() {
 export default function Page() {
   const { privacy } = getPrivacy();
   return (
-    <div className="mt-20 mx-20 p-10 border rounded-3xl">
+    <div className="mt-20 mx-auto w-max-3xl p-10 border rounded-3xl prose prose-xl">
       <ReactMarkDown>{privacy}</ReactMarkDown>
     </div>
   );
