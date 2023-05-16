@@ -1,11 +1,11 @@
-const withTM = require("next-transpile-modules")(["mui-tree-select"]);
-const { i18n } = require("./next-i18next.config");
+const nextTranslate = require("next-translate-plugin");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
-  i18n,
+  experimental: {
+    appDir: true,
+    typedRoutes: true,
+  },
 };
 
-module.exports = withTM(nextConfig);
+module.exports = nextTranslate(nextConfig);

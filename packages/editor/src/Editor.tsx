@@ -1,3 +1,5 @@
+"use client";
+
 import Theme from "./themes/Theme";
 import {
   InitialConfigType,

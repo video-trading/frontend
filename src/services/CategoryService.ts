@@ -8,7 +8,7 @@ export interface GetCategoryResponse {
     name: string;
   }[];
 
-  parent: GetCategoryResponse;
+  parent: GetCategoryResponse | null;
 }
 
 export class CategoryNode {
@@ -54,5 +54,14 @@ export class CategoryService {
       );
     }
     return categoriesTree;
+  }
+
+  static async getCategoryById(
+    categoryId: string
+  ): Promise<GetCategoryResponse> {
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + `/category` + `/${categoryId}`;
+    const category = await axios.get(url, {});
+    return category.data;
   }
 }
