@@ -11,7 +11,6 @@ COPY . .
 RUN pnpm install
 RUN pnpm build
 
-
 FROM node:18-alpine
 WORKDIR /app/
 # copy from build image

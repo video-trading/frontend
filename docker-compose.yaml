@@ -2,11 +2,13 @@ version: "3"
 
 services:
   web:
-    image: frontend
+    image: sirily11/video-trading-front:latest
     build:
       context: ./
       dockerfile: Dockerfile
     ports:
       - "3001:3000"
     environment:
-      - NEXT_PUBLIC_API_ENDPOINT=https://api.video2.trade
+      - NEXT_PUBLIC_API_ENDPOINT=${NEXT_PUBLIC_API_ENDPOINT}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
