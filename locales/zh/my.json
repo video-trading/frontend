@@ -22,5 +22,7 @@
   "ANALYZING": "分析中",
   "UPLOADING": "上传中",
   "TRANSCODING": "转码中",
-  "READY": "准备就绪"
+  "READY": "准备就绪",
+  "FAILED": "失败",
+  "go-publish": "去发布"
 }
