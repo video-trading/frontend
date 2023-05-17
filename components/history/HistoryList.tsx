@@ -1,6 +1,10 @@
 import { Editor } from "@/packages/editor/src";
 import { GetMyVideoDto, VideoStatus } from "@/src/services/VideoService";
-import { CheckCircleIcon, ClockIcon } from "@heroicons/react/20/solid";
+import {
+  CheckCircleIcon,
+  ClockIcon,
+  ExclamationCircleIcon,
+} from "@heroicons/react/20/solid";
 import dayjs from "dayjs";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
@@ -80,10 +84,23 @@ export default function HistoryList({ items }: Props) {
                         </p>
                       </div>
                     )}
-                    {video.status !== VideoStatus.READY && (
+                    {video.status !== VideoStatus.READY &&
+                      video.status !== VideoStatus.FAILED && (
+                        <div className="flex items-center">
+                          <ClockIcon
+                            className="h-5 w-5 text-yellow-500"
+                            aria-hidden="true"
+                          />
+                          <p className="ml-2 text-sm font-medium text-gray-500">
+                            {t(video.status)}
+                          </p>
+                        </div>
+                      )}
+
+                    {video.status === VideoStatus.FAILED && (
                       <div className="flex items-center">
-                        <ClockIcon
-                          className="h-5 w-5 text-yellow-500"
+                        <ExclamationCircleIcon
+                          className="h-5 w-5 text-red-500"
                           aria-hidden="true"
                         />
                         <p className="ml-2 text-sm font-medium text-gray-500">
@@ -93,23 +110,38 @@ export default function HistoryList({ items }: Props) {
                     )}
 
                     <div className="mt-6 flex items-center space-x-4 divide-x divide-gray-200 border-t border-gray-200 pt-4 text-sm font-medium sm:ml-4 sm:mt-0 sm:border-none sm:pt-0">
-                      <div className="flex flex-1 justify-center">
-                        <Link
-                          //@ts-ignore
-                          href={"/my/videos/" + video.id}
-                          className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
-                        >
-                          {t("view-details")}
-                        </Link>
-                      </div>
-                      <div className="flex flex-1 justify-center pl-4">
-                        <a
-                          href={`/watch/${video.id}`}
-                          className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
-                        >
-                          {t("watch")}
-                        </a>
-                      </div>
+                      {video.status === VideoStatus.UPLOADED && (
+                        <div className="flex flex-1 justify-center">
+                          <Link
+                            //@ts-ignore
+                            href={"/create/" + video.id}
+                            className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+                          >
+                            {t("go-publish")}
+                          </Link>
+                        </div>
+                      )}
+                      {video.status === VideoStatus.ANALYZING && (
+                        <div className="flex flex-1 justify-center">
+                          <Link
+                            //@ts-ignore
+                            href={"/my/videos/" + video.id}
+                            className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+                          >
+                            {t("view-details")}
+                          </Link>
+                        </div>
+                      )}
+                      {video.status === VideoStatus.READY && (
+                        <div className="flex flex-1 justify-center pl-4">
+                          <a
+                            href={`/watch/${video.id}`}
+                            className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+                          >
+                            {t("watch")}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>

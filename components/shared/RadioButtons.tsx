@@ -16,7 +16,7 @@ export default function RadioButtons({
   return (
     <div className={className}>
       {selections.map((selection) => (
-        <div className="flex items-center gap-x-3">
+        <div className="flex items-center gap-x-3" key={selection}>
           <input
             id={selection}
             name={name}
