@@ -1,13 +1,20 @@
-import Link from "next/link";
-import useTranslation from "next-translate/useTranslation";
-import { signIn, signOut } from "next-auth/react";
-import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/src/authOptions";
-import HeaderAuthticationButtons from "../auth/HeaderAuthticationButtons";
+import { TokenService } from "@/src/services/TokenService";
+import { getServerSession } from "next-auth/next";
 import Image from "next/image";
+import Link from "next/link";
+import HeaderAuthticationButtons from "../auth/HeaderAuthticationButtons";
+
+async function getTotalToken(
+  accessToken?: string
+): Promise<number | undefined> {
+  if (!accessToken) return undefined;
+  return await TokenService.getTotalToken(accessToken);
+}
 
 export default async function Header({ nav = true }: { nav?: boolean }) {
   const session = await getServerSession(authOptions);
+  const balance = await getTotalToken((session as any)?.accessToken);
 
   return (
     <header className="absolute w-full z-30">
@@ -27,7 +34,9 @@ export default async function Header({ nav = true }: { nav?: boolean }) {
           </div>
 
           {/* Desktop navigation */}
-          {nav && <HeaderAuthticationButtons session={session} />}
+          {nav && (
+            <HeaderAuthticationButtons session={session} balance={balance} />
+          )}
         </div>
       </div>
     </header>

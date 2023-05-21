@@ -45,5 +45,6 @@
   "under-constraction-description": "该功能正在开发中，敬请期待！",
   "owner": "所有者: {{owner}}",
   "username": "用户名: {{username}}",
-  "cta-title": "等不及了？这就上传你的第一个视频吧！"
+  "cta-title": "等不及了？这就上传你的第一个视频吧！",
+  "token-balance": "代币余额: {{tokenBalance}} 品视币"
 }

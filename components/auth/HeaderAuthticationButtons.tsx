@@ -8,8 +8,10 @@ import Avatar from "./Avatar";
 
 export default function HeaderAuthticationButtons({
   session,
+  balance,
 }: {
   session: any;
+  balance?: number;
 }) {
   const { t } = useTranslation("common");
 
@@ -38,7 +40,7 @@ export default function HeaderAuthticationButtons({
             </Link>
           </li>
         )}
-        {session && <Avatar user={session.user} />}
+        {session && <Avatar user={session.user} tokenBalance={balance} />}
       </ul>
     </nav>
   );

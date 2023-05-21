@@ -9,14 +9,24 @@ import Link from "next/link";
 
 interface Props {
   user: Profile;
+  tokenBalance?: number;
 }
 
-export default function Avatar({ user }: Props) {
+export default function Avatar({ user, tokenBalance }: Props) {
   const { t } = useTranslation("common");
 
   const menus = [
     {
       name: t("username", { username: user.name }),
+    },
+    {
+      name: t("token-balance", { tokenBalance: tokenBalance }),
+      link: "/my/rewards",
+      hidden: tokenBalance === undefined,
+    },
+    {
+      name: "divider",
+      divider: true,
     },
     {
       name: t("account-settings"),
@@ -29,10 +39,6 @@ export default function Avatar({ user }: Props) {
     {
       name: t("transactions"),
       link: "/my/transactions",
-    },
-    {
-      name: t("rewards"),
-      link: "/my/rewards",
     },
     {
       name: t("sign-out"),
@@ -59,40 +65,54 @@ export default function Avatar({ user }: Props) {
       >
         <Menu.Items className="absolute mt-2  z-10  w-56 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {menus.map((menu) => (
-              // render menu items
-              // based on the menu type
-              // if menu type is link
-              // render link
-              // else
-              // render button
-              <Menu.Item>
-                {({ active }) =>
-                  menu.link ? (
-                    <Link
-                      className={classNames(
-                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block w-full px-4 py-2 text-left text-sm"
-                      )}
-                      onClick={menu.onClick}
-                      href={menu.link as any}
-                    >
-                      {menu.name}
-                    </Link>
-                  ) : (
-                    <button
-                      className={classNames(
-                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block w-full px-4 py-2 text-left text-sm"
-                      )}
-                      onClick={menu.onClick}
-                    >
-                      {menu.name}
-                    </button>
-                  )
-                }
-              </Menu.Item>
-            ))}
+            {menus
+              .filter((menu) => !menu.hidden)
+              .map((menu) => (
+                // render menu items
+                // based on the menu type
+                // if menu type is link
+                // render link
+                // else
+                // render button
+                <Menu.Item key={menu.name}>
+                  {({ active }) => {
+                    if (menu.divider) {
+                      return <div className="border-t border-gray-100"></div>;
+                    }
+
+                    if (menu.link) {
+                      return (
+                        <Link
+                          className={classNames(
+                            active
+                              ? "bg-gray-100 text-gray-900"
+                              : "text-gray-700",
+                            "block w-full px-4 py-2 text-left text-sm"
+                          )}
+                          onClick={menu.onClick}
+                          href={menu.link as any}
+                        >
+                          {menu.name}
+                        </Link>
+                      );
+                    }
+
+                    return (
+                      <button
+                        className={classNames(
+                          active
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-700",
+                          "block w-full px-4 py-2 text-left text-sm"
+                        )}
+                        onClick={menu.onClick}
+                      >
+                        {menu.name}
+                      </button>
+                    );
+                  }}
+                </Menu.Item>
+              ))}
           </div>
         </Menu.Items>
       </Transition>

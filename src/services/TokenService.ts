@@ -20,11 +20,14 @@ export class TokenService {
     return token.data;
   }
 
-  static async getTokenHistory(id: string): Promise<TokenHistroy> {
+  static async listMyTokenHistory(accessKey: string): Promise<TokenHistroy[]> {
     let generationEndpoint =
-      process.env.NEXT_PUBLIC_API_ENDPOINT + "/token/history/" + id;
-    const token = await axios.get(generationEndpoint, {});
-
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/token/my/history";
+    const token = await axios.get(generationEndpoint, {
+      headers: {
+        Authorization: `Bearer ${accessKey}`,
+      },
+    });
     return token.data;
   }
 }
