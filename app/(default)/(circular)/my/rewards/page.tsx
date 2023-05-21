@@ -18,26 +18,26 @@ export default async function Page({ searchParams }: any) {
   const currentPage = searchParams.page ?? "1";
   const session = await getServerSession(authOptions);
   const accessToken = (session as any)?.accessToken;
+  const page = parseInt(currentPage);
 
   if (!accessToken) {
     return redirect("/signin");
   }
 
-  const tokenHistory = await TokenService.listMyTokenHistory(accessToken);
-
+  const tokenHistory = await TokenService.listMyTokenHistory(accessToken, page);
   return (
     <div className="mt-20 space-y-10">
       <HistoryHeader
         title={t("token-list-title")}
         description={t("token-list-description")}
       />
-      <TokenList items={tokenHistory} />
+      <TokenList items={tokenHistory.items} />
       <div className="w-full justify-end flex pr-10 lg:pr-96">
-        {/* <Paginator
-          total={transactions.metadata.totalPages}
+        <Paginator
+          total={tokenHistory.metadata.totalPages}
           page={currentPage}
-          basePath={"/my/transactions"}
-        /> */}
+          basePath={"/my/rewards"}
+        />
       </div>
     </div>
   );

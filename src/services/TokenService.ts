@@ -1,10 +1,14 @@
 import axios from "axios";
+import { PaginationResponse } from "./VideoService";
 
 export interface TokenHistroy {
-  id: string;
-  value: string;
-  timestamp: string;
-  type: string;
+  _id: string;
+  transactions: {
+    _id: any;
+    value: string;
+    timestamp: string;
+    type: string;
+  }[];
 }
 
 export class TokenService {
@@ -20,9 +24,12 @@ export class TokenService {
     return token.data;
   }
 
-  static async listMyTokenHistory(accessKey: string): Promise<TokenHistroy[]> {
+  static async listMyTokenHistory(
+    accessKey: string,
+    page: number
+  ): Promise<PaginationResponse<TokenHistroy>> {
     let generationEndpoint =
-      process.env.NEXT_PUBLIC_API_ENDPOINT + "/token/my/history";
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/token/my/history?page=" + page;
     const token = await axios.get(generationEndpoint, {
       headers: {
         Authorization: `Bearer ${accessKey}`,
