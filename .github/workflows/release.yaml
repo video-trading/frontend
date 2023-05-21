@@ -29,6 +29,8 @@ jobs:
           push: true
           tags: ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
           build-args: |
-            APP_NAME=${{ matrix.app }}
+            NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+            NEXT_PUBLIC_API_ENDPOINT=${{ secrets.NEXT_PUBLIC_API_ENDPOINT }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
