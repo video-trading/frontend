@@ -61,9 +61,7 @@ export default function TransactionReceipt({ transaction }: Props) {
                   </div>
                   <div className="flex pl-4 sm:pl-6">
                     <dt className="font-medium text-gray-900">{t("price")}</dt>
-                    <dd className="ml-2 text-gray-700">
-                      {transaction.value} HKD
-                    </dd>
+                    <dd className="ml-2 text-gray-700">{transaction.value}</dd>
                   </div>
                 </dl>
               </div>

@@ -10,6 +10,7 @@ import { Editor } from "editor";
 import { getServerSession } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 import { redirect } from "next/navigation";
+import { useMemo } from "react";
 
 const reviews = { average: 4, totalCount: 1624 };
 
@@ -35,6 +36,24 @@ export default async function Video({ params }: any) {
   if (video.status !== VideoStatus.READY) {
     return redirect(`/watch/${params.id}/notReady`);
   }
+
+  const purchaseOptions = () => {
+    if (video.purchasable) {
+      return [
+        {
+          name: t("purchase-option-1"),
+          description: t("purchase-option-1-description"),
+          link: `/checkout/${video.id}`,
+        },
+        {
+          name: t("purchase-option-2"),
+          description: t("purchase-option-2-description"),
+          link: `/checkout/token/${video.id}`,
+        },
+      ];
+    }
+    return [];
+  };
 
   return (
     <div className="bg-white">
@@ -130,24 +149,10 @@ export default async function Video({ params }: any) {
         </div>
 
         {/* Product form */}
-        {video.SalesInfo && video.purchasable && (
-          <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
-            <PurchaseCard
-              videoId={video.id}
-              purchaseOptions={[
-                {
-                  name: t("purchase-option-1"),
-                  description: t("purchase-option-1-description"),
-                },
-                {
-                  name: t("purchase-option-2"),
-                  description: t("purchase-option-2-description"),
-                  disabled: true,
-                },
-              ]}
-            />
-          </div>
-        )}
+        <div className="mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start">
+          <PurchaseCard purchaseOptions={purchaseOptions()} />
+        </div>
+
         <div className="col-span-4">
           <VideoReviews />
         </div>

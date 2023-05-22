@@ -1,4 +1,5 @@
 import axios from "axios";
+import { z } from "zod";
 import { Profile } from "./AuthenticationService";
 import { GetVideoResponse } from "./VideoService";
 
@@ -24,6 +25,41 @@ export interface TransactionHistory {
 
   type: "RECEIVED" | "SENT";
 }
+
+export const VideoPurchaseSummarySchema = z.object({
+  video: z.object({
+    id: z.string(),
+    title: z.string(),
+    thumbnail: z.string().url(),
+    Category: z.object({
+      name: z.string(),
+    }),
+    User: z.object({
+      name: z.string(),
+    }),
+    SalesInfo: z.object({
+      price: z.string(),
+      unit: z.string(),
+    }),
+    purchasable: z.boolean(),
+  }),
+  salesInfo: z.object({
+    prices: z
+      .object({
+        name: z.string(),
+        price: z.string(),
+        unit: z.string(),
+      })
+      .array(),
+    total: z.object({
+      price: z.string(),
+      unit: z.string(),
+      priceInNumber: z.number().positive(),
+    }),
+  }),
+});
+
+export type VideoPurchaseSummary = z.infer<typeof VideoPurchaseSummarySchema>;
 
 export class PaymentService {
   static async getClientToken(accessToken: string): Promise<TokenResponse> {
@@ -66,7 +102,6 @@ export class PaymentService {
   ): Promise<TransactionHistory> {
     let url =
       process.env.NEXT_PUBLIC_API_ENDPOINT + "/payment/checkout/with_token";
-    console.log(url);
     const resp = await axios.post(
       url,
       {
@@ -80,5 +115,41 @@ export class PaymentService {
     );
 
     return resp.data;
+  }
+
+  static async getCheckoutWithTokenPaymentInfo(
+    accessToken: string,
+    videoId: string
+  ): Promise<VideoPurchaseSummary> {
+    z.string().parse(videoId);
+    z.string().parse(accessToken);
+    let url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT +
+      "/payment/checkout/with_token/" +
+      videoId;
+    const resp = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return VideoPurchaseSummarySchema.parse(resp.data);
+  }
+
+  static async getCheckoutPaymentInfo(
+    accessToken: string,
+    videoId: string
+  ): Promise<VideoPurchaseSummary> {
+    z.string().parse(videoId);
+    z.string().parse(accessToken);
+    let url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/payment/checkout/" + videoId;
+    const resp = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return VideoPurchaseSummarySchema.parse(resp.data);
   }
 }
