@@ -4,7 +4,9 @@ import {
   ArrowUpCircleIcon,
 } from "@heroicons/react/20/solid";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 import { useCallback } from "react";
+import FallbackImage from "../shared/FallbackImage";
 
 interface Props {
   items: TokenHistroy[];
@@ -47,21 +49,59 @@ export default function TokenList({ items }: Props) {
             </div>
 
             {/* Videos */}
-            <h4 className="sr-only">Items</h4>
             <ul role="list" className="divide-y divide-gray-200">
-              {item.transactions.map((tx, index) => (
-                <li key={index} className="p-4 sm:p-6">
+              {item.transactions.map((tx) => (
+                <li key={tx._id} className="p-4 sm:p-6">
                   <div className="flex items-center sm:items-start">
-                    <div className="ml-6 flex-1 text-sm">
-                      <div className="font-medium text-gray-900 sm:flex sm:justify-between">
-                        <div className="text-lg flex flex-row space-x-2 justify-items-center items-center place-content-center">
-                          {renderIcon(tx.type)} <h5>{t(tx.type)}</h5>
-                        </div>
-                        <p className="mt-2 sm:mt-0">
-                          {tx.value} {t("token-unit")}
-                        </p>
+                    {tx.Video && (
+                      <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-gray-200 sm:h-40 sm:w-40">
+                        <FallbackImage
+                          src={tx.Video?.thumbnail}
+                          alt={tx.Video?._id ?? ""}
+                          className="h-full w-full object-cover object-center"
+                        />
                       </div>
-                      <p className="text-gray-500">{tx["_id"]["$oid"]}</p>
+                    )}
+                    <div className="ml-6 flex-1 text-sm">
+                      {tx.Video && (
+                        <div className="font-medium text-gray-900 sm:flex sm:justify-between">
+                          <h5 className="text-lg">{tx?.Video.title}</h5>
+                          <p className="mt-2 sm:mt-0">
+                            {tx.value} {t("token-unit")}
+                          </p>
+                        </div>
+                      )}
+                      {tx.txHash && (
+                        <div className="text-gray underline-offset-auto underline cursor-pointer hover:text-sky-500 truncate lg:w-full w-96">
+                          <a className="">{t("tx-id", { txId: tx.txHash })}</a>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 sm:flex sm:justify-between">
+                    <div className="flex flex-row space-x-5">
+                      <h5>{t(tx.type)}</h5>
+                      {renderIcon(tx.type)}
+                    </div>
+                    <div className="mt-6 flex items-center space-x-4 divide-x divide-gray-200 border-t border-gray-200 pt-4 text-sm font-medium sm:ml-4 sm:mt-0 sm:border-none sm:pt-0">
+                      {tx.Video === undefined && (
+                        <div className="flex flex-1 justify-center pl-4">
+                          <p>
+                            {tx.value} {t("token-unit")}
+                          </p>
+                        </div>
+                      )}
+                      {tx.Video && (
+                        <div className="flex flex-1 justify-center pl-4">
+                          <a
+                            href={`/watch/${tx.Video._id}`}
+                            className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+                          >
+                            {t("watch")}
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>

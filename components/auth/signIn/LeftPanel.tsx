@@ -34,6 +34,7 @@ export default function LeftPanel() {
 
       // if the login was successful
       // redirect to the home page
+      router.refresh();
       router.push("/");
     },
   });

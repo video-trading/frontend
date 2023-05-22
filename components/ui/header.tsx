@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import HeaderAuthticationButtons from "../auth/HeaderAuthticationButtons";
 
+export const revalidate = 0;
+
 async function getTotalToken(
   accessToken?: string
 ): Promise<number | undefined> {

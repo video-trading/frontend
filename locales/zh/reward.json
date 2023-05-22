@@ -4,5 +4,6 @@
   "time": "时间",
   "REWARD": "奖励",
   "total-txs": "交易总数",
-  "token-unit": "品视币"
+  "token-unit": "品视币",
+  "tx-id": "链上交易ID: {{txId}}"
 }
