@@ -20,10 +20,10 @@
   "sign-up-title": "欢迎加入我们！",
   "purchase-options": "购买选项",
   "purchase-button": "购买",
-  "purchase-option-1": "完全购买",
-  "purchase-option-1-description": "购买视频,接下来视频的所属权将直接转让给你，你可以出租、出售、修改、发布等等",
-  "purchase-option-2": "分成购买",
-  "purchase-option-2-description": "每次购买视频，视频原作者都将会获得一定量的分成。",
+  "purchase-option-1": "使用法币购买",
+  "purchase-option-1-description": "使用法币支付渠道，如信用卡，Paypal等方式购买视频",
+  "purchase-option-2": "使用代币购买",
+  "purchase-option-2-description": "使用品视币购买视频，享受更多优惠",
   "view-video-transaction-history": "查看视频交易历史",
   "checkout-description": "购买视频：确认订单并支付，即可立即观看高清视频，畅享精彩内容。感谢您的支持，我们将持续提供优质的视频服务。",
   "checkout-title": "结账",
@@ -46,5 +46,6 @@
   "owner": "所有者: {{owner}}",
   "username": "用户名: {{username}}",
   "cta-title": "等不及了？这就上传你的第一个视频吧！",
-  "token-balance": "代币余额: {{tokenBalance}} 品视币"
+  "token-balance": "代币余额: {{tokenBalance}} 品视币",
+  "vxv": "品视币"
 }

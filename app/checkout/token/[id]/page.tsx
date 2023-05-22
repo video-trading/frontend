@@ -1,10 +1,15 @@
 import BrainTreePurchaseCard from "@/components/payment/BrainTreePurchaseCard";
+import TokenPaymentCard from "@/components/payment/TokenPaymentCard";
 import VideoPurchaseSummary from "@/components/payment/VideoPurchaseSummary";
+import ContainedButton from "@/components/shared/ContainedButton";
 import { CircularProgressBar } from "@/components/shared/Placeholders";
 import { authOptions } from "@/src/authOptions";
 import { PaymentService } from "@/src/services/PaymentService";
+import { VideoService } from "@/src/services/VideoService";
+import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { getServerSession } from "next-auth/next";
 import useTranslation from "next-translate/useTranslation";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -22,7 +27,7 @@ export default async function Page({ params }: any) {
     redirect("/unauthorized");
   }
 
-  const paymentInfo = await PaymentService.getCheckoutPaymentInfo(
+  const paymentInfo = await PaymentService.getCheckoutWithTokenPaymentInfo(
     accessToken,
     videoId
   );
@@ -42,39 +47,10 @@ export default async function Page({ params }: any) {
 
         <div>
           <VideoPurchaseSummary {...paymentInfo}>
-            {/*@ts-expect-errors*/}
-            <PaymentCard
-              accessKey={accessToken}
-              videoId={videoId}
-              total={paymentInfo.salesInfo.total.priceInNumber}
-            />
+            <TokenPaymentCard accessToken={accessToken} videoId={videoId} />
           </VideoPurchaseSummary>
         </div>
       </main>
     </>
-  );
-}
-
-async function PaymentCard({
-  accessKey,
-  videoId,
-  total,
-}: {
-  accessKey: string;
-  videoId: string;
-  total: number;
-}) {
-  const token = await PaymentService.getClientToken(accessKey);
-  return (
-    <Suspense fallback={<CircularProgressBar />}>
-      <div className="w-full">
-        <BrainTreePurchaseCard
-          paymentToken={token.token}
-          accessToken={accessKey}
-          videoId={videoId}
-          total={total}
-        />
-      </div>
-    </Suspense>
   );
 }

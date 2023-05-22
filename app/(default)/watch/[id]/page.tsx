@@ -138,11 +138,12 @@ export default async function Video({ params }: any) {
                 {
                   name: t("purchase-option-1"),
                   description: t("purchase-option-1-description"),
+                  link: `/checkout/${video.id}`,
                 },
                 {
                   name: t("purchase-option-2"),
                   description: t("purchase-option-2-description"),
-                  disabled: true,
+                  link: `/checkout/token/${video.id}`,
                 },
               ]}
             />

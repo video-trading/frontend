@@ -11,12 +11,14 @@ interface Props {
   paymentToken: string;
   videoId: string;
   accessToken: string;
+  total: number;
 }
 
 export default function BrainTreePurchaseCard({
   paymentToken,
   videoId,
   accessToken,
+  total,
 }: Props) {
   const router = useRouter();
   const checkout = useCallback(
@@ -39,7 +41,7 @@ export default function BrainTreePurchaseCard({
   return (
     <DropInUI
       token={paymentToken}
-      amount={30}
+      amount={total}
       renderSubmitButton={({ onClick, isLoading, disabled }) => (
         <LoadingButton
           type="button"

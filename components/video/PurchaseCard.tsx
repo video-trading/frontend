@@ -7,22 +7,29 @@ import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/navigation";
+import ContainedButton from "../shared/ContainedButton";
 
 interface Props {
   videoId: string;
-  purchaseOptions: { name: string; description: string; disabled?: boolean }[];
+  purchaseOptions: {
+    name: string;
+    description: string;
+    disabled?: boolean;
+    link: string;
+  }[];
 }
 
 export function PurchaseCard({ videoId, purchaseOptions }: Props) {
   const { t } = useTranslation("common");
   const router = useRouter();
+  const [selected, setSelected] = useState();
 
   return (
     <section aria-labelledby="options-heading">
       <form>
         <div className="sm:flex sm:justify-between">
           {/* Size selector */}
-          <RadioGroup value={0}>
+          <RadioGroup value={selected} onChange={(e) => setSelected(e)}>
             <RadioGroup.Label className="block text-sm font-medium text-gray-700">
               {t("purchase-options")}
             </RadioGroup.Label>
@@ -82,13 +89,16 @@ export function PurchaseCard({ videoId, purchaseOptions }: Props) {
           </a>
         </div>
         <div className="mt-10 space-y-4">
-          <button
-            type="button"
-            className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50"
-            onClick={async () => router.push(`/checkout/${videoId}`)}
+          <ContainedButton
+            onClick={async () => {
+              if (selected === undefined) return;
+              const link = purchaseOptions[selected].link;
+              router.push(link as any);
+            }}
+            disabled={selected === undefined}
           >
             {t("purchase-button")}
-          </button>
+          </ContainedButton>
           <button
             type="button"
             className="flex w-full items-center justify-center rounded-md border bg-indigo-50 px-3.5 py-2.5 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
