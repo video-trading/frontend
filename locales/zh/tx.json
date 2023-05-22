@@ -19,5 +19,9 @@
   "SENT": "发送的交易",
   "RECEIVED": "收到的交易",
   "total-txs": "总交易数",
-  "pay-with-token": "使用品视币购买"
+  "pay-with-token": "使用品视币购买",
+  "not-purchasable-title": "不可购买",
+  "not-purchasable-description": "此商品暂时不对你开放购买",
+  "video-transactions": "视频交易记录",
+  "close": "关闭"
 }

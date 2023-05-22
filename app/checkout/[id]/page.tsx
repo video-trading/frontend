@@ -1,4 +1,5 @@
 import BrainTreePurchaseCard from "@/components/payment/BrainTreePurchaseCard";
+import NotPurchasablePage from "@/components/payment/NotPurchasablePage";
 import VideoPurchaseSummary from "@/components/payment/VideoPurchaseSummary";
 import { CircularProgressBar } from "@/components/shared/Placeholders";
 import { authOptions } from "@/src/authOptions";
@@ -26,6 +27,10 @@ export default async function Page({ params }: any) {
     accessToken,
     videoId
   );
+
+  if (!paymentInfo.video.purchasable) {
+    return <NotPurchasablePage />;
+  }
 
   return (
     <>

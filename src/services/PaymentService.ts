@@ -41,6 +41,7 @@ export const VideoPurchaseSummarySchema = z.object({
       price: z.string(),
       unit: z.string(),
     }),
+    purchasable: z.boolean(),
   }),
   salesInfo: z.object({
     prices: z
@@ -142,9 +143,7 @@ export class PaymentService {
     z.string().parse(videoId);
     z.string().parse(accessToken);
     let url =
-      process.env.NEXT_PUBLIC_API_ENDPOINT +
-      "/payment/checkout/" +
-      videoId;
+      process.env.NEXT_PUBLIC_API_ENDPOINT + "/payment/checkout/" + videoId;
     const resp = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

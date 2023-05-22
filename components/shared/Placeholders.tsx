@@ -110,7 +110,7 @@ export function CircularProgressBarFullscreen() {
 
 export function CircularProgressBar() {
   return (
-    <div role="status" className="h-screen w-screen flex">
+    <div role="status" className="h-full w-full flex">
       <div className="my-auto mx-auto">
         <svg
           aria-hidden="true"

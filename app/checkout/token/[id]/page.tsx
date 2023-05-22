@@ -1,17 +1,11 @@
-import BrainTreePurchaseCard from "@/components/payment/BrainTreePurchaseCard";
+import NotPurchasablePage from "@/components/payment/NotPurchasablePage";
 import TokenPaymentCard from "@/components/payment/TokenPaymentCard";
 import VideoPurchaseSummary from "@/components/payment/VideoPurchaseSummary";
-import ContainedButton from "@/components/shared/ContainedButton";
-import { CircularProgressBar } from "@/components/shared/Placeholders";
 import { authOptions } from "@/src/authOptions";
 import { PaymentService } from "@/src/services/PaymentService";
-import { VideoService } from "@/src/services/VideoService";
-import { ChevronLeftIcon } from "@heroicons/react/20/solid";
 import { getServerSession } from "next-auth/next";
 import useTranslation from "next-translate/useTranslation";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 export const metadata = {
   title: "Check out",
@@ -31,6 +25,10 @@ export default async function Page({ params }: any) {
     accessToken,
     videoId
   );
+
+  if (!paymentInfo.video.purchasable) {
+    return <NotPurchasablePage />;
+  }
 
   return (
     <>
