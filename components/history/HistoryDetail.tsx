@@ -128,6 +128,7 @@ export default function HistoryDetail({ video }: Props) {
                 <div className="mt-6 hidden grid-cols-5 font-medium text-gray-600 sm:grid">
                   {steps.map((step) => (
                     <div
+                      key={step.title}
                       className={classNames(
                         video.passedStatus.includes(step.status)
                           ? "text-indigo-600"
