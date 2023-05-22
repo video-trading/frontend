@@ -8,7 +8,6 @@ import LoadingButton from "@/components/shared/LoadingButton";
 
 export default function LeftPanel() {
   const { t } = useTranslation("common");
-  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +33,7 @@ export default function LeftPanel() {
 
       // if the login was successful
       // redirect to the home page
-      router.push("/");
+      window.location.href = "/";
     },
   });
 

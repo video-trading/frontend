@@ -1,0 +1,9 @@
+{
+  "token-list-title": "品视币交易列表",
+  "token-list-description": "在这里记录着所有的品视币的交易记录",
+  "time": "时间",
+  "REWARD": "奖励",
+  "total-txs": "交易总数",
+  "token-unit": "品视币",
+  "tx-id": "链上交易ID: {{txId}}"
+}

@@ -18,6 +18,7 @@ export default function VideoGridCard({
         <div className="grid grid-cols-12 gap-4 px-10">
           {videos.map((v, i) => (
             <div
+              key={v.id}
               className={`md:col-span-${
                 i % 4 === 0 ? 3 : 2
               } lg:col-span-2 col-span-12 h-60`}

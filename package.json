@@ -58,7 +58,8 @@
     "sass": "^1.57.0",
     "sharp": "^0.32.1",
     "swiper": "^8.4.7",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",

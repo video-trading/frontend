@@ -2,10 +2,12 @@ import Breadcrumbs from "@/components/shared/Breadcrumbs";
 import { PurchaseCard } from "@/components/video/PurchaseCard";
 import VideoPlayer from "@/components/video/VideoPlayer";
 import VideoReviews from "@/components/video/VideoReviews";
+import { authOptions } from "@/src/authOptions";
 import { classNames } from "@/src/classNames";
 import { VideoService, VideoStatus } from "@/src/services/VideoService";
 import { CheckIcon, StarIcon } from "@heroicons/react/20/solid";
 import { Editor } from "editor";
+import { getServerSession } from "next-auth";
 import useTranslation from "next-translate/useTranslation";
 import { redirect } from "next/navigation";
 
@@ -24,7 +26,11 @@ export async function generateMetadata({ params }: any) {
 
 export default async function Video({ params }: any) {
   const { t } = useTranslation("common");
-  const video = await VideoService.getVideo(params.id, undefined);
+  const session = await getServerSession(authOptions);
+  const video = await VideoService.getVideo(
+    params.id,
+    (session as any)?.accessToken
+  );
 
   if (video.status !== VideoStatus.READY) {
     return redirect(`/watch/${params.id}/notReady`);

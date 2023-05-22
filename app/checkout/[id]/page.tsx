@@ -32,7 +32,7 @@ export default async function Page({ params }: any) {
       <main className="relative h-screen">
         <div className="h-80 lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
           <video
-            src="https://files.video2.trade/checkout.mp4"
+            src="https://files.vxvhk.com/checkout.mp4"
             autoPlay
             loop
             muted
