@@ -7,6 +7,7 @@ import { SearchVideoResponse } from "@/src/services/VideoService";
 import { Combobox } from "@headlessui/react";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { CircularProgressBar } from "../shared/Placeholders";
@@ -57,14 +58,18 @@ export default function HeaderAuthticationButtons({
 }
 
 function SearchBar() {
-  const [selectedVideo, setSelectedVideo] = useState<SearchVideoResponse>();
   const [query, setQuery] = useState("");
   const debounceQuery = useDebounce(query, 500);
   const { isLoading, data } = useSearchVideoByKeyword(debounceQuery);
+  const router = useRouter();
 
   return (
     <div className="w-96 hidden sm:block">
-      <Combobox value={selectedVideo} onChange={setSelectedVideo}>
+      <Combobox
+        onChange={(value: SearchVideoResponse) => {
+          router.push(`/watch/${value.id}`);
+        }}
+      >
         <div className="relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
