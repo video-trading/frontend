@@ -2,6 +2,7 @@ import axios from "axios";
 import { SignedUrl } from "./StorageService";
 import { Profile } from "./AuthenticationService";
 import { GetCategoryResponse } from "./CategoryService";
+import { z } from "zod";
 
 export enum VideoStatus {
   UPLOADING = "UPLOADING",
@@ -96,6 +97,14 @@ export interface GetMyVideoByIdDto extends GetVideoResponse {
   };
   passedStatus: string[];
 }
+
+export const SearchVideoSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  thumbnail: z.string().url(),
+});
+
+export type SearchVideoResponse = z.infer<typeof SearchVideoSchema>;
 
 export class VideoService {
   static async createVideo(
@@ -211,5 +220,15 @@ export class VideoService {
       },
     });
     return video.data;
+  }
+
+  /**
+   * Search video by title
+   */
+  static async searchVideo(key: string): Promise<SearchVideoResponse[]> {
+    if (key.length === 0) return [];
+    const url = process.env.NEXT_PUBLIC_API_ENDPOINT + `/video/search/${key}`;
+    const video = await axios.get(url);
+    return SearchVideoSchema.array().parse(video.data);
   }
 }
