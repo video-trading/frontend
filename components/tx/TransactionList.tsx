@@ -58,7 +58,7 @@ export default function TransactionList({ items }: Props) {
                     <div className="ml-6 flex-1 text-sm">
                       <div className="font-medium text-gray-900 sm:flex sm:justify-between">
                         <h5 className="text-lg">{tx.Video?.title}</h5>
-                        <p className="mt-2 sm:mt-0">{tx.value} HKD</p>
+                        <p className="mt-2 sm:mt-0">{tx.value}</p>
                       </div>
                       <div className="text-gray">
                         <p>{t("tx-id", { txId: tx.id })}</p>
