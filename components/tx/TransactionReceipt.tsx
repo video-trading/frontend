@@ -26,7 +26,7 @@ export default function TransactionReceipt({ transaction }: Props) {
 
           <dl className="mt-12 text-sm font-medium">
             <dt className="text-gray-900">{t("tx-hash")}</dt>
-            <dd className="mt-2 text-indigo-600">{t("no-record")}</dd>
+            <dd className="mt-2 text-indigo-600">{transaction.txHash}</dd>
           </dl>
         </div>
 
@@ -113,7 +113,7 @@ export default function TransactionReceipt({ transaction }: Props) {
             <dl className="space-y-6 border-t border-gray-200 pt-10 text-sm">
               <div className="flex justify-between">
                 <dt className="font-medium text-gray-900">{t("total")}</dt>
-                <dd className="text-gray-900">{transaction.value} HKD</dd>
+                <dd className="text-gray-900">{transaction.value}</dd>
               </div>
             </dl>
           </div>
