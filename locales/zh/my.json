@@ -1,6 +1,8 @@
 {
-  "my-video-history": "我的视频",
-  "my-video-history-description": "所有你当前拥有额视频都会显示在这里",
+  "my-uploads-history": "我上传的视频",
+  "my-uploads-history-description": "所有你上传的视频都会显示在这里",
+  "my-owned-history": "我拥有的视频",
+  "my-owned-history-description": "所有你当前拥有的视频都会显示在这里",
   "total-videos": "视频总数",
   "published-at": "发布时间",
   "watch": "观看",

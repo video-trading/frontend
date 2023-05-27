@@ -18,6 +18,7 @@ export default function Avatar({ user, tokenBalance }: Props) {
   const menus = [
     {
       name: t("username", { username: user.name }),
+      link: "/account",
     },
     {
       name: t("token-balance", { tokenBalance: tokenBalance }),
@@ -29,12 +30,16 @@ export default function Avatar({ user, tokenBalance }: Props) {
       divider: true,
     },
     {
-      name: t("account-settings"),
-      link: "/account",
+      name: t("my-uploads"),
+      link: "/my/uploads",
     },
     {
-      name: t("my-videos"),
-      link: "/my/videos",
+      name: t("my-owned"),
+      link: "/my/owned",
+    },
+    {
+      name: "divider2",
+      divider: true,
     },
     {
       name: t("transactions"),

@@ -193,13 +193,28 @@ export class VideoService {
     return video.data;
   }
 
-  static async getMyVideos(
+  static async getMyUploads(
     accessToken: string,
     page?: number
   ): Promise<PaginationResponse<GetMyVideoDto>> {
     const url =
       process.env.NEXT_PUBLIC_API_ENDPOINT +
-      `/video/my/videos?page=${page ?? ""}`;
+      `/video/my/uploads?page=${page ?? ""}`;
+    const videos = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return videos.data;
+  }
+
+  static async getMyOwned(
+    accessToken: string,
+    page?: number
+  ): Promise<PaginationResponse<GetMyVideoDto>> {
+    const url =
+      process.env.NEXT_PUBLIC_API_ENDPOINT +
+      `/video/my/owned?page=${page ?? ""}`;
     const videos = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${accessToken}`,

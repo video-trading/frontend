@@ -21,7 +21,7 @@ export default async function MyVideoPage({ searchParams }: any) {
     return redirect("/signin");
   }
 
-  const myVideos = await VideoService.getMyVideos(
+  const myVideos = await VideoService.getMyUploads(
     accessToken,
     parseInt(currentPage)
   );
@@ -30,8 +30,8 @@ export default async function MyVideoPage({ searchParams }: any) {
     <div className="bg-white">
       <div className="py-16 sm:py-24">
         <HistoryHeader
-          title={t("my-video-history")}
-          description={t("my-video-history-description")}
+          title={t("my-uploads-history")}
+          description={t("my-uploads-history-description")}
         />
         <div className="mt-16">
           <h2 className="sr-only">Recent orders</h2>
@@ -40,7 +40,7 @@ export default async function MyVideoPage({ searchParams }: any) {
             <Paginator
               total={myVideos.metadata.totalPages}
               page={myVideos.metadata.page}
-              basePath="/my/videos"
+              basePath="/my/uploads"
             />
           </div>
         </div>
