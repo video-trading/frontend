@@ -23,5 +23,6 @@
   "not-purchasable-title": "不可购买",
   "not-purchasable-description": "此商品暂时不对你开放购买",
   "video-transactions": "视频交易记录",
-  "close": "关闭"
+  "close": "关闭",
+  "require-mfa-desc": "为了确保交易安全，我们需要进行二步认证来确认你的身份。您的系统会弹出二步认证的确认弹窗，请根据提示进行认证。注意：若之前没有设定过二步认证，系统会提示进行二步认证的绑定操作。"
 }
