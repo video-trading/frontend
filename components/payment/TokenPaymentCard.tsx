@@ -31,11 +31,11 @@ export default function TokenPaymentCard({
         username,
       });
 
-      // const result = await PaymentService.checkoutWithToken(
-      //   accessToken,
-      //   videoId
-      // );
-      // router.push(`/tx/${result.id}`);
+      const result = await PaymentService.checkoutWithToken(
+        accessToken,
+        videoId
+      );
+      router.push(`/tx/${result.id}`);
     } catch (e) {
       alert(e);
     } finally {
@@ -44,13 +44,18 @@ export default function TokenPaymentCard({
   }, [accessToken, videoId]);
 
   return (
-    <LoadingButton
-      onClick={onClick}
-      loading={loading}
-      disabled={loading}
-      className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-1"
-    >
-      {t("pay-with-token")}
-    </LoadingButton>
+    <div className="flex-row">
+      <LoadingButton
+        onClick={onClick}
+        loading={loading}
+        disabled={loading}
+        className="w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-1"
+      >
+        {t("pay-with-token")}
+      </LoadingButton>
+      <div>
+        <p className="text-red-600">{t("require-mfa-desc")}</p>
+      </div>
+    </div>
   );
 }
