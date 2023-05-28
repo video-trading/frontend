@@ -6,13 +6,19 @@ import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import ContainedButton from "../shared/ContainedButton";
 import LoadingButton from "../shared/LoadingButton";
+import { AuthenticationService } from "@/src/services/AuthenticationService";
 
 interface Props {
+  username: string;
   accessToken: string;
   videoId: string;
 }
 
-export default function TokenPaymentCard({ accessToken, videoId }: Props) {
+export default function TokenPaymentCard({
+  accessToken,
+  videoId,
+  username,
+}: Props) {
   const { t } = useTranslation("tx");
   const [loading, setLoading] = React.useState(false);
   const router = useRouter();
@@ -20,11 +26,16 @@ export default function TokenPaymentCard({ accessToken, videoId }: Props) {
   const onClick = useCallback(async () => {
     try {
       setLoading(true);
-      const result = await PaymentService.checkoutWithToken(
-        accessToken,
-        videoId
-      );
-      router.push(`/tx/${result.id}`);
+      await AuthenticationService.mfaVerification({
+        accessKey: accessToken,
+        username,
+      });
+
+      // const result = await PaymentService.checkoutWithToken(
+      //   accessToken,
+      //   videoId
+      // );
+      // router.push(`/tx/${result.id}`);
     } catch (e) {
       alert(e);
     } finally {

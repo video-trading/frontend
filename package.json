@@ -20,6 +20,7 @@
     "@mui/lab": "5.0.0-alpha.110",
     "@mui/material": "^5.10.16",
     "@mui/system": "^5.10.17",
+    "@passwordless-id/webauthn": "^1.2.4",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/typography": "^0.5.9",
     "@tanstack/react-virtual": "3.0.0-beta.30",
