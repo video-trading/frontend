@@ -7,6 +7,7 @@ async function checkLinks(page: Page, link: string, visited: string[]) {
   // check if link is valid
 
   await page.goto(link);
+  await page.waitForLoadState("networkidle");
   const links = await page.$$eval("a", (links) =>
     links.map((link) => link.getAttribute("href"))
   );
@@ -19,6 +20,7 @@ async function checkLinks(page: Page, link: string, visited: string[]) {
     .filter((l) => l !== "/");
 
   for (const link of filteredLinks) {
+    if (visited.includes(link)) continue;
     const url = new URL(link, page.url());
     visited.push(link);
     await checkLinks(page, url.href, visited);
@@ -26,6 +28,7 @@ async function checkLinks(page: Page, link: string, visited: string[]) {
 }
 
 test("Check every link", async ({ page }) => {
+  test.setTimeout(300_000);
   const visited: string[] = [];
   await checkLinks(page, url, visited);
 });

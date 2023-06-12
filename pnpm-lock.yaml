@@ -176,9 +176,6 @@ importers:
       next-translate-plugin:
         specifier: ^2.0.5
         version: 2.0.5(next-translate@2.0.5)
-      playwright:
-        specifier: ^1.35.0
-        version: 1.35.0
       postcss:
         specifier: ^8.4.21
         version: 8.4.21
@@ -4203,15 +4200,6 @@ packages:
     resolution: {integrity: sha512-muMXyPmIx/2DPrCHOD1H1ePT01o7OdKxKj2ebmCAYvqhUy+Y1bpal7B0rdoxros7YrXI294JT/DWw2LqyiqTPA==}
     engines: {node: '>=16'}
     hasBin: true
-    dev: true
-
-  /playwright@1.35.0:
-    resolution: {integrity: sha512-xhFhsoBmKPQfj3dM+HbIiFVlqRCZp2rwdJd/QFd9YBuidabo3TkVv0iuxPQ4vZoMwtSI7qzjY93f5ohdC97hww==}
-    engines: {node: '>=16'}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      playwright-core: 1.35.0
     dev: true
 
   /postcss-import@14.1.0(postcss@8.4.21):
