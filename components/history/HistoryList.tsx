@@ -42,9 +42,7 @@ function HistoryItem({ item }: { item: GetMyVideoDto }) {
             <dd className="mt-1 text-gray-500">{item._id}</dd>
           </div>
           <div>
-            <dt className="font-medium text-gray-900">
-              {t("total-videos")}
-            </dt>
+            <dt className="font-medium text-gray-900">{t("total-videos")}</dt>
             <dd className="mt-1 font-medium text-gray-900">
               {item.videos.length}
             </dd>
@@ -131,17 +129,18 @@ function HistoryItem({ item }: { item: GetMyVideoDto }) {
                     </Link>
                   </div>
                 )}
-                {video.status === VideoStatus.ANALYZING && (
-                  <div className="flex flex-1 justify-center">
-                    <Link
-                      //@ts-ignore
-                      href={"/my/videos/" + video.id}
-                      className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
-                    >
-                      {t("view-details")}
-                    </Link>
-                  </div>
-                )}
+                {video.status === VideoStatus.ANALYZING ||
+                  (video.status === VideoStatus.TRANSCODING && (
+                    <div className="flex flex-1 justify-center">
+                      <Link
+                        //@ts-ignore
+                        href={"/my/uploads/" + video.id}
+                        className="whitespace-nowrap text-indigo-600 hover:text-indigo-500"
+                      >
+                        {t("view-details")}
+                      </Link>
+                    </div>
+                  ))}
                 {video.status === VideoStatus.READY && (
                   <div className="flex flex-1 justify-center pl-4">
                     <a

@@ -24,7 +24,7 @@ export default function Page({ params }: any) {
           alt="Finish"
         />
         {/*@ts-expect-errors */}
-        <Link href={"/my/videos/" + id} className="text-sky-600">
+        <Link href={"/my/uploads/" + id} className="text-sky-600">
           Check the video status
         </Link>
       </div>
