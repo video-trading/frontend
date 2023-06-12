@@ -33,7 +33,7 @@ export default function VideoTransactionsDialog({
           </Dialog.Title>
           <Dialog.Description className={"h-full"}>
             {isLoading && <CircularProgressBar />}
-            <ul className="divide-y divide-gray-100">
+            <ul className="divide-y divide-gray-100 overflow-y-scroll h-full">
               {data?.items.map((item) => (
                 <li
                   key={item.id}
