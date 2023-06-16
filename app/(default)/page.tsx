@@ -31,6 +31,12 @@ export default async function Home() {
       {/* <Faqs /> */}
       {/* <Blog /> */}
       <Cta />
+      <img
+        src="https://files.vxvhk.com/logo.png"
+        height={500}
+        width={1000}
+        className="mx-auto"
+      />
     </>
   );
 }
