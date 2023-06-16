@@ -1,6 +1,11 @@
 export const metadata = {
-  title: "Home - Creative",
-  description: "Page description",
+  title: "品视交易网",
+  description: "欢迎来到品视交易网",
+  openGraph: {
+    images: ["https://files.vxvhk.com/logo.png"],
+    description: "欢迎来到品视交易网",
+    title: "品视交易网",
+  },
 };
 
 import CategoryDisplay from "@/components/home/CategoryDisplay";
