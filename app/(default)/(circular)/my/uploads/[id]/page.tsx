@@ -26,12 +26,12 @@ export default async function MyVideoDetailPage({ params }: any) {
   const routes = [
     {
       name: "My Videos",
-      href: "/my/videos",
+      href: "/my/uploads",
       current: false,
     },
     {
       name: video.title.length > 0 ? video.title : video.id,
-      href: `/my/videos/${video.id}`,
+      href: `/my/uploads/${video.id}`,
       current: true,
     },
   ];
